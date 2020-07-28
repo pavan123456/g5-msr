@@ -1,16 +1,32 @@
 <template>
-  <div >
-    <transition name="slide-fade" appear>
-      <octopus :size="`5em`" />
-    </transition>
-  </div>
+  <b-container fluid class="px-0">
+    <nav-header />
+    <b-container class="py-5">
+      <b-row>
+        <b-col>
+          <h1>
+            Managed Services Report
+          </h1>
+          <p>
+            Default paragraph font
+          </p>
+          <iframe src="/loading.html" title="loading" width="100%" height="600" frameborder="0" />
+        </b-col>
+        <b-col>
+          <placeholder />
+        </b-col>
+      </b-row>
+    </b-container>
+  </b-container>
 </template>
 
 <script>
-import Octopus from '~/components/icons/octopus'
+import NavHeader from '~/components/nav-header'
+import Placeholder from '~/components/placeholder'
 export default {
   components: {
-    Octopus
+    Placeholder,
+    NavHeader
   }
 }
 </script>

@@ -1,4 +1,5 @@
 module.exports = {
+  telemetry: false,
   mode: 'spa',
   server: {
     host: process.env.BASE_URL || '0.0.0.0',
@@ -13,7 +14,8 @@ module.exports = {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Fira+Sans:wght@400;700&display=swap' }
     ]
   },
   loading: {
@@ -24,11 +26,7 @@ module.exports = {
     duration: 2000,
     height: '4px'
   },
-  loadingIndicator: {
-    name: 'three-bounce',
-    color: '#21222e',
-    background: '#f2f2f2'
-  },
+  loadingIndicator: '@/static/loading.html',
   css: [
     '@/assets/theme.scss',
     '@/assets/transitions.scss'
