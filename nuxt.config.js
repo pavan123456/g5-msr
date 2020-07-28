@@ -7,7 +7,7 @@ module.exports = {
   },
   serverMiddleware: [],
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'Managed Services Report',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -33,6 +33,7 @@ module.exports = {
   ],
   // TODO could this be set to a function that returns an array of paths to each file in the plugins directory?
   plugins: [
+    '@/plugins/apex-charts'
   ],
   buildModules: [
     '@nuxtjs/eslint-module'
@@ -51,7 +52,7 @@ module.exports = {
   googleAnalytics: {
     id: process.env.GA_PROPERTY,
     debug: {
-      enabled: false,
+      enabled: true,
       sendHitTask: true
     }
   },

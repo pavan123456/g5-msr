@@ -10,7 +10,6 @@
           <p>
             Default paragraph font
           </p>
-          <iframe src="/loading.html" title="loading" width="100%" height="600" frameborder="0" />
         </b-col>
         <b-col>
           <placeholder />
