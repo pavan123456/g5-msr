@@ -2,10 +2,10 @@
   <b-container fluid class="px-0">
     <nav-header>
       <template v-slot:dangle>
-        <b-btn-group class="dangle-group bg-white" size="sm">
+        <b-btn-group class="dangle-group bg-white border border-neutral" size="sm">
           <b-btn
             id="editor-toggle"
-            variant="neutral"
+            variant="transparent"
             @click="collapseIsVisible = !collapseIsVisible"
           >
             <b-icon-caret-up v-if="collapseIsVisible" />
@@ -15,6 +15,7 @@
             target="editor-toggle"
             triggers="hover"
             variant="darker"
+            placement="left"
           >
             Toggle Editor.
           </b-tooltip>
@@ -25,7 +26,7 @@
       id="editor"
       v-model="collapseIsVisible"
     >
-      <b-card>
+      <b-card bg-variant="neutral" class="border-0">
         <h1>
           Editor
         </h1>
@@ -72,7 +73,9 @@ export default {
   position: absolute;
   left: 50%;
   bottom: 0;
-  transform: translate(-50%, 80%);
+  transform: translate(-50%, 50%);
   z-index: 10;
+  border-radius: 50%;
+  overflow: hidden;
 }
 </style>

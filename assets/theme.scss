@@ -46,6 +46,7 @@ $body-bg: RGBA(242, 242, 242, 0.2);
 // OVERRIDES BELOW
 .multiselect {
   width: 300px;
+  border-color: #0f3259;
 }
 .multiselect__spinner:after,
 .multiselect__spinner:before {
