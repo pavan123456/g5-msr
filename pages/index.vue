@@ -14,7 +14,7 @@
           <b-tooltip
             target="editor-toggle"
             triggers="hover"
-            variant="darker"
+            variant="primary-1"
             placement="left"
           >
             Toggle Editor.
@@ -26,21 +26,20 @@
       id="editor"
       v-model="collapseIsVisible"
     >
-      <b-card bg-variant="neutral" class="border-0">
-        <h1>
-          Editor
-        </h1>
+      <b-card bg-variant="neutral" class="border-0 m-0">
+        <table-editor :table="table" />
       </b-card>
     </b-collapse>
-    <b-container fluid class="py-5">
+    <b-container fluid class="py-4">
       <b-row>
         <b-col cols="4">
-          <b-card>
-            <h2>
+          <b-card no-body>
+            <h2 class="px-2">
               Overview
             </h2>
             <b-card-body class="text-muted">
               Will display the heatmap overview in a more condensed format minus the chart.
+              <spark-chart />
             </b-card-body>
           </b-card>
         </b-col>
@@ -53,13 +52,19 @@
 </template>
 
 <script>
+import { table } from '~/mixins/staged-data'
 import NavHeader from '~/components/nav-header'
 import TimelineChart from '~/components/timeline-chart'
+import SparkChart from '~/components/spark-chart'
+import TableEditor from '~/components/table-editor'
 export default {
   components: {
     TimelineChart,
+    TableEditor,
+    SparkChart,
     NavHeader
   },
+  mixins: [table],
   data() {
     return {
       collapseIsVisible: true

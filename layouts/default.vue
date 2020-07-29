@@ -1,8 +1,18 @@
 <template>
   <div>
     <nuxt />
+    <feedback-form />
   </div>
 </template>
+
+<script>
+import FeedbackForm from '~/components/feedback-form'
+export default {
+  components: {
+    FeedbackForm
+  }
+}
+</script>
 
 <style>
 html {

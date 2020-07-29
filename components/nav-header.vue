@@ -1,8 +1,8 @@
 <template>
   <b-navbar variant="light" class="primary-nav dangle-anchor">
-    <b-navbar-brand to="/" class="h1 my-0" style="font-size: 2rem; border-right: 2px solid #e8e8e8;">
+    <b-navbar-brand to="/" class="h1 my-0 pr-3" style="font-size: 2rem; border-right: 2px solid #e8e8e8;">
       <b-img-lazy src="/g5-primary-logo.png" height="45" />
-      M.S.R.
+      🦧.🐳.🐝.
     </b-navbar-brand>
     <b-nav-form class="w-100">
       <b-input-group style="flex-wrap: nowrap; align-items: center;">

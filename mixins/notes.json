@@ -1,0 +1,300 @@
+[{
+  "id": 4,
+  "internal": true,
+  "annotationCategory": {
+    "text": "Account Changes",
+    "value": "Account Changes"
+  },
+  "annotationType": "Specials/Promotions",
+  "annotationUser": "David Miller",
+  "user": {
+    "text": "David Miller",
+    "value": "david.miller@getg5.com"
+  },
+  "salesforce_id": null,
+  "startDate": null,
+  "endDate": null,
+  "createdAt": "2020-07-23T00:20:23.001Z",
+  "updatedAt": "2020-07-23T00:24:24.497Z",
+  "salesforceSync": null,
+  "note": "<p>Working.</p>",
+  "annotation": {
+    "type": "doc",
+    "content": [{
+      "type": "paragraph",
+      "content": [{
+        "text": "Working.",
+        "type": "text"
+      }]
+    }]
+  },
+  "clientName": "Platform Strategy",
+  "locationNames": ["Stratypus — fka Novigrad", "Platform Performance Guide", "adding name", "Stratypus Landing"],
+  "client": {
+    "name": "Platform Strategy",
+    "urn": "g5-c-5e4g9zu03-platform-strategy"
+  },
+  "locations": [{
+    "name": "Stratypus",
+    "display_name": "Stratypus — fka Novigrad",
+    "urn": "g5-cl-1hx8jde0f6-novigrad",
+    "annotationLocation": {
+      "salesforce_id": null,
+      "createdAt": "2020-07-23T00:24:24.483Z",
+      "updatedAt": "2020-07-23T00:24:24.483Z",
+      "annotationId": 4,
+      "g5UpdatableLocationId": 14341
+    }
+  }, {
+    "name": "Platform Performance Guide",
+    "display_name": null,
+    "urn": "g5-cl-1hygopojdq-platform-performance-guide",
+    "annotationLocation": {
+      "salesforce_id": null,
+      "createdAt": "2020-07-23T00:24:24.483Z",
+      "updatedAt": "2020-07-23T00:24:24.483Z",
+      "annotationId": 4,
+      "g5UpdatableLocationId": 14342
+    }
+  }, {
+    "name": "QC Testing",
+    "display_name": "adding name",
+    "urn": "g5-cl-1j1opphn4y-qc-testing",
+    "annotationLocation": {
+      "salesforce_id": null,
+      "createdAt": "2020-07-23T00:24:24.483Z",
+      "updatedAt": "2020-07-23T00:24:24.483Z",
+      "annotationId": 4,
+      "g5UpdatableLocationId": 14343
+    }
+  }, {
+    "name": "Stratypus's Landing",
+    "display_name": "Stratypus Landing",
+    "urn": "g5-cl-1iq8yboxw3-stratypus-landing",
+    "annotationLocation": {
+      "salesforce_id": null,
+      "createdAt": "2020-07-23T00:24:24.483Z",
+      "updatedAt": "2020-07-23T00:24:24.483Z",
+      "annotationId": 4,
+      "g5UpdatableLocationId": 14344
+    }
+  }]
+}, {
+  "id": 5,
+  "internal": true,
+  "annotationCategory": {
+    "text": "Account Changes",
+    "value": "Account Changes"
+  },
+  "annotationType": "Specials/Promotions",
+  "annotationUser": "David Miller",
+  "user": {
+    "text": "David Miller",
+    "value": "david.miller@getg5.com"
+  },
+  "salesforce_id": null,
+  "startDate": "2020-07-01",
+  "endDate": "2020-07-24",
+  "createdAt": "2020-07-24T18:56:19.227Z",
+  "updatedAt": "2020-07-24T18:58:09.592Z",
+  "salesforceSync": null,
+  "note": "<p>Lots of specials. <strong>All the specials</strong>, some say!</p>",
+  "annotation": {
+    "type": "doc",
+    "content": [{
+      "type": "paragraph",
+      "content": [{
+        "text": "Lots of specials. ",
+        "type": "text"
+      }, {
+        "text": "All the specials",
+        "type": "text",
+        "marks": [{
+          "type": "bold"
+        }]
+      }, {
+        "text": ", some say!",
+        "type": "text"
+      }]
+    }]
+  },
+  "clientName": "Platform Strategy",
+  "locationNames": ["Stratypus — fka Novigrad"],
+  "client": {
+    "name": "Platform Strategy",
+    "urn": "g5-c-5e4g9zu03-platform-strategy"
+  },
+  "locations": [{
+    "name": "Stratypus",
+    "display_name": "Stratypus — fka Novigrad",
+    "urn": "g5-cl-1hx8jde0f6-novigrad",
+    "annotationLocation": {
+      "salesforce_id": null,
+      "createdAt": "2020-07-24T18:58:09.583Z",
+      "updatedAt": "2020-07-24T18:58:09.583Z",
+      "annotationId": 5,
+      "g5UpdatableLocationId": 14341
+    }
+  }]
+}, {
+  "id": 6,
+  "internal": true,
+  "annotationCategory": {
+    "text": "Optimizations",
+    "value": "Optimizations"
+  },
+  "annotationType": "Changed Location Strategy",
+  "annotationUser": "David Miller",
+  "user": {
+    "text": "David Miller",
+    "value": "david.miller@getg5.com"
+  },
+  "salesforce_id": null,
+  "startDate": null,
+  "endDate": null,
+  "createdAt": "2020-07-24T19:09:03.864Z",
+  "updatedAt": "2020-07-24T20:00:09.282Z",
+  "salesforceSync": null,
+  "note": "<p>Changing horses in midstream. </p><p>🐎🐎🐎</p>",
+  "annotation": {
+    "type": "doc",
+    "content": [{
+      "type": "paragraph",
+      "content": [{
+        "text": "Changing horses in midstream. ",
+        "type": "text"
+      }]
+    }, {
+      "type": "paragraph",
+      "content": [{
+        "text": "🐎🐎🐎",
+        "type": "text"
+      }]
+    }]
+  },
+  "clientName": "Platform Strategy",
+  "locationNames": ["Platform Performance Guide", "Stratypus Landing"],
+  "client": {
+    "name": "Platform Strategy",
+    "urn": "g5-c-5e4g9zu03-platform-strategy"
+  },
+  "locations": [{
+    "name": "Platform Performance Guide",
+    "display_name": null,
+    "urn": "g5-cl-1hygopojdq-platform-performance-guide",
+    "annotationLocation": {
+      "salesforce_id": null,
+      "createdAt": "2020-07-24T20:00:09.271Z",
+      "updatedAt": "2020-07-24T20:00:09.271Z",
+      "annotationId": 6,
+      "g5UpdatableLocationId": 14342
+    }
+  }, {
+    "name": "Stratypus's Landing",
+    "display_name": "Stratypus Landing",
+    "urn": "g5-cl-1iq8yboxw3-stratypus-landing",
+    "annotationLocation": {
+      "salesforce_id": null,
+      "createdAt": "2020-07-24T20:00:09.271Z",
+      "updatedAt": "2020-07-24T20:00:09.271Z",
+      "annotationId": 6,
+      "g5UpdatableLocationId": 14344
+    }
+  }]
+}, {
+  "id": 7,
+  "internal": true,
+  "annotationCategory": {
+    "text": "Technical Issue",
+    "value": "Technical Issue"
+  },
+  "annotationType": "DA WoW",
+  "annotationUser": "David Miller",
+  "user": {
+    "text": "David Miller",
+    "value": "david.miller@getg5.com"
+  },
+  "salesforce_id": null,
+  "startDate": "2020-07-01",
+  "endDate": "2020-07-27",
+  "createdAt": "2020-07-27T18:50:19.224Z",
+  "updatedAt": "2020-07-27T18:59:00.899Z",
+  "salesforceSync": null,
+  "note": "<p>Another mock note for my own purposes.</p>",
+  "annotation": {
+    "type": "doc",
+    "content": [{
+      "type": "paragraph",
+      "content": [{
+        "text": "Another mock note for my own purposes.",
+        "type": "text"
+      }]
+    }]
+  },
+  "clientName": "Platform Strategy",
+  "locationNames": ["Stratypus Landing"],
+  "client": {
+    "name": "Platform Strategy",
+    "urn": "g5-c-5e4g9zu03-platform-strategy"
+  },
+  "locations": [{
+    "name": "Stratypus's Landing",
+    "display_name": "Stratypus Landing",
+    "urn": "g5-cl-1iq8yboxw3-stratypus-landing",
+    "annotationLocation": {
+      "salesforce_id": null,
+      "createdAt": "2020-07-27T18:59:00.890Z",
+      "updatedAt": "2020-07-27T18:59:00.890Z",
+      "annotationId": 7,
+      "g5UpdatableLocationId": 14344
+    }
+  }]
+}, {
+  "id": 8,
+  "internal": true,
+  "annotationCategory": {
+    "text": "Account Changes",
+    "value": "Account Changes"
+  },
+  "annotationType": "Smart Bidding Strategy Change",
+  "annotationUser": "David Miller",
+  "user": {
+    "text": "David Miller",
+    "value": "david.miller@getg5.com"
+  },
+  "salesforce_id": null,
+  "startDate": null,
+  "endDate": null,
+  "createdAt": "2020-07-27T20:19:37.997Z",
+  "updatedAt": "2020-07-27T20:22:32.293Z",
+  "salesforceSync": null,
+  "note": "<p>Wow. This app is so much faster in Safari!!!</p>",
+  "annotation": {
+    "type": "doc",
+    "content": [{
+      "type": "paragraph",
+      "content": [{
+        "text": "Wow. This app is so much faster in Safari!!!",
+        "type": "text"
+      }]
+    }]
+  },
+  "clientName": "Platform Strategy",
+  "locationNames": ["Platform Performance Guide"],
+  "client": {
+    "name": "Platform Strategy",
+    "urn": "g5-c-5e4g9zu03-platform-strategy"
+  },
+  "locations": [{
+    "name": "Platform Performance Guide",
+    "display_name": null,
+    "urn": "g5-cl-1hygopojdq-platform-performance-guide",
+    "annotationLocation": {
+      "salesforce_id": null,
+      "createdAt": "2020-07-27T20:22:32.284Z",
+      "updatedAt": "2020-07-27T20:22:32.284Z",
+      "annotationId": 8,
+      "g5UpdatableLocationId": 14342
+    }
+  }]
+}]
