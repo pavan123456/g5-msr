@@ -1,38 +1,43 @@
 <template>
   <b-card
-    footer-class="d-flex align-items-start p-1 m-0 border-0"
+    footer-class="d-flex align-items-center py-1 px-3 m-0 border-neutral border"
+    no-body
   >
     <b-table
       :ref="table.id"
       :id="table.id"
       :fields="table.fields"
       :items="table.items"
+      :filter="search"
       :per-page="perPage"
       :current-page="currentPage"
       show-empty
-      thead-tr-class="bg-white"
-      sticky-header="35vh"
+      select-mode="multi"
+      head-variant="light"
+      sticky-header="45vh"
+      primary-key="id"
+      style="border: 2px solid #e1e5e9;"
       small
       striped
       outlined
       responsive
     >
-      <template v-slot:table-busy>
-        <div class="text-center h1 align-middle">
-          <b-spinner scale="5" style="vertical-align: -0.15em;" />
-          Loading Those Notes...
-        </div>
-      </template>
       <template v-slot:empty>
         <h1 class="text-center">
           {{ emptyText }}
         </h1>
       </template>
+      <template v-slot:head(selected)>
+        <b-form-checkbox />
+      </template>
+      <template v-slot:cell(selected)>
+        <b-form-checkbox />
+      </template>
       <template v-slot:cell(internal)="row">
         <div class="hover-anchor">
-          <b-icon-emoji-neutral v-if="row.item.internal" font-scale="2" />
-          <b-icon-emoji-sunglasses v-else font-scale="2" />
-          <div class="hovered-icon">
+          <b-icon-emoji-neutral v-if="row.item.internal" font-scale="1.5" />
+          <b-icon-emoji-sunglasses v-else font-scale="1.5" />
+          <div class="hovered-icon small text-muted text-uppercase">
             {{ row.item.internal ? 'Internal Only' : 'Customer-Facing' }}
           </div>
         </div>
@@ -90,7 +95,8 @@
         />
       </template>
       <template v-slot:cell(note)="row">
-        <span v-html="row.item.note" />
+        <!-- <span v-html="row.item.note" /> -->
+        <text-editor :content="row.item.note" />
       </template>
       <template v-slot:cell(clientName)="row">
         <b-badge variant="neutral" class="text-wrap">
@@ -99,22 +105,81 @@
       </template>
     </b-table>
     <template v-slot:footer>
-      <b-btn variant="transparent" class="mr-2">
-        <b-icon-arrow-clockwise />
-      </b-btn>
-      <b-pagination
-        v-model="currentPage"
-        :per-page="perPage"
-        :total-rows="table.totalRows"
-        pills
-        class="m-0"
-      />
+      <b-container fluid class="px-0">
+        <b-row no-gutters>
+          <b-col cols="4">
+            <b-btn-group>
+              <b-btn
+                id="is-visible-btn"
+                variant="neutral"
+              >
+                <b-icon-emoji-sunglasses />
+              </b-btn>
+              <b-btn
+                id="is-internal-btn"
+                variant="outline-neutral"
+              >
+                <b-icon-emoji-frown />
+              </b-btn>
+              <b-btn
+                id="toggle-select"
+                variant="neutral"
+              >
+                <b-icon-emoji-smile-upside-down />
+              </b-btn>
+            </b-btn-group>
+          </b-col>
+          <b-col>
+            <b-pagination
+              v-model="currentPage"
+              :per-page="perPage"
+              :total-rows="table.totalRows"
+              hide-ellipsis
+              class="m-0"
+            />
+          </b-col>
+          <b-col cols="2">
+            <b-input-group class="align-items-center">
+              <b-input-group-prepend class="text-muted small text-uppercase pr-2">
+                Rows
+              </b-input-group-prepend>
+              <b-form-select
+                id="row-options"
+                v-model="perPage"
+                :options="pageOptions"
+              />
+            </b-input-group>
+          </b-col>
+          <b-col>
+            <b-input-group class="inset align-items-center">
+              <b-form-input
+                id="table-search-input"
+                v-model="search"
+                debounce="500"
+                placeholder="Search table..."
+              />
+              <b-input-group-btn
+                v-show="search !== ''"
+                variant="neutral"
+                class="inset-btn"
+                @click="onClearSearch"
+              >
+                <b-icon-x-circle />
+              </b-input-group-btn>
+            </b-input-group>
+          </b-col>
+        </b-row>
+      </b-container>
     </template>
   </b-card>
 </template>
 
 <script>
+import TextEditor from '~/components/text-editor'
 export default {
+  components: {
+    TextEditor
+  },
   props: {
     table: {
       type: Object,
@@ -132,10 +197,15 @@ export default {
       perPage: 10,
       currentPage: 1,
       pageOptions: [10, 20, 50],
-      emptyText: '🦥 Nothing to See Here.'
+      emptyText: '🦥 Nothing to See Here.',
+      filteredText: '',
+      search: ''
     }
   },
   methods: {
+    onClearSearch() {
+      this.search = ''
+    },
     formatDate(date) {
       const d = new Date(date)
       let month = '' + (d.getMonth() + 1)
@@ -154,15 +224,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tbl-w350 {
-  // width: 350px;
-  max-width: 350px;
-}
-.tbl-w200 {
-  // width: 200px;
-  max-width: 200px;
-}
-.tbl-w400 {
-  max-width: 400px;
+.inset {
+  position: relative;
+  &-btn {
+    position: absolute;
+    right: 10px;
+    transform: translatX(-100%);
+    z-index: 10;
+  }
 }
 </style>

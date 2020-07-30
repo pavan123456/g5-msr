@@ -1,12 +1,30 @@
 import items from './notes.json'
 
 const fields = [
-  // {
-  //   key: 'internal',
-  //   label: 'Visibility',
-  //   sortable: true,
-  //   class: 'align-middle text-center'
-  // },
+  {
+    key: 'selected',
+    label: 'Selected',
+    sortable: false,
+    class: 'align-middle text-center'
+  },
+  {
+    key: 'createdAt',
+    label: 'Created',
+    sortable: true,
+    class: 'align-middle text-center'
+  },
+  {
+    key: 'updatedAt',
+    label: 'Updated',
+    sortable: true,
+    class: 'align-middle text-center'
+  },
+  {
+    key: 'internal',
+    label: 'Visibility',
+    sortable: true,
+    class: 'align-middle text-center'
+  },
   {
     key: 'annotationCategory',
     label: 'Category',
@@ -24,18 +42,6 @@ const fields = [
     label: 'User',
     sortable: true,
     class: 'align-middle text-center tbl-w200'
-  },
-  {
-    key: 'createdAt',
-    label: 'Created',
-    sortable: true,
-    class: 'align-middle text-center'
-  },
-  {
-    key: 'updatedAt',
-    label: 'Updated',
-    sortable: true,
-    class: 'align-middle text-center'
   },
   {
     key: 'salesforceSync',

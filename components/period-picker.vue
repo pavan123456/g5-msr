@@ -8,7 +8,7 @@
       :checked="period"
       :options="periods"
       buttons
-      button-variant="primary-1"
+      button-variant="primary-5"
       class="mx-2"
       size="sm"
       @input="onUpdate({ key: 'period', value: $event })"

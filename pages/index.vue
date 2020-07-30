@@ -33,6 +33,17 @@
     <b-container fluid class="py-4">
       <b-row>
         <b-col cols="4">
+          <div class="mb-2">
+            <b-btn-group size="sm">
+              <b-btn
+                variant="light"
+                @click=" reportIsBusy = !reportIsBusy"
+              >
+                Refresh Report Preview
+                <b-icon-arrow-clockwise :animation="reportIsBusy ? 'spin' : ''" />
+              </b-btn>
+            </b-btn-group>
+          </div>
           <b-card no-body>
             <h2 class="px-2">
               Overview
@@ -67,7 +78,9 @@ export default {
   mixins: [table],
   data() {
     return {
-      collapseIsVisible: true
+      collapseIsVisible: true,
+      pageIsBusy: false,
+      reportIsBusy: false
     }
   }
 }

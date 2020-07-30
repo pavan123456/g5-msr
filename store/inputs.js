@@ -9,8 +9,10 @@ export const state = () => {
       'Q3',
       'Q4'
     ],
+    year: 2020,
     month: 7,
     months: [
+      { text: 'Jan', value: 1 },
       { text: 'Jan', value: 1 },
       { text: 'Feb', value: 2 },
       { text: 'Mar', value: 3 },
@@ -24,7 +26,7 @@ export const state = () => {
       { text: 'Nov', value: 11 },
       { text: 'Dec', value: 12 }
     ],
-    team: null,
+    team: 'DA',
     teams: [
       'DA',
       'SEO',

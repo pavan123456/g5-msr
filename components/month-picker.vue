@@ -3,15 +3,22 @@
     <b-input-group-prepend class="text-muted small text-uppercase mr-2">
       Month
     </b-input-group-prepend>
-    <b-form-radio-group
-      id="month-radio"
+    <b-pagination
+      id="month-select"
       :value="month"
-      :options="months"
-      buttons
-      button-variant="primary-1"
+      total-rows="12"
+      per-page="1"
+      limit="3"
       size="sm"
+      hide-goto-end-buttons
+      hide-ellipsis
+      class="mb-0"
       @input="onUpdate({ key: 'month', value: $event })"
-    />
+    >
+      <template v-slot:page="{ page }">
+        {{ months[page].text }}
+      </template>
+    </b-pagination>
   </b-input-group>
 </template>
 

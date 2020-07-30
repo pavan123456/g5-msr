@@ -1,7 +1,7 @@
 {
   "name": "g5-msr",
-  "version": "1.2.0",
-  "description": "A full stack app template for the G5 OpEx team.",
+  "version": "0.2.4",
+  "description": "See what your service dollar gets you!",
   "author": "David Miller & Tyler Hasenoehrl",
   "private": true,
   "scripts": {
@@ -31,6 +31,8 @@
     "path": "^0.12.7",
     "pg": "^7.18.2",
     "sequelize": "^5.22.3",
+    "tiptap": "^1.29.3",
+    "tiptap-extensions": "^1.31.3",
     "vue-apexcharts": "^1.6.0",
     "vue-multiselect": "^2.1.6"
   },

@@ -1,5 +1,5 @@
 <template>
-  <span class="swap mx-2">
+  <span class="swap mx-3">
     <transition name="slide-fade" mode="out-in">
       <month-picker v-if="range" />
       <period-picker v-else />
@@ -34,17 +34,17 @@ export default {
 
 <style lang="scss">
 .swap {
-  width: 400px;
+  max-width: 300px;
   position: relative;
   &-btn {
     position: absolute;
     left: 0%;
-    transform: translate(50%, 0%);
+    transform: translate(50%, -50%);
     &:focus {
       box-shadow: none;
     }
     &.range {
-      transform: translate(50%, -200%);
+      transform: translate(50%, -150%);
     }
   }
 }

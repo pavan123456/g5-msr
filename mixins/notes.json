@@ -1,6 +1,6 @@
 [{
   "id": 4,
-  "internal": true,
+  "internal": false,
   "annotationCategory": {
     "text": "Account Changes",
     "value": "Account Changes"
@@ -16,7 +16,7 @@
   "endDate": null,
   "createdAt": "2020-07-23T00:20:23.001Z",
   "updatedAt": "2020-07-23T00:24:24.497Z",
-  "salesforceSync": null,
+  "salesforceSync": true,
   "note": "<p>Working.</p>",
   "annotation": {
     "type": "doc",
@@ -81,7 +81,7 @@
   }]
 }, {
   "id": 5,
-  "internal": true,
+  "internal": false,
   "annotationCategory": {
     "text": "Account Changes",
     "value": "Account Changes"
@@ -219,7 +219,7 @@
   "endDate": "2020-07-27",
   "createdAt": "2020-07-27T18:50:19.224Z",
   "updatedAt": "2020-07-27T18:59:00.899Z",
-  "salesforceSync": null,
+  "salesforceSync": true,
   "note": "<p>Another mock note for my own purposes.</p>",
   "annotation": {
     "type": "doc",
@@ -267,7 +267,7 @@
   "endDate": null,
   "createdAt": "2020-07-27T20:19:37.997Z",
   "updatedAt": "2020-07-27T20:22:32.293Z",
-  "salesforceSync": null,
+  "salesforceSync": true,
   "note": "<p>Wow. This app is so much faster in Safari!!!</p>",
   "annotation": {
     "type": "doc",
