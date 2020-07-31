@@ -1,4 +1,5 @@
 module.exports = {
+  globalSetup: '<rootDir>/jest.setup.js',
   clearMocks: true,
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',

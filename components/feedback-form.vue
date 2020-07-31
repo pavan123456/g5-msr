@@ -33,7 +33,7 @@
         <b-form-group>
           <b-form-textarea
             :value="comment"
-            :state="comment === '' ? null : commentLength <= max"
+            :state="isValid"
             rows="6"
             placeholder="Spare no one's feelings..."
             @input="onUpdate({ key: 'comment', value: $event })"
@@ -75,7 +75,10 @@ export default {
       max: state => state.feedback.maxCommentLength
     }),
     commentLength() {
-      return this.comment.length
+      return this.$store.getters['feedback/commentLength']
+    },
+    isValid() {
+      return this.$store.getters['feedback/isValid']
     }
   },
   methods: {

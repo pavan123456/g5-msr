@@ -115,18 +115,42 @@
               >
                 <b-icon-emoji-sunglasses />
               </b-btn>
+              <b-popover
+                target="is-visible-btn"
+                triggers="hover"
+                placement="lefttop"
+                variant="neutral"
+              >
+                Mark selected notes as <b>Customer-Facing</b>.
+              </b-popover>
               <b-btn
                 id="is-internal-btn"
                 variant="outline-neutral"
               >
                 <b-icon-emoji-frown />
               </b-btn>
+              <b-popover
+                target="is-internal-btn"
+                triggers="hover"
+                placement="lefttop"
+                variant="neutral"
+              >
+                Mark Selected notes as <b>Internal-Only</b>.
+              </b-popover>
               <b-btn
                 id="toggle-select"
                 variant="neutral"
               >
                 <b-icon-emoji-smile-upside-down />
               </b-btn>
+              <b-popover
+                target="toggle-select"
+                triggers="hover"
+                placement="lefttop"
+                variant="neutral"
+              >
+                Deselect All.
+              </b-popover>
             </b-btn-group>
           </b-col>
           <b-col>

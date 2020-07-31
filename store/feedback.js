@@ -14,6 +14,17 @@ export const state = () => {
   }
 }
 
+export const getters = {
+  commentLength(state) {
+    return state.comment.length
+  },
+  isValid(state) {
+    return state.comment === ''
+      ? null
+      : state.comment.length <= state.maxCommentLength
+  }
+}
+
 export const actions = {
   onUpdate({ commit }, payload) {
     commit('ON_UPDATE', payload)

@@ -36,12 +36,25 @@
           <div class="mb-2">
             <b-btn-group size="sm">
               <b-btn
+                id="report-refresh-btn"
                 variant="light"
                 @click=" reportIsBusy = !reportIsBusy"
               >
                 Refresh Report Preview
                 <b-icon-arrow-clockwise :animation="reportIsBusy ? 'spin' : ''" />
               </b-btn>
+              <b-popover
+                target="report-refresh-btn"
+                triggers="hover"
+                placement="topleft"
+              >
+                <template v-slot:title>
+                  <span style="font-size: 1.5em;">
+                    This reloads visualizations and promoted notes.
+                  </span>
+                </template>
+                You should click this if you have made changes to the data above and want to see the effect on the output.
+              </b-popover>
             </b-btn-group>
           </div>
           <b-card no-body>
