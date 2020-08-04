@@ -11,18 +11,29 @@
         <b-icon-pencil />
       </b-form-checkbox>
       <b-btn
+        :id="`revert-${id}`"
+        :disabled="true"
         size="sm"
         variant="transparent"
       >
-        <b-icon-arrow-counterclockwise />
+        <b-icon-x-circle />
       </b-btn>
       <b-form-checkbox
+        :id="`promoted-${id}`"
+        v-model="promoted"
         button
         button-variant="transparent"
         size="sm"
       >
-        <b-icon-star />
+        <b-icon-star v-if="promoted" />
+        <b-icon-star-fill v-else />
       </b-form-checkbox>
+      <b-popover
+        :target="`promoted-${id}`"
+        triggers="hover"
+      >
+        Promote this Note.
+      </b-popover>
     </div>
   </div>
 </template>
@@ -37,10 +48,15 @@ export default {
     content: {
       type: String,
       default: '<p></p>'
+    },
+    id: {
+      type: Number,
+      required: true
     }
   },
   data() {
     return {
+      promoted: false,
       editable: false,
       editor: new Editor({
         editable: false,
@@ -66,6 +82,10 @@ export default {
   max-width: 350px;
   &__btn-group {
     flex-direction: column;
+  }
+  &__content {
+    max-width: 350px;
+    overflow-y: scroll;
   }
 }
 </style>

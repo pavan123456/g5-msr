@@ -1,5 +1,5 @@
 import items from './notes.json'
-
+import { groups, promoted } from './promoted-notes.json'
 const fields = [
   {
     key: 'selected',
@@ -68,6 +68,7 @@ const fields = [
     class: 'align-middle tbl-w400'
   }
 ]
+
 export const table = {
   data() {
     return {
@@ -95,11 +96,41 @@ export const timelineChartData = {
 export const metricsData = {
   data() {
     return {
-      metrics: [
-        {
-          chart: {}
-        }
-      ]
+      chart: {
+        id: 'metrics',
+        categories: ['Digital Advertising', 'SEO', 'Customer Care'],
+        series: [
+          {
+            name: 'Cases Solved',
+            data: [2, 1, 56]
+          },
+          {
+            name: 'Account Changes',
+            data: [2, 6, 1]
+          },
+          {
+            name: 'Customer Contact',
+            data: [3, 0, 0]
+          },
+          {
+            name: 'General Note',
+            data: [15, 12, 0]
+          },
+          {
+            name: 'Optimizations',
+            data: [683, 138, 0]
+          }
+        ]
+      }
+    }
+  }
+}
+
+export const promotedNotes = {
+  data() {
+    return {
+      groups,
+      promoted
     }
   }
 }
