@@ -15,6 +15,8 @@
   },
   "dependencies": {
     "@cloudnative/health-connect": "^2.1.0",
+    "@getg5/g5-auth": "^2.0.9",
+    "@getg5/g5-updatable": "^2.2.3",
     "@nuxtjs/axios": "^5.12.0",
     "@nuxtjs/google-analytics": "^2.4.0",
     "apexcharts": "^3.19.3",

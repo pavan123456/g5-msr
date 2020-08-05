@@ -5,7 +5,7 @@
       :series="chart.series"
       :options="options"
       type="bar"
-      height="80"
+      height="200"
     />
   </div>
 </template>
@@ -31,7 +31,7 @@ export default {
       options: {
         colors: ['#49617d'],
         plotOptions: {
-          bar: { horizontal: true }
+          bar: { horizontal: false }
         },
         dataLabels: {
           style: {
@@ -48,7 +48,7 @@ export default {
           toolbar: { show: false }
         },
         xaxis: {
-          categories: ['metric'],
+          // categories: ['Digital Advertising', 'SEO', 'Customer Care'],
           axisBorder: { show: false },
           axisTicks: { show: false },
           labels: {

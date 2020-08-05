@@ -1,0 +1,93 @@
+{
+  "groups": [
+    {
+      "date": "January 2020",
+      "id": "jan-2020",
+      "isCollapsed": true
+    },
+    {
+      "date": "February 2020",
+      "id": "feb-2020",
+      "isCollapsed": false
+    },
+    {
+      "date": "March 2020",
+      "id": "mar-2020",
+      "isCollapsed": true
+    }
+  ],
+  "promoted": [
+    {
+      "id": "1-note-seo",
+      "headline": "Google SERP Photo \"Bug\" Audit",
+      "level": "Client",
+      "locations": [],
+      "date": "January 2020",
+      "text": "Google confirmed they had a technical \"bug\" wherein photos from the Google My Business listings were not showing on the live Google search results page. We have audited all the Google search results pages (for Client and Other Client) to confirm the photos were pulling to the results. We found 6 locations with the issue. We contacted Google, and they were able to make changes on their backend to get this fixed."
+    },
+    {
+      "id": "2-note-seo",
+      "headline": "GMB Map Marker Updates",
+      "level": "Client",
+      "locations": [],
+      "date": "March 2020",
+      "text": "We have been working with Google on all the map marker updates. Google has recently made the process much harder to get some map marker changes to stick. This will most likely be an ongoing project, so feel free to keep forwarding them over as needed."
+    },
+    {
+      "id": "3-note-seo",
+      "headline": "GMB Listing Suspension Reinstatement",
+      "level": "Location",
+      "locations": ["Client - 9113"],
+      "date": "January 2020",
+      "text": "Google has been public in saying their system has been incorrectly marking listings as \"suspended.\"  We found the listing was suspended for this location, but were able to go through the appeal process with Google, and get the listing quickly reinstated."
+    },
+    {
+      "id": "4-note-seo",
+      "headline": "OnPage Audits & Optimizations",
+      "level": "Location",
+      "locations": ["Client Rental Spaces", "Client, 9003", "Client, 9999", "Client, 1433", "Client, 1083"],
+      "date": "January 2020",
+      "text": "Google has been public in saying their system has been incorrectly marking listings as \"suspended.\"  We found the listing was suspended for this location, but were able to go through the appeal process with Google, and get the listing quickly reinstated."
+    },
+    {
+      "id": "5-note-seo",
+      "headline": "Google Maps Directions Fixed",
+      "level": "Location",
+      "locations": ["Client, 1044"],
+      "date": "February 2020",
+      "text": ""
+    },
+    {
+      "id": "6-note-seo",
+      "headline": "Google Review Removal",
+      "level": "Location",
+      "locations": ["Client, 9999"],
+      "date": "February 2020",
+      "text": "Our request to remove a review for this location was denied by Google. “Assessed review, and found it not in violation of our policies.” “Consider replying to customer directly to resolve the issue.”"
+    },
+    {
+      "id": "7-note-seo",
+      "headline": "GMB Prior Brand Photos Removal",
+      "level": "Location",
+      "locations": ["Client, 9999"],
+      "date": "March 2020",
+      "text": "We are currently working with Google to resolve. Prior 6 images removed, except for one, which is still appearing on SERP. Google incorrectly displaying \"Menu\" button and not displaying current Client images on SERP."
+    },
+    {
+      "id": "8-note-seo",
+      "headline": "GMB Photos not Appearing on SERP",
+      "level": "Location",
+      "locations": ["Santa Maria, 9999"],
+      "date": "February 2020",
+      "text": "Google has been contacted to resolve."
+    },
+    {
+      "id": "9-note-seo",
+      "headline": "GMB Owner Access Rejected",
+      "level": "Location",
+      "locations": ["Client, 9999"],
+      "date": "February 2020",
+      "text": "Our request was rejected with note: “Not a contact for this account."
+    }
+  ]
+}

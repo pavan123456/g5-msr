@@ -98,6 +98,7 @@ export default {
   bottom: 15px;
   clip-path: circle(23px at 88% 90%);
   transition: 400ms ease-out;
+  z-index: 99999;
   &.is-open {
     clip-path: circle(100%);
   }

@@ -4,8 +4,8 @@
     no-body
   >
     <b-table
-      :ref="table.id"
       :id="table.id"
+      :ref="table.id"
       :fields="table.fields"
       :items="table.items"
       :filter="search"
@@ -96,7 +96,7 @@
       </template>
       <template v-slot:cell(note)="row">
         <!-- <span v-html="row.item.note" /> -->
-        <text-editor :content="row.item.note" />
+        <text-editor :content="row.item.note" :row-id="row.item.id" />
       </template>
       <template v-slot:cell(clientName)="row">
         <b-badge variant="neutral" class="text-wrap">
@@ -106,7 +106,7 @@
     </b-table>
     <template v-slot:footer>
       <b-container fluid class="px-0">
-        <b-row no-gutters>
+        <b-row>
           <b-col cols="4">
             <b-btn-group>
               <b-btn
@@ -118,49 +118,46 @@
               <b-popover
                 target="is-visible-btn"
                 triggers="hover"
-                placement="lefttop"
+                placement="top"
                 variant="neutral"
               >
                 Mark selected notes as <b>Customer-Facing</b>.
               </b-popover>
               <b-btn
                 id="is-internal-btn"
-                variant="outline-neutral"
+                variant="neutral"
               >
-                <b-icon-emoji-frown />
+                <b-icon-emoji-neutral />
               </b-btn>
               <b-popover
                 target="is-internal-btn"
                 triggers="hover"
-                placement="lefttop"
+                placement="top"
                 variant="neutral"
               >
                 Mark Selected notes as <b>Internal-Only</b>.
               </b-popover>
               <b-btn
+                id="is-promoted-btn"
+                variant="neutral"
+              >
+                <b-icon-star-fill />
+              </b-btn>
+              <b-popover
+                target="is-promoted-btn"
+                triggers="hover"
+                placement="top"
+                variant="neutral"
+              >
+                Mark Selected notes as <b>Promoted Notes</b>.
+              </b-popover>
+              <b-btn
                 id="toggle-select"
                 variant="neutral"
               >
-                <b-icon-emoji-smile-upside-down />
+                Deselect All
               </b-btn>
-              <b-popover
-                target="toggle-select"
-                triggers="hover"
-                placement="lefttop"
-                variant="neutral"
-              >
-                Deselect All.
-              </b-popover>
             </b-btn-group>
-          </b-col>
-          <b-col>
-            <b-pagination
-              v-model="currentPage"
-              :per-page="perPage"
-              :total-rows="table.totalRows"
-              hide-ellipsis
-              class="m-0"
-            />
           </b-col>
           <b-col cols="2">
             <b-input-group class="align-items-center">
@@ -171,8 +168,18 @@
                 id="row-options"
                 v-model="perPage"
                 :options="pageOptions"
+                style="max-width: 80px; border-radius: 5px;"
               />
             </b-input-group>
+          </b-col>
+          <b-col>
+            <b-pagination
+              v-model="currentPage"
+              :per-page="perPage"
+              :total-rows="table.totalRows"
+              hide-ellipsis
+              class="m-0"
+            />
           </b-col>
           <b-col>
             <b-input-group class="inset align-items-center">
@@ -181,15 +188,18 @@
                 v-model="search"
                 debounce="500"
                 placeholder="Search table..."
+                style="border: 2px solid #e8e8e8; border-radius: 5px;"
               />
-              <b-input-group-btn
-                v-show="search !== ''"
-                variant="neutral"
-                class="inset-btn"
-                @click="onClearSearch"
-              >
-                <b-icon-x-circle />
-              </b-input-group-btn>
+              <template v-slot:append>
+                <b-btn
+                  v-show="search !== ''"
+                  variant="neutral"
+                  class="inset-btn"
+                  @click="onClearSearch"
+                >
+                  <b-icon-x-circle />
+                </b-btn>
+              </template>
             </b-input-group>
           </b-col>
         </b-row>
@@ -222,7 +232,7 @@ export default {
       currentPage: 1,
       pageOptions: [10, 20, 50],
       emptyText: '🦥 Nothing to See Here.',
-      filteredText: '',
+      filteredText: '🦥 Adjust your Search String.',
       search: ''
     }
   },
@@ -256,5 +266,9 @@ export default {
     transform: translatX(-100%);
     z-index: 10;
   }
+}
+#table-search-input::placeholder {
+  text-transform: uppercase;
+  font-size: 0.9em;
 }
 </style>
