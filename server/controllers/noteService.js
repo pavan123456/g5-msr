@@ -7,7 +7,9 @@ const {
 } = process.env
 module.exports = {
 login,
-getNotes
+getNotes,
+getCases,
+getWorkQ
 }
 
 function login () {
@@ -15,5 +17,14 @@ function login () {
 }
 
 function getNotes(clientUrn) {
+console.log(`${noteServuceUrl}/api/v1/notes?access_token=${token}&clientUrn=${clientUrn}`)
   return axios.get(`${noteServuceUrl}/api/v1/notes?access_token=${token}&clientUrn=${clientUrn}`)
+}
+function getCases(clientUrn) {
+  console.log(`${noteServuceUrl}/api/v1/cases?access_token=${token}&clientUrn=${clientUrn}`)
+  return axios.get(`${noteServuceUrl}/api/v1/cases?access_token=${token}&clientUrn=${clientUrn}`)
+}
+function getWorkQ(clientUrn) {
+  console.log(`${noteServuceUrl}/api/v1/dam/workq/${clientUrn}?access_token=${token}`)
+  return axios.get(`${noteServuceUrl}/api/v1/dam/workq/${clientUrn}?access_token=${token}`)
 }
