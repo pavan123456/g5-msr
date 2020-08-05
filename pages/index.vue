@@ -101,6 +101,14 @@ export default {
     NavHeader
   },
   mixins: [table, metricsData],
+  // fetch({ store }) {
+  //   store.dispatch('inputs/fillClients')
+  // },
+  async asyncData({ $axios }) {
+    return {
+      clients: await $axios.$get('/api/v1/hub/clients')
+    }
+  },
   data() {
     return {
       collapseIsVisible: true,

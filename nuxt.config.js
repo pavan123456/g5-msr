@@ -48,6 +48,7 @@ module.exports = {
     icons: true
   },
   axios: {
+    debug: true,
     browserBaseURL: `//${process.env.BROWSER_URL}`
   },
   googleAnalytics: {

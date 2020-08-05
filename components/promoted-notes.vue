@@ -2,8 +2,8 @@
   <div class="collapse-ctn">
     <b-card-group
       v-for="g in groups"
-      :class="[{ 'is-collapsed': g.isCollapsed }, 'collapsible', 'mb-3', 'pt-4']"
       :key="g.id"
+      :class="[{ 'is-collapsed': g.isCollapsed }, 'collapsible', 'mb-3', 'pt-4']"
       deck
     >
       <b-badge variant="neutral" class="collapse-badge px-5">

@@ -28,8 +28,7 @@
         </h1>
       </template>
       <template v-slot:head(selected)>
-        <b-form-checkbox
-        />
+        <b-form-checkbox />
       </template>
       <template v-slot:cell(selected)>
         <b-form-checkbox />
@@ -97,7 +96,7 @@
       </template>
       <template v-slot:cell(note)="row">
         <!-- <span v-html="row.item.note" /> -->
-        <text-editor :content="row.item.note" :id="row.item.id" />
+        <text-editor :content="row.item.note" :row-id="row.item.id" />
       </template>
       <template v-slot:cell(clientName)="row">
         <b-badge variant="neutral" class="text-wrap">
@@ -191,14 +190,16 @@
                 placeholder="Search table..."
                 style="border: 2px solid #e8e8e8; border-radius: 5px;"
               />
-              <b-input-group-btn
-                v-show="search !== ''"
-                variant="neutral"
-                class="inset-btn"
-                @click="onClearSearch"
-              >
-                <b-icon-x-circle />
-              </b-input-group-btn>
+              <template v-slot:append>
+                <b-btn
+                  v-show="search !== ''"
+                  variant="neutral"
+                  class="inset-btn"
+                  @click="onClearSearch"
+                >
+                  <b-icon-x-circle />
+                </b-btn>
+              </template>
             </b-input-group>
           </b-col>
         </b-row>

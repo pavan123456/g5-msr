@@ -39,11 +39,19 @@ export const state = () => {
 export const actions = {
   onUpdate({ commit }, payload) {
     commit('ON_UPDATE', payload)
+  },
+  fillClients({ commit }) {
+    this.$axios
+      .$get('api/v1/hub/clients')
+      .then(clients => commit('FILL_CLIENTS', clients))
   }
 }
 
 export const mutations = {
   ON_UPDATE(state, payload) {
     state[payload.key] = payload.value
+  },
+  FILL_CLIENTS(state, clients) {
+    state.clients = clients
   }
 }

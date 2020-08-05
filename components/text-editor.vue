@@ -11,7 +11,7 @@
         <b-icon-pencil />
       </b-form-checkbox>
       <b-btn
-        :id="`revert-${id}`"
+        :id="`revert-${rowId}`"
         :disabled="true"
         size="sm"
         variant="transparent"
@@ -19,7 +19,7 @@
         <b-icon-x-circle />
       </b-btn>
       <b-form-checkbox
-        :id="`promoted-${id}`"
+        :id="`promoted-${rowId}`"
         v-model="promoted"
         button
         button-variant="transparent"
@@ -29,7 +29,7 @@
         <b-icon-star-fill v-else />
       </b-form-checkbox>
       <b-popover
-        :target="`promoted-${id}`"
+        :target="`promoted-${rowId}`"
         triggers="hover"
       >
         Promote this Note.
@@ -49,7 +49,7 @@ export default {
       type: String,
       default: '<p></p>'
     },
-    id: {
+    rowId: {
       type: Number,
       required: true
     }
