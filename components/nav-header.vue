@@ -13,6 +13,7 @@
           id="client-select"
           :value="client"
           :options="clients"
+          :custom-label="c => c.name"
           placeholder="Select a Client"
           @input="onUpdate({ key: 'client', value: $event })"
         />

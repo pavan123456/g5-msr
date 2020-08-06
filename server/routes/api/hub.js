@@ -6,12 +6,8 @@ module.exports = (app) => {
     const clients = await models.g5_updatable_client.findAll({
       where: {
         properties: {
-          status: {
-            [Op.not]: 'Deleted'
-          },
-          g5_internal: {
-            [Op.not]: true
-          }
+          status: { [Op.not]: 'Deleted' },
+          g5_internal: { [Op.not]: true }
         }
       },
       attributes: [

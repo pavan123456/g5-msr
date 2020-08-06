@@ -101,8 +101,8 @@ export default {
     NavHeader
   },
   mixins: [table, metricsData],
-  fetch({ store }) {
-    store.dispatch('inputs/fillClients')
+  async fetch({ store }) {
+    await store.dispatch('inputs/fillClients')
   },
   data() {
     return {
