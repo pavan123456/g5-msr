@@ -1,5 +1,7 @@
 export const state = () => {
   return {
+    isBusy: false,
+    isSubmitted: false,
     client: null,
     clients: [],
     period: 'Q1',
@@ -10,6 +12,7 @@ export const state = () => {
       'Q4'
     ],
     year: 2020,
+    monthly: false,
     month: 7,
     months: [
       { text: 'Jan', value: 1 },
@@ -30,9 +33,38 @@ export const state = () => {
     teams: [
       'DA',
       'SEO',
-      'CC',
-      'AMO'
+      'CC'
     ]
+  }
+}
+
+export const getters = {
+  selectedDate(state) {
+    const thirtyOne = [1, 3, 5, 7, 8, 10, 12]
+    const mo = state.month < 10
+      ? `0${state.month}`
+      : state.month
+    const day = state.month === 2
+      ? '28'
+      : thirtyOne.includes(state.month)
+        ? '31'
+        : '30'
+    return {
+      from: `${state.year}-${mo}-01`,
+      to: `${state.year}-${mo}-${day}`
+    }
+  },
+  selectedQuarter(state) {
+    const ranges = {
+      Q1: { start: '01-01', end: '03-31' },
+      Q2: { start: '04-01', end: '06-30' },
+      Q3: { start: '07-01', end: '09-30' },
+      Q4: { start: '10-01', end: '12-31' }
+    }
+    return {
+      from: `${state.year}-${ranges[state.period].start}`,
+      to: `${state.year}-${ranges[state.period].end}`
+    }
   }
 }
 

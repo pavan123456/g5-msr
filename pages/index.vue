@@ -1,6 +1,6 @@
 <template>
   <b-container fluid class="px-0">
-    <nav-header>
+    <nav-header @get-report="getReport">
       <template v-slot:dangle>
         <b-btn-group class="dangle-group bg-white border border-neutral" size="sm">
           <b-btn
@@ -37,7 +37,7 @@
             <b-btn
               id="report-refresh-btn"
               variant="light"
-              @click=" reportIsBusy = !reportIsBusy"
+              @click="reportIsBusy = !reportIsBusy"
             >
               Refresh Report Preview
               <b-icon-arrow-clockwise :animation="reportIsBusy ? 'spin' : ''" />
@@ -74,7 +74,7 @@
         </b-col>
         <b-col>
           <div class="mb-3">
-            <timeline-chart />
+            <timeline-chart :chart="timeline" />
           </div>
           <promoted-notes />
         </b-col>
@@ -84,7 +84,9 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 import { table, metricsData } from '~/mixins/staged-data'
+import TableHelpers from '~/mixins/table-helpers'
 import NavHeader from '~/components/nav-header'
 import TimelineChart from '~/components/timeline-chart'
 import SparkChart from '~/components/spark-chart'
@@ -100,7 +102,7 @@ export default {
     SparkChart,
     NavHeader
   },
-  mixins: [table, metricsData],
+  mixins: [table, metricsData, TableHelpers],
   async fetch({ store }) {
     await store.dispatch('inputs/fillClients')
   },
@@ -108,7 +110,45 @@ export default {
     return {
       collapseIsVisible: true,
       pageIsBusy: false,
-      reportIsBusy: false
+      reportIsBusy: false,
+      timeline: {}
+    }
+  },
+  computed: {
+    ...mapState({
+      monthly: state => state.inputs.monthly
+    }),
+    ...mapGetters({
+      selectedDate: 'inputs/selectedDate',
+      selectedQuarter: 'inputs/selectedQuarter'
+    })
+  },
+  methods: {
+    onError(err) {
+      this.$store.dispatch('inputs/onError', err)
+    },
+    getReport(urn) {
+      const from = (this.monthly)
+        ? this.selectedDate.from
+        : this.selectedQuarter.from
+      const to = (this.monthly)
+        ? this.selectedDate.to
+        : this.selectedQuarter.to
+      this.$emit('dates', { from, to })
+      this.$axios
+        .$get(`api/v1/report/${urn}?from=${from}&to=${to}`)
+        .then((res) => {
+          this.table.totalRows = res.notes.length
+          this.table.items = res.notes
+          this.timeline = this.generateTimeline(res.notes)
+        })
+        .catch(err => this.onError(err))
+        .finally(() => {
+          this.$store.dispatch('inputs/onUpdate', {
+            key: 'isBusy',
+            value: false
+          })
+        })
     }
   }
 }

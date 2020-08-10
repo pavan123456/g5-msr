@@ -18,15 +18,15 @@ function login () {
   return axios.post(`${noteServiceUrl}/api/v1/login`, { username, password })
 }
 
-function getNotes(clientUrn) {
-console.log(`${noteServuceUrl}/api/v1/notes?access_token=${token}&clientUrn=${clientUrn}`)
-  return axios.get(`${noteServuceUrl}/api/v1/notes?access_token=${token}&clientUrn=${clientUrn}`)
+function getNotes(clientUrn, to = '2020-08-07', from = '2020-06-01') {
+  console.log(`${noteServiceUrl}/api/v1/notes?access_token=${token}&clientUrn=${clientUrn}&searchBy=createdAt&to=${to}&from=${from}`)
+  return axios.get(`${noteServiceUrl}/api/v1/notes?access_token=${token}&clientUrn=${clientUrn}&searchBy=createdAt&to=${to}&from=${from}`)
 }
 function getCases(clientUrn) {
-  console.log(`${noteServuceUrl}/api/v1/cases?access_token=${token}&clientUrn=${clientUrn}`)
-  return axios.get(`${noteServuceUrl}/api/v1/cases?access_token=${token}&clientUrn=${clientUrn}`)
+  console.log(`${noteServiceUrl}/api/v1/cases?access_token=${token}&clientUrn=${clientUrn}`)
+  return axios.get(`${noteServiceUrl}/api/v1/cases?access_token=${token}&clientUrn=${clientUrn}`)
 }
 function getWorkQ(clientUrn) {
-  console.log(`${noteServuceUrl}/api/v1/dam/workq/${clientUrn}?access_token=${token}`)
-  return axios.get(`${noteServuceUrl}/api/v1/dam/workq/${clientUrn}?access_token=${token}`)
+  console.log(`${noteServiceUrl}/api/v1/dam/workq/${clientUrn}?access_token=${token}`)
+  return axios.get(`${noteServiceUrl}/api/v1/dam/workq/${clientUrn}?access_token=${token}`)
 }

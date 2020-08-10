@@ -12,7 +12,8 @@ module.exports = (app) => {
       },
       attributes: [
         'name',
-        'urn'
+        'urn',
+        [models.sequelize.json('properties.branded_name'), 'branded_name']
       ]
     })
     res.json(clients)

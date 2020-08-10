@@ -1,16 +1,16 @@
 <template>
   <span class="swap mx-3">
     <transition name="slide-fade" mode="out-in">
-      <month-picker v-if="range" />
+      <month-picker v-if="showMonth" />
       <period-picker v-else />
     </transition>
     <b-btn
-      :class="[{ 'range': range }, 'swap-btn', 'p-0']"
+      :class="[{ 'range': showMonth }, 'swap-btn', 'p-0']"
       pill
       variant="transparent"
-      @click="range = !range"
+      @click="onUpdate({ key: 'monthly', value: !monthly })"
     >
-      <b-icon-chevron-compact-up v-if="range" variant="muted" />
+      <b-icon-chevron-compact-up v-if="showMonth" variant="muted" />
       <b-icon-chevron-compact-down v-else variant="muted" />
     </b-btn>
   </span>
@@ -26,7 +26,18 @@ export default {
   },
   data() {
     return {
-      range: true
+      showMonth: false
+    }
+  },
+  computed: {
+    monthly() {
+      return this.$store.state.inputs.monthly
+    }
+  },
+  methods: {
+    onUpdate(payload) {
+      this.showMonth = !this.showMonth
+      this.$store.dispatch('inputs/onUpdate', payload)
     }
   }
 }

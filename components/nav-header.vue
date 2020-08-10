@@ -13,11 +13,24 @@
           id="client-select"
           :value="client"
           :options="clients"
-          :custom-label="c => c.name"
+          label="name"
+          track-by="urn"
           placeholder="Select a Client"
           @input="onUpdate({ key: 'client', value: $event })"
         />
       </b-input-group>
+      <swap-wrapper />
+      <year-input />
+      <b-btn
+        id="refresh-table-btn"
+        class="px-2 ml-2"
+        variant="primary-2"
+        size="sm"
+        @click="updateReport"
+      >
+        <b-icon-arrow-repeat :animation="isBusy ? 'spin' : ''" />
+      </b-btn>
+      <div style="width: 0; height: 100%; border-right: 2px solid #e8e8e8;" />
       <b-input-group class="flex-nowrap align-items-center">
         <b-input-group-prepend class="px-2 text-muted text-uppercase small">
           Team
@@ -31,8 +44,17 @@
           @input="onUpdate({ key: 'team', value: $event })"
         />
       </b-input-group>
-      <swap-wrapper />
-      <year-input />
+      <b-btn
+        id="approve-btn"
+        variant="outline-tertiary-2"
+        size="sm"
+        class="ml-2 px-4"
+        @click="onUpdate({ key: 'isSubmitted', value: !isSubmitted })"
+      >
+        <b-icon-check-circle-fill v-if="isSubmitted" />
+        <b-icon-check-circle v-else />
+        {{ isSubmitted ? 'Approved' : 'Approve' }}
+      </b-btn>
     </b-nav-form>
     <b-navbar-nav class="ml-auto">
       <b-nav-item-dropdown right>
@@ -63,12 +85,20 @@ export default {
     client: state => state.inputs.client,
     clients: state => state.inputs.clients,
     team: state => state.inputs.team,
-    teams: state => state.inputs.teams
+    teams: state => state.inputs.teams,
+    isBusy: state => state.inputs.isBusy,
+    isSubmitted: state => state.inputs.isSubmitted
   }),
   methods: {
     ...mapActions({
       onUpdate: 'inputs/onUpdate'
-    })
+    }),
+    updateReport() {
+      if (this.client) {
+        this.onUpdate({ key: 'isBusy', value: true })
+        this.$emit('get-report', this.client.urn)
+      }
+    }
   }
 }
 </script>
