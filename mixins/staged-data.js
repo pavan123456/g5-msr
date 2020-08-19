@@ -134,3 +134,82 @@ export const promotedNotes = {
     }
   }
 }
+
+export const sharedViewData = {
+  client: {
+    name: '',
+    urn: ''
+  },
+  runDate: '',
+  from: '',
+  to: '',
+  overview: {},
+  teams: [
+    {
+      name: 'Digital Advertising',
+      overview: [
+        {
+          id: 'optimizations',
+          category: 'Optimizations',
+          series: [
+            { name: 'Added Negative Keywords', data: [12] },
+            { name: 'Updated Audiences', data: [1] },
+            { name: 'Added Keywords', data: [21] },
+            { name: 'Changed Location Strategy', data: [2] },
+            { name: 'Paused Campaign', data: [1] },
+            { name: 'Enabled Campaign', data: [5] },
+            { name: 'Refreshed Ad Copy', data: [2] },
+            { name: 'Testing', data: [8] },
+            { name: 'T&O Added', data: [12] },
+            { name: 'Manual Spend Adjustments', data: [8] },
+            { name: 'Manual Bid Adjustments', data: [3] }
+          ]
+        },
+        {
+          id: 'account-changes',
+          category: 'Account Changes',
+          series: [
+            { name: 'Smart Bidding Strategy Change', data: [3] },
+            { name: 'Specials/Promotions', data: [10] },
+            { name: 'Spend Optimizer Version Change', data: [7] },
+            { name: 'URL Change', data: [1] },
+            { name: 'Whitelisting Events Change', data: [0] }
+          ]
+        }
+      ],
+      timeline: [
+        {
+          id: 'optimizations',
+          name: 'Optimizations',
+          data: [
+            [
+              'timestamp',
+              1,
+              10, // count of locations
+              'html',
+              false, // internal
+              '' // csv of location names or count of locations if > 3
+            ]
+          ]
+        }
+      ],
+      promoted: [
+        {
+          groupName: '',
+          notes: [
+            {
+              title: '',
+              content: '',
+              locations: [].join(', ')
+            }
+          ]
+        }
+      ],
+      contributor: {
+        name: '',
+        src: '',
+        title: ''
+      }
+    }
+  ]
+}

@@ -74,6 +74,9 @@
         </b-col>
         <b-col>
           <div class="mb-3">
+            <team-overview-chart />
+          </div>
+          <div class="mb-3">
             <timeline-chart :chart="timeline" />
           </div>
           <promoted-notes />
@@ -89,6 +92,7 @@ import { table, metricsData } from '~/mixins/staged-data'
 import TableHelpers from '~/mixins/table-helpers'
 import NavHeader from '~/components/nav-header'
 import TimelineChart from '~/components/timeline-chart'
+import TeamOverviewChart from '~/components/team-overview-chart'
 import SparkChart from '~/components/spark-chart'
 import PromotedNotes from '~/components/promoted-notes'
 import ByLine from '~/components/strategist-byline'
@@ -98,6 +102,7 @@ export default {
     TimelineChart,
     TableEditor,
     PromotedNotes,
+    TeamOverviewChart,
     ByLine,
     SparkChart,
     NavHeader
@@ -111,12 +116,14 @@ export default {
       collapseIsVisible: true,
       pageIsBusy: false,
       reportIsBusy: false,
-      timeline: {}
+      timeline: {},
+      overview: {}
     }
   },
   computed: {
     ...mapState({
-      monthly: state => state.inputs.monthly
+      monthly: state => state.inputs.monthly,
+      team: state => state.inputs.team
     }),
     ...mapGetters({
       selectedDate: 'inputs/selectedDate',

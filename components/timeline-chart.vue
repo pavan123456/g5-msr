@@ -4,12 +4,13 @@
       :id="chart.id"
       :series="chart.series"
       :options="options"
-      height="175"
+      height="275"
     />
   </b-card>
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 export default {
   props: {
     chart: {
@@ -19,24 +20,13 @@ export default {
           id: 'timeline-chart',
           series: [
             {
-              name: 'Cases',
-              requestType: 'Solved',
+              name: 'Fallback Category',
+              requestType: 'Fallback Request Type',
               data: [
                 ['01/03/2020 03:15 PM', 1, 0],
                 ['01/14/2020 01:19 PM', 1, 17],
                 ['02/01/2020 01:42 PM', 1, 30],
                 ['03/15/2020 05:00 PM', 1, 9],
-                ['03/24/2020 02:28 PM', 1, 3]
-              ]
-            },
-            {
-              name: 'Optimizations',
-              requestType: 'Some type of optimization',
-              data: [
-                ['01/03/2020 03:15 PM', 1, 3],
-                ['01/15/2020 01:19 PM', 1, 1],
-                ['03/01/2020 01:42 PM', 1, 2],
-                ['03/15/2020 05:00 PM', 1, 13],
                 ['03/24/2020 02:28 PM', 1, 3]
               ]
             }
@@ -49,23 +39,26 @@ export default {
     return {
       options: {
         id: 'timeline-chart',
-        colors: ['#0F3259', '#8dc7cb'],
-        chart: { type: 'bubble', height: 150 },
+        colors: ['#8dc7cb', '#e00033', '#62bc60', '#feb800'],
+        chart: { type: 'bubble', height: 250 },
         dataLabels: { enabled: false },
         fill: { opacity: 0.8 },
-        title: { text: 'Timeline' },
+        title: { text: 'Activity Timeline' },
         grid: {
-          borderColor: '#e1e5e9',
+          borderColor: '#c1c1c1',
           column: {
-            colors: ['#f8f8f8', 'transparent'],
+            colors: ['#94abd7', 'transparent'],
             opacity: 1
           },
           strokeDashArray: 2,
           xaxis: {
             lines: { show: true }
+          },
+          yaxis: {
+            lines: { show: true }
           }
         },
-        legend: { position: 'bottom' },
+        legend: { position: 'top' },
         yaxis: {
           show: false,
           min: 0,
@@ -74,13 +67,13 @@ export default {
         },
         plotOptions: {
           bubble: {
-            minBubbleRadius: 10
+            minBubbleRadius: 1,
+            maxBubbleRadius: 300
           }
         },
         xaxis: {
           type: 'datetime',
-          tickAmount: 10,
-          position: 'top',
+          position: 'bottom',
           labels: {
             style: {
               fontFamily: '"Fira Sans", sans-serif'
@@ -94,18 +87,22 @@ export default {
           }
         },
         tooltip: {
+          y: { show: false },
           custom({ series, seriesIndex, dataPointIndex, w }) {
             return `
               <div class="pb-1 pt-0 timeline-tooltip">
                 <h2 class="badge w-100 my-0 badge-primary-1">
                   ${w.config.series[seriesIndex].name}
                 </h2>
-                <div class="py-1 px-2 text-left">
+                <div class="py-1 px-2 text-left" style="max-width: 300px;">
                   <p class="font-weight-bold mb-1">
-                    ${w.config.series[seriesIndex].requestType}
+                    ${w.config.series[seriesIndex].data[dataPointIndex][5] === null ? '' : w.config.series[seriesIndex].data[dataPointIndex][5]}
                   </p>
-                  <p class="text-muted">
-                    ${w.config.series[seriesIndex].data[dataPointIndex][2]} locations
+                  <div class="text-wrap my-2">
+                    ${!w.config.series[seriesIndex].data[dataPointIndex][4] ? w.config.series[seriesIndex].data[dataPointIndex][3] : ''}
+                  </div>
+                  <p class="text-muted text-wrap border-pale border-top pt-2">
+                    ${w.config.series[seriesIndex].data[dataPointIndex][6]}
                   </p>
                 </div>
               </div>
@@ -114,6 +111,15 @@ export default {
         }
       }
     }
+  },
+  computed: {
+    ...mapState({
+      monthly: state => state.inputs.monthly
+    }),
+    ...mapGetters({
+      selectedDate: 'inputs/selectedDate',
+      selectedQuarter: 'inputs/selectedQuarter'
+    })
   }
 }
 </script>
