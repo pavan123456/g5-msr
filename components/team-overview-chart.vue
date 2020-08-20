@@ -1,10 +1,11 @@
 <template>
   <b-card header-class="border-0" no-body>
-    <b-tabs cards>
+    <b-tabs cards justified>
       <b-tab
         v-for="(c, i) in charts"
         :key="`${c.id}-${i}`"
         :title="c.category"
+        title-item-class="text-uppercase small"
       >
         <apex-chart
           :id="c.id"

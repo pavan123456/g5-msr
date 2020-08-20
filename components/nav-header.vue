@@ -62,7 +62,7 @@
           <b-icon-person />
         </template>
         <b-dropdown-item to="/staged">
-          Colors
+          Output Test
         </b-dropdown-item>
       </b-nav-item-dropdown>
     </b-navbar-nav>

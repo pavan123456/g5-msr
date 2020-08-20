@@ -1,28 +1,45 @@
 <template>
-  <b-container class="py-5">
+  <b-container fluid>
+    <report-nav />
+    <b-progress :value="position" class="w-100 mb-2 rounded-0" />
     <b-row>
+      <b-col cols="8" offset="2">
+        <heat-map />
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col cols="3">
+        <by-line />
+      </b-col>
       <b-col>
-        <h1>
-          <span class="text-primary">M</span><span class="text-primary-1">a</span><span class="text-primar-2">n</span><span class="text-primary-3">a</span><span class="text-primary-4">g</span><span class="text-primary-5">e</span><span class="text-primary-6">d</span>
-          <span class="text-secondary">S</span><span class="text-success-0">e</span><span class="text-tertiary-1">r</span><span class="text-quaternary-3">v</span><span class="text-tertiary-0">i</span><span class="text-quaternary-3">c</span><span class="text-secondary">e</span><span class="text-secondary">s</span>
-        </h1>
-        <p>
-          Default paragraph font
-        </p>
-        <month-picker />
-        <placeholder />
+        <team-overview />
+        <team-timeline />
+        <promoted-notes />
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import Placeholder from '~/components/placeholder'
-import MonthPicker from '~/components/month-picker'
+import ReportNav from '~/components/breadcrumb-nav'
+import HeatMap from '~/components/spark-chart'
+import ByLine from '~/components/strategist-byline'
+import TeamOverview from '~/components/team-overview-chart'
+import TeamTimeline from '~/components/timeline-chart'
+import PromotedNotes from '~/components/promoted-notes'
 export default {
   components: {
-    MonthPicker,
-    Placeholder
+    HeatMap,
+    ReportNav,
+    ByLine,
+    TeamOverview,
+    PromotedNotes,
+    TeamTimeline
+  },
+  data() {
+    return {
+      position: 75
+    }
   }
 }
 </script>

@@ -143,7 +143,38 @@ export const sharedViewData = {
   runDate: '',
   from: '',
   to: '',
-  overview: {},
+  overview: [
+    {
+      name: 'Digital Advertising',
+      data: [
+        { x: 'Cases Solved', y: 2 },
+        { x: 'Account Changes', y: 2 },
+        { x: 'Customer Contact', y: 3 },
+        { x: 'General Note', y: 15 },
+        { x: 'Optimizations', y: 683 }
+      ]
+    },
+    {
+      name: 'SEO',
+      data: [
+        { x: 'Cases Solved', y: 1 },
+        { x: 'Account Changes', y: 6 },
+        { x: 'Customer Contact', y: 0 },
+        { x: 'General Note', y: 12 },
+        { x: 'Optimizations', y: 138 }
+      ]
+    },
+    {
+      name: 'Customer Care',
+      data: [
+        { x: 'Cases Solved', y: 56 },
+        { x: 'Account Changes', y: 1 },
+        { x: 'Customer Contact', y: 0 },
+        { x: 'General Note', y: 0 },
+        { x: 'Optimizations', y: 0 }
+      ]
+    }
+  ],
   teams: [
     {
       name: 'Digital Advertising',
