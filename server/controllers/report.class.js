@@ -9,36 +9,40 @@ class ServiecesReport {
     this.notes = []
     this.cases = []
     this.workQ = []
+
     this.DA = {
       name: 'Digital Advertising',
       category: {
         optimizations: 0
       },
-      subCategory: {}
+      subCategory: {},
+      timeline: {}
     }
     this.SEO = {
       name: 'Search Engine Optimization',
       category: {},
-      subCategory: {}
+      subCategory: {},
+      timeline: []
     }
     this.CC = {
       name: 'Customer Care',
       category: {},
-      subCategory: {}
+      subCategory: {},
+      timeline: []
     }
     this.daSubCatMap = {
-      CountLocationExtensionRule:"Updated Call Extension",
-      PhoneRule:"Updated Call Extension",
-      CountLocationCallExtensionRule:"Updated Call Extension",
+      CountLocationExtensionRule: "Updated Call Extension",
+      PhoneRule: "Updated Call Extension",
+      CountLocationCallExtensionRule: "Updated Call Extension",
       UrlRule: "URL Change"
-  
+
     }
   }
-  display () {
+  display() {
     const now = new Date()
     return {
       time: `${(now.getTime() - this.t0)} milliseconds`,
-      DA: this.DA, 
+      DA: this.DA,
       SEO: this.SEO,
       CC: this.CC,
       notes: this.notes
@@ -62,20 +66,33 @@ class ServiecesReport {
     const { data: notes } = await notesService.getNotes(this.clientUrn, this.to, this.from)
     this.notes = notes
   }
-  async getCases () {
+  async getCases() {
     const { data: cases } = await notesService.getCases(this.clientUrn, this.to, this.from)
     this.cases = cases
   }
-  async getWorkQ () {
+  async getWorkQ() {
     const { data: workQ } = await notesService.getWorkQ(this.clientUrn, this.to, this.from)
     this.workQ = workQ
   }
-  groupNotes () {
+  groupNotes() {
     this.notes.forEach((note) => {
-      const {annotationCategory, annotationType} = note
+      const { annotationCategory, annotationType } = note
       if (!this[note.team.name].category[annotationCategory.value]) {
         this[note.team.name].category[annotationCategory.value] = 0
+        this[note.team.name].timeline[annotationCategory.value] = []
       }
+      if (!this[note.team.name].timeline[annotationCategory.value]) {
+        this[note.team.name].timeline[annotationCategory.value] = []
+      }
+      //  add note to the timeline
+      this[note.team.name].timeline[annotationCategory.value].push([
+        'timestamp',
+        1,
+        note.locationNames > 3 ? note.locationNames.length : note.locationNames.join(),
+        note.note,
+        note.internal,
+        note.locationNames < 3 ? note.locationNames.join() : ''
+      ])
       this[note.team.name].category[annotationCategory.value]++
       if (!this[note.team.name].subCategory[annotationType]) {
         this[note.team.name].subCategory[annotationType] = 0
@@ -84,7 +101,7 @@ class ServiecesReport {
     })
   }
 
-  groupCases () {
+  groupCases() {
     this.cases.forEach((ticket) => {
       const { requestType, recordType } = ticket
       if (!this.CC.subCategory[requestType.name]) {
@@ -98,10 +115,10 @@ class ServiecesReport {
     })
   }
 
-  groupWorkQ () {
+  groupWorkQ() {
     this.workQ.forEach((item) => {
       this.DA.category.optimizations++
-      if(!this.DA.subCategory[this.daSubCatMap[item.rule.class_name]]) {
+      if (!this.DA.subCategory[this.daSubCatMap[item.rule.class_name]]) {
         this.DA.subCategory[this.daSubCatMap[item.rule.class_name]] = 0
       }
       this.DA.subCategory[this.daSubCatMap[item.rule.class_name]]++
