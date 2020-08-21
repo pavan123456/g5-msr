@@ -1,5 +1,4 @@
-const notesService = require('../../controllers/noteService')
-
+const ServiecesReport = require('../../controllers/report.class')
 module.exports = (app) => {
   app.get('/api/v1/login', async (req, res) => {
     try {
@@ -13,13 +12,9 @@ module.exports = (app) => {
 
   app.get('/api/v1/report/:clientUrn', async (req, res) => {
     const { to, from } = req.query
-    const { data: notes } = await notesService.getNotes(req.params.clientUrn, to, from)
-    // const { data: cases } = await notesService.getCases(req.params.clientUrn)
-    // const { data: workQ } = await notesService.getWorkQ(req.params.clientUrn)
-    res.json({
-      // cases,
-      // workQ,
-      notes
-    })
+    const { clientUrn } = req.params
+    const servicesReport = new ServiecesReport(to, from, clientUrn)
+    await servicesReport.generate()
+    res.json(servicesReport.display())
   })
 }
