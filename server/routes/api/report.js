@@ -15,6 +15,7 @@ module.exports = (app) => {
     const { clientUrn } = req.params
     const servicesReport = new ServiecesReport(to, from, clientUrn)
     await servicesReport.generate()
-    res.json(servicesReport.display())
+    const report = servicesReport.display()
+    res.json(report)
   })
 }
