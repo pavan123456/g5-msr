@@ -148,6 +148,7 @@ export const sharedViewData = {
       name: 'Digital Advertising',
       data: [
         { x: 'Cases Solved', y: 2 },
+        { x: 'Account Audit', y: 6 },
         { x: 'Account Changes', y: 2 },
         { x: 'Customer Contact', y: 3 },
         { x: 'General Note', y: 15 },
@@ -158,6 +159,7 @@ export const sharedViewData = {
       name: 'SEO',
       data: [
         { x: 'Cases Solved', y: 1 },
+        { x: 'Account Audit', y: 6 },
         { x: 'Account Changes', y: 6 },
         { x: 'Customer Contact', y: 0 },
         { x: 'General Note', y: 12 },
@@ -168,6 +170,7 @@ export const sharedViewData = {
       name: 'Customer Care',
       data: [
         { x: 'Cases Solved', y: 56 },
+        { x: 'Account Audit', y: 6 },
         { x: 'Account Changes', y: 1 },
         { x: 'Customer Contact', y: 0 },
         { x: 'General Note', y: 0 },
@@ -218,6 +221,7 @@ export const sharedViewData = {
               1,
               10, // count of locations
               'html',
+              'annotationType',
               false, // internal
               '' // csv of location names or count of locations if > 3
             ]
