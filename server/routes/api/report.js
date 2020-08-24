@@ -1,4 +1,5 @@
-const ServiecesReport = require('../../controllers/report.class')
+const ServicesReport = require('../../controllers/report.class')
+
 module.exports = (app) => {
   app.get('/api/v1/login', async (req, res) => {
     try {
@@ -13,7 +14,7 @@ module.exports = (app) => {
   app.get('/api/v1/report/:clientUrn', async (req, res) => {
     const { to, from } = req.query
     const { clientUrn } = req.params
-    const servicesReport = new ServiecesReport(to, from, clientUrn)
+    const servicesReport = new ServicesReport(to, from, clientUrn)
     await servicesReport.generate()
     res.json(servicesReport.display())
   })
