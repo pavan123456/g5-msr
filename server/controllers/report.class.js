@@ -1,6 +1,5 @@
 const notesService = require('./noteService')
-const { data } = require('jquery')
-class ServiecesReport {
+class ServicesReport {
   constructor(to, from, clientUrn) {
     this.t0 = null
     this.t1 = null
@@ -208,4 +207,4 @@ class ServiecesReport {
   }
 }
 
-module.exports = ServiecesReport
+module.exports = ServicesReport
