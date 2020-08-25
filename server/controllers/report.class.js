@@ -40,6 +40,12 @@ class ServicesReport {
     this.overview = []
     this.teams = []
   }
+  /**
+   * Returns Object with formatted report
+   *
+   * @returns
+   * @memberof ServicesReport
+   */
   display() {
     this.formatReport()
     const now = new Date()
@@ -47,13 +53,15 @@ class ServicesReport {
       time: `${(now.getTime() - this.t0)} milliseconds`,
       overview: this.overview,
       teams: this.teams,
-      // DA: this.DA,
-      // SEO: this.SEO,
-      // CC: this.CC,
       notes: this.notes,
-      // workQ: this.workQ
     }
   }
+  /**
+   * Fetch all report data and generate categorties
+   *
+   * @returns
+   * @memberof ServicesReport
+   */
   async generate() {
     const now = new Date()
     this.t0 = now.getTime()
@@ -69,18 +77,38 @@ class ServicesReport {
         this.groupCases()
       })
   }
+  /**
+   * Get all notes from the note service
+   *
+   * @memberof ServicesReport
+   */
   async getNotes() {
     const { data: notes } = await notesService.getNotes(this.clientUrn, this.to, this.from)
     this.notes = notes
   }
+    /**
+   * Get all cases from the note service
+   *
+   * @memberof ServicesReport
+   */
   async getCases() {
     const { data: cases } = await notesService.getCases(this.clientUrn, this.to, this.from)
     this.cases = cases
   }
+    /**
+   * Get all completed workq items from the DAM
+   *
+   * @memberof ServicesReport
+   */
   async getWorkQ() {
     const { data: workQ } = await notesService.getWorkQ(this.clientUrn, this.to, this.from)
     this.workQ = workQ
   }
+  /**
+   * Group the notes by category, subcategory and team 
+   *
+   * @memberof ServicesReport
+   */
   groupNotes() {
     this.notes.forEach((note) => {
       const { annotationCategory, annotationType } = note
@@ -103,6 +131,11 @@ class ServicesReport {
       this[note.team.name].subCategory[annotationType].count++
     })
   }
+  /**
+   * Group Cases by team and subcategory
+   *
+   * @memberof ServicesReport
+   */
   groupCases() {
     this.cases.forEach((ticket) => {
       const { requestType, recordType } = ticket
@@ -120,6 +153,11 @@ class ServicesReport {
       this.CC.category['Cases Solved']++
     })
   }
+  /**
+   * Group WorkQ items by subcategory
+   *
+   * @memberof ServicesReport
+   */
   groupWorkQ() {
     this.workQ.forEach((item) => {
       this.DA.category.Optimizations++
@@ -133,6 +171,17 @@ class ServicesReport {
       this.DA.subCategory[this.daSubCatMap[item.rule.class_name]].count++
     })
   }
+  /**
+   * Add Item to Timeline
+   *
+   * @param {String} teamName
+   * @param {String} timelineName
+   * @param {Array || String} locations
+   * @param {String} note
+   * @param {Boolean} internal
+   * @param {Date} timestamp
+   * @memberof ServicesReport
+   */
   addToTimeline(teamName, timelineName, locations, note, internal, timestamp) {
     if (!this[teamName].timeline[timelineName]) {
       this[teamName].timeline[timelineName] = []
@@ -149,11 +198,22 @@ class ServicesReport {
         locationNames
       ])
   }
+  /**
+   * Formate All Teams Data for use in the report
+   *
+   * @memberof ServicesReport
+   */
   formatReport() {
     this.formatTeam(this.DA)
     this.formatTeam(this.CC)
     this.formatTeam(this.SEO)
   }
+  /**
+   * Format the teams data to work for the report
+   *
+   * @param {*} team
+   * @memberof ServicesReport
+   */
   formatTeam (team) {
     const { category, name, subCategory, timeline } = team
     const keys = Object.keys(category)
@@ -186,6 +246,13 @@ class ServicesReport {
     this.teams.push(teamData)
     this.overview.push(teamOverview)
   }
+  /**
+   * Build Timeline Objects
+   *
+   * @param {*} timeline
+   * @returns
+   * @memberof ServicesReport
+   */
   formatTimeline (timeline) {
     const keys = Object.keys(timeline)
     return keys.map((key) => {
@@ -196,6 +263,13 @@ class ServicesReport {
       }
     })
   }
+  /**
+   * Format the sub category charts
+   *
+   * @param {*} overview
+   * @returns
+   * @memberof ServicesReport
+   */
   formatSubCatCharts(overview) {
     const data = []
     const keys = Object.keys(overview)
