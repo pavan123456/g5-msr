@@ -11,7 +11,8 @@ module.exports = {
 login,
 getNotes,
 getCases,
-getWorkQ
+getWorkQ,
+getCategories
 }
 
 function login () {
@@ -26,4 +27,7 @@ function getCases(clientUrn, to = '2020-08-07', from = '2020-06-01') {
 }
 function getWorkQ(clientUrn, to = '2020-08-07', from = '2020-06-01') {
   return axios.get(`${noteServiceUrl}/api/v1/dam/workq/${clientUrn}?access_token=${token}&searchBy=created_at&to=${to}&from=${from}`)
+}
+function getCategories() {
+  return axios.get(`${noteServiceUrl}/api/v1/categories?access_token=${token}`)
 }
