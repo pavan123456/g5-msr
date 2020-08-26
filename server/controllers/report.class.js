@@ -13,14 +13,12 @@ class ServicesReport {
 
     this.DA = {
       name: 'Digital Advertising',
-      category: {
-        Optimizations: 0
-      },
+      category: { Optimizations: 0 },
       subCategory: {},
       timeline: {}
     }
     this.SEO = {
-      name: 'Search Engine Optimization',
+      name: 'SEO',
       category: {},
       subCategory: {},
       timeline: {}
@@ -31,6 +29,7 @@ class ServicesReport {
       subCategory: {},
       timeline: {}
     }
+
     this.daSubCatMap = {
       CountLocationExtensionRule: "Updated Call Extension",
       PhoneRule: "Updated Call Extension",
@@ -40,6 +39,7 @@ class ServicesReport {
     this.overview = []
     this.teams = []
   }
+
   /**
    * Returns Object with formatted report
    *
@@ -56,6 +56,7 @@ class ServicesReport {
       notes: this.notes,
     }
   }
+
   /**
    * Fetch all report data and generate categorties
    *
@@ -70,13 +71,14 @@ class ServicesReport {
     const workQ = this.getWorkQ()
     const notes = this.getNotes()
     const cases = this.getCases()
-    return Promise.all([ workQ, notes, cases])
+    return Promise.all([workQ, notes, cases])
       .then(() => {
         this.groupWorkQ()
         this.groupNotes()
         this.groupCases()
       })
   }
+
   /**
    * Get all notes from the note service
    *
@@ -86,7 +88,8 @@ class ServicesReport {
     const { data: notes } = await notesService.getNotes(this.clientUrn, this.to, this.from)
     this.notes = notes
   }
-    /**
+
+  /**
    * Get all cases from the note service
    *
    * @memberof ServicesReport
@@ -95,7 +98,8 @@ class ServicesReport {
     const { data: cases } = await notesService.getCases(this.clientUrn, this.to, this.from)
     this.cases = cases
   }
-    /**
+
+  /**
    * Get all completed workq items from the DAM
    *
    * @memberof ServicesReport
@@ -104,8 +108,9 @@ class ServicesReport {
     const { data: workQ } = await notesService.getWorkQ(this.clientUrn, this.to, this.from)
     this.workQ = workQ
   }
+
   /**
-   * Group the notes by category, subcategory and team 
+   * Group the notes by category, subcategory and team
    *
    * @memberof ServicesReport
    */
@@ -186,7 +191,8 @@ class ServicesReport {
     if (!this[teamName].timeline[timelineName]) {
       this[teamName].timeline[timelineName] = []
     }
-    const locationCount = typeof locations === 'number' ? locations : ( locations.length > 3 ? locations.length : locations.join())
+    // const locationCount = typeof locations === 'number' ? locations : ( locations.length > 3 ? locations.length : locations.join())
+    const locationCount = typeof locations === 'number' ? locations : locations.length
     const locationNames = typeof locations === 'number' ? '' : ( locations.length > 3 ? '' : locations.join())
 
       this[teamName].timeline[timelineName].push([
@@ -219,7 +225,7 @@ class ServicesReport {
     const keys = Object.keys(category)
 
     const teamOverview = {
-      name, 
+      name,
       data: []
     }
     const teamData = {
@@ -274,11 +280,13 @@ class ServicesReport {
     const data = []
     const keys = Object.keys(overview)
     keys.forEach((key => {
-      data.push({
-        id: key.toLowerCase(),
-        category: key,
-        series: overview[key]
-      })
+      if (overview[key].length > 0) {
+        data.push({
+          id: key.toLowerCase(),
+          category: key,
+          series: overview[key]
+        })
+      }
     }))
     return data
   }
