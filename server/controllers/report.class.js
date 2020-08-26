@@ -1,4 +1,5 @@
-const notesService = require('./noteService')
+// const notesService = require('./noteService')
+const notesService = require('./annotationService')
 class ServicesReport {
   constructor(to, from, clientUrn) {
     this.t0 = null
@@ -186,7 +187,7 @@ class ServicesReport {
     if (!this[teamName].timeline[timelineName]) {
       this[teamName].timeline[timelineName] = []
     }
-    const locationCount = typeof locations === 'number' ? locations : ( locations.length > 3 ? locations.length : locations.join())
+    const locationCount = typeof locations === 'number' ? locations : locations.length
     const locationNames = typeof locations === 'number' ? '' : ( locations.length > 3 ? '' : locations.join())
 
       this[teamName].timeline[timelineName].push([
