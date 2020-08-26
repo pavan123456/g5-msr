@@ -14,6 +14,7 @@
           type="bar"
           height="300"
         />
+        <!-- {{ c }} -->
       </b-tab>
     </b-tabs>
   </b-card>

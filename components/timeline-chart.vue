@@ -1,11 +1,11 @@
 <template>
   <b-card>
     <apex-chart
-      :id="chart.id"
-      :series="chart.series"
+      :series="chart"
       :options="options"
       height="275"
     />
+    <!-- {{ chart }} -->
   </b-card>
 </template>
 
@@ -14,24 +14,21 @@ import { mapState, mapGetters } from 'vuex'
 export default {
   props: {
     chart: {
-      type: Object,
+      type: Array,
       default() {
-        return {
-          id: 'timeline-chart',
-          series: [
-            {
-              name: 'Fallback Category',
-              requestType: 'Fallback Request Type',
-              data: [
-                ['01/03/2020 03:15 PM', 1, 0],
-                ['01/14/2020 01:19 PM', 1, 17],
-                ['02/01/2020 01:42 PM', 1, 30],
-                ['03/15/2020 05:00 PM', 1, 9],
-                ['03/24/2020 02:28 PM', 1, 3]
-              ]
-            }
-          ]
-        }
+        return [
+          {
+            name: 'Fallback Category',
+            requestType: 'Fallback Request Type',
+            data: [
+              ['01/03/2020 03:15 PM', 1, 0],
+              ['01/14/2020 01:19 PM', 1, 17],
+              ['02/01/2020 01:42 PM', 1, 30],
+              ['03/15/2020 05:00 PM', 1, 9],
+              ['03/24/2020 02:28 PM', 1, 3]
+            ]
+          }
+        ]
       }
     }
   },

@@ -65,7 +65,7 @@
             </h2>
             <b-card-body class="text-muted">
               Will display the heatmap overview in a more condensed format minus the chart.
-              <spark-chart :chart="chart" />
+              <spark-chart :chart="overview" />
             </b-card-body>
           </b-card>
           <div class="mt-3">
@@ -147,7 +147,9 @@ export default {
         .then((res) => {
           this.table.totalRows = res.notes.length
           this.table.items = res.notes
-          this.timeline = this.generateTimeline(res.notes)
+          // this.timeline = this.generateTimeline(res.teams.filter(t => t.name === this.team))
+          this.timeline = res.teams.find(t => t.name === this.team)
+          this.overview = res.overview
         })
         .catch(err => this.onError(err))
         .finally(() => {
