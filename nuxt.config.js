@@ -18,15 +18,14 @@ module.exports = {
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Fira+Sans:wght@400;700&display=swap' }
     ]
   },
-  loading: '@/components/loading.vue',
-  // loading: {
-  //   color: '#7898ad',
-  //   failedColor: '#ff0033',
-  //   continuous: true,
-  //   throttle: 300,
-  //   duration: 2000,
-  //   height: '4px'
-  // },
+  loading: {
+    color: '#7898ad',
+    failedColor: '#ff0033',
+    continuous: true,
+    throttle: 300,
+    duration: 2000,
+    height: '4px'
+  },
   loadingIndicator: '@/static/loading.html',
   css: [
     '@/assets/theme.scss',
