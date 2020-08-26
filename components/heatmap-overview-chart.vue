@@ -7,6 +7,7 @@
       type="heatmap"
       height="400"
     />
+    <!-- {{ chart.series }} -->
   </div>
 </template>
 
@@ -57,6 +58,7 @@ export default {
   data() {
     return {
       options: {
+        stroke: { width: 4 },
         dataLabels: {
           style: {
             fontSize: '18px',
@@ -64,9 +66,8 @@ export default {
             colors: ['#fff']
           }
         },
-        grid: {
-          show: false
-        },
+        legend: { show: false },
+        grid: { show: false },
         chart: {
           background: '#fff',
           fontFamily: '"Fira Sans", sans-serif',
@@ -74,12 +75,13 @@ export default {
         },
         plotOptions: {
           heatmap: {
-            radius: 3,
+            radius: 5,
             enableShades: false,
-            useFillColorAsStroke: true,
+            shadeIntensity: 0.2,
+            useFillColorAsStroke: false,
             colorScale: {
               ranges: [
-                { from: 0, to: 1, color: '#e2efef' },
+                { from: 0, to: 1, color: '#e8e8e8', foreColor: '#e8e8e8' },
                 { from: 1, to: 2, color: '#82c9c9' },
                 { from: 3, to: 5, color: '#feb800' },
                 { from: 6, to: 10, color: '#f39d1f' },
@@ -92,11 +94,18 @@ export default {
           }
         },
         xaxis: {
-          categories: ['Digital Advertising', 'SEO', 'Customer Care'],
           axisBorder: { show: false },
           axisTicks: { show: false },
           labels: {
-            show: false
+            show: true,
+            rotate: -45,
+            rotateAlways: true,
+            offsetY: 0,
+            style: {
+              colors: '#a8a8a8',
+              fontSize: 12,
+              cssClass: 'text-uppercase'
+            }
           },
           max: 200
         },
@@ -104,8 +113,9 @@ export default {
           axisBorder: { show: false },
           labels: {
             style: {
-              colors: ['#000'],
-              fontSize: '14px',
+              colors: '#000',
+              fontSize: 14,
+              cssClass: 'text-uppercase',
               fontFamily: '"Fira Sans", sans-serif'
             }
           }
