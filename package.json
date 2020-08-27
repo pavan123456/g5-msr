@@ -1,12 +1,13 @@
 {
   "name": "g5-msr",
-  "version": "0.2.7",
+  "version": "0.2.9",
   "description": "See what your service dollar gets you!",
   "author": "David Miller & Tyler Hasenoehrl",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
     "docker:build": "docker build -t msr . --build-arg NPM_TOKEN=$NPM_TOKEN",
+    "docker:run": "docker run -p 8080:8080 -t msr",
     "helm:upgrade": "helm upgrade msr ./chart/nuxt",
     "build": "nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",

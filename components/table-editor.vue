@@ -16,10 +16,10 @@
       head-variant="light"
       sticky-header="45vh"
       primary-key="id"
-      style="border: 2px solid #e1e5e9;"
+      style="border: 1px solid #e1e5e9;"
       small
       striped
-      outlined
+      borderless
       responsive
     >
       <template v-slot:empty>
@@ -108,7 +108,7 @@
       <b-container fluid class="px-0">
         <b-row>
           <b-col cols="4">
-            <b-btn-group>
+            <b-btn-group size="sm">
               <b-btn
                 id="is-visible-btn"
                 variant="neutral"
@@ -169,6 +169,7 @@
                 v-model="perPage"
                 :options="pageOptions"
                 style="max-width: 80px; border-radius: 5px;"
+                size="sm"
               />
             </b-input-group>
           </b-col>
@@ -179,6 +180,7 @@
               :total-rows="table.totalRows"
               hide-ellipsis
               class="m-0"
+              size="sm"
             />
           </b-col>
           <b-col>
@@ -188,16 +190,17 @@
                 v-model="search"
                 debounce="500"
                 placeholder="Search table..."
+                size="sm"
                 style="border: 2px solid #e8e8e8; border-radius: 5px;"
               />
               <template v-slot:append>
                 <b-btn
                   v-show="search !== ''"
-                  variant="neutral"
-                  class="inset-btn"
+                  variant="transparent"
+                  class="inset-btn m-0 p-0 text-muted"
                   @click="onClearSearch"
                 >
-                  <b-icon-x-circle />
+                  <b-icon-x-circle-fill />
                 </b-btn>
               </template>
             </b-input-group>
@@ -209,11 +212,13 @@
 </template>
 
 <script>
+import TableHelpers from '~/mixins/table-helpers'
 import TextEditor from '~/components/text-editor'
 export default {
   components: {
     TextEditor
   },
+  mixins: [TableHelpers],
   props: {
     table: {
       type: Object,
@@ -239,19 +244,6 @@ export default {
   methods: {
     onClearSearch() {
       this.search = ''
-    },
-    formatDate(date) {
-      const d = new Date(date)
-      let month = '' + (d.getMonth() + 1)
-      let day = '' + d.getDate()
-      const year = d.getFullYear()
-      if (month.length < 2) {
-        month = '0' + month
-      }
-      if (day.length < 2) {
-        day = '0' + day
-      }
-      return [year, month, day].join('-')
     }
   }
 }
@@ -262,8 +254,8 @@ export default {
   position: relative;
   &-btn {
     position: absolute;
-    right: 10px;
-    transform: translatX(-100%);
+    right: 0%;
+    transform: translate(-25%, -50%);
     z-index: 10;
   }
 }

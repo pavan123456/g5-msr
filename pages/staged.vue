@@ -68,7 +68,7 @@ export default {
   async asyncData({ query, $axios }) {
     const { clientUrn, from, to } = query
     const res = await $axios
-      .$get(`api/v1/report/${clientUrn}?from="${from}&to=${to}`)
+      .$get(`api/v1/report/${clientUrn}?from=${from}&to=${to}`)
     return {
       res,
       sections: [

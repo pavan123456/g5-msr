@@ -11,14 +11,13 @@
             <b-icon-caret-up v-if="collapseIsVisible" />
             <b-icon-caret-down v-else />
           </b-btn>
-          <b-tooltip
+          <b-popover
             target="editor-toggle"
             triggers="hover"
-            variant="primary-1"
             placement="left"
           >
             Toggle Editor.
-          </b-tooltip>
+          </b-popover>
         </b-btn-group>
       </template>
     </nav-header>
@@ -26,7 +25,7 @@
       id="editor"
       v-model="collapseIsVisible"
     >
-      <b-card bg-variant="neutral" class="border-0 m-0">
+      <b-card bg-variant="primary-1" no-body class="border-0 m-0">
         <table-editor :table="table" />
       </b-card>
     </b-collapse>
@@ -141,13 +140,11 @@ export default {
       const to = (this.monthly)
         ? this.selectedDate.to
         : this.selectedQuarter.to
-      this.$emit('dates', { from, to })
       this.$axios
         .$get(`api/v1/report/${urn}?from=${from}&to=${to}`)
         .then((res) => {
           this.table.totalRows = res.notes.length
           this.table.items = res.notes
-          // this.timeline = this.generateTimeline(res.teams.filter(t => t.name === this.team))
           this.timeline = res.teams.find(t => t.name === this.team)
           this.overview = res.overview
         })
