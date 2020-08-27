@@ -4,17 +4,18 @@
     <div class="editor__btn-group d-flex">
       <b-form-checkbox
         v-model="editable"
+        :button-variant="editable ? 'tertiary': 'transparent'"
         button
-        button-variant="transparent"
         size="sm"
       >
-        <b-icon-pencil />
+        <save-icon v-if="editable" class="save-btn" />
+        <b-icon-pencil v-else />
       </b-form-checkbox>
       <b-btn
         :id="`revert-${rowId}`"
-        :disabled="true"
+        :variant="editable ? 'failure' : 'transparent'"
+        :disabled="!editable"
         size="sm"
-        variant="transparent"
       >
         <b-icon-x-circle />
       </b-btn>
@@ -25,8 +26,8 @@
         button-variant="transparent"
         size="sm"
       >
-        <b-icon-star v-if="promoted" />
-        <b-icon-star-fill v-else />
+        <b-icon-star-fill v-if="promoted" />
+        <b-icon-star v-else />
       </b-form-checkbox>
       <b-popover
         :target="`promoted-${rowId}`"
@@ -40,8 +41,10 @@
 
 <script>
 import { Editor, EditorContent } from 'tiptap'
+import SaveIcon from '~/components/icons/save'
 export default {
   components: {
+    SaveIcon,
     EditorContent
   },
   props: {
@@ -77,15 +80,38 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .editor {
   max-width: 350px;
   &__btn-group {
     flex-direction: column;
+    &.save-btn {
+      position: relative;
+      &::after {
+        position: absolute;
+        content: 'Save';
+        right: 0%;
+        top: 50%;
+        transform: translate(100%, -50%);
+        color: black;
+      }
+    }
   }
   &__content {
     max-width: 350px;
-    overflow-y: scroll;
+    // overflow-y: scroll;
+    padding: 2px;
+    & div {
+      transition: 200ms ease-in-out;
+      &[contenteditable="true"] {
+        background-color: white;
+        padding: 2px;
+        box-shadow: 0 0 2px 2px rgba(37, 107, 106, 0.5),
+        0 5px 20px rgba(10, 10, 10, 0.2);
+        transform-origin: right top;
+        transform: scale(1.1);
+      }
+    }
   }
 }
 </style>
