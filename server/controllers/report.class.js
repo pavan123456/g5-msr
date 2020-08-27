@@ -1,7 +1,7 @@
 // const notesService = require('./noteService')
 const notesService = require('./annotationService')
 class ServicesReport {
-  constructor(to, from, clientUrn) {
+  constructor(to, from, clientUrn, workQ) {
     this.t0 = null
     this.t1 = null
     this.categories  = []
@@ -10,7 +10,7 @@ class ServicesReport {
     this.clientUrn = clientUrn
     this.notes = []
     this.cases = []
-    this.workQ = []
+    this.workQ = workQ
 
     this.DA = {
       name: 'Digital Advertising',
@@ -69,10 +69,10 @@ class ServicesReport {
     this.t0 = now.getTime()
     await this.getCategories()
     this.setOverviewCategories()
-    const workQ = this.getWorkQ()
+    // const workQ = this.getWorkQ()
     const notes = this.getNotes()
     const cases = this.getCases()
-    return Promise.all([workQ, notes, cases])
+    return Promise.all([notes, cases])
       .then(() => {
         this.groupWorkQ()
         this.groupNotes()

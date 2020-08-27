@@ -8,8 +8,7 @@ module.exports = sequelize => sequelize.define('report', {
     allowNull: false
   },
   reportId: {
-    type: STRING,
-    allowNull: false
+    type: STRING
   },
   workQ: {
     type: JSON,
