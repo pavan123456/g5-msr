@@ -11,6 +11,7 @@ RUN npm run build
 
 ENV PORT=8080
 ENV HOST=0.0.0.0
+ENV BROWSER_URL=stratypus.tk
 
 EXPOSE ${PORT}
 

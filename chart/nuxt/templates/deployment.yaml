@@ -35,8 +35,8 @@ spec:
             cpu: "{{ .Values.image.resources.requests.cpu }}"
             memory: "{{ .Values.image.resources.requests.memory }}"
         env:
-          - name: TEST_VAR
-            value: "us-234-2"
+          - name: BROWSER_URL
+            value: "stratypus.tk"
           - name: DATABASE_MAX_CONNECTIONS
             value: "10"
           - name: DATABASE_MIN_CONNECTIONS
@@ -69,6 +69,21 @@ spec:
               secretKeyRef:
                 name: msr
                 key: DATABASE_URL
+          - name: NOTE_SERVICE_URL
+            valueFrom:
+              secretKeyRef:
+                name: msr
+                key: NOTE_SERVICE_URL
+          - name: NOTE_SERVICE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: msr
+                key: NOTE_SERVICE_USERNAME
+          - name: NOTE_SERVICE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: msr
+                key: NOTE_SERVICE_PASSWORD
           - name: PORT
             value : "{{ .Values.service.servicePort }}"
         {{- if .Values.image.livenessProbe }}
