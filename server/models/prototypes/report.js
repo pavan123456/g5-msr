@@ -1,5 +1,6 @@
 const Hashids = require('hashids/cjs')
 const hashids = new Hashids('', 10, 'abcdefghijklmnopqrstuvwxyz1234567890')
+
 module.exports = (models, Sequelize, sequelize) => {
   const { Op } = Sequelize
   models.report.createNew = async (params) => {
@@ -11,9 +12,9 @@ module.exports = (models, Sequelize, sequelize) => {
         from,
         workQ,
         clientUrn
-      }, {transaction: t})
+      }, { transaction: t })
       const reportId = hashids.encode(report.dataValues.id)
-      return report.update({ reportId }, {transaction: t})
+      return report.update({ reportId }, { transaction: t })
     })
   }
 }
