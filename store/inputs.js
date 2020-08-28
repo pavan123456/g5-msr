@@ -31,9 +31,9 @@ export const state = () => {
     ],
     team: 'DA',
     teams: [
-      'DA',
-      'SEO',
-      'CC'
+      { text: 'Digital Advertizing', value: 'da', isApproved: false },
+      { text: 'SEO', value: 'seo', isApproved: false },
+      { text: 'Customer Care', value: 'cc', isApproved: false }
     ]
   }
 }
