@@ -11,9 +11,9 @@ module.exports = (models, Sequelize, sequelize) => {
         from,
         workQ,
         clientUrn
-      }, {transaction: t})
+      }, { transaction: t })
       const reportId = hashids.encode(report.dataValues.id)
-      return report.update({ reportId }, {transaction: t})
+      return report.update({ reportId }, { transaction: t })
     })
   }
 }

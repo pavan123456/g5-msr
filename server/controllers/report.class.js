@@ -4,7 +4,7 @@ class ServicesReport {
   constructor(to, from, clientUrn, workQ) {
     this.t0 = null
     this.t1 = null
-    this.categories  = []
+    this.categories = []
     this.to = to
     this.from = from
     this.clientUrn = clientUrn
@@ -32,10 +32,10 @@ class ServicesReport {
     }
 
     this.daSubCatMap = {
-      CountLocationExtensionRule: "Updated Call Extension",
-      PhoneRule: "Updated Call Extension",
-      CountLocationCallExtensionRule: "Updated Call Extension",
-      UrlRule: "URL Change"
+      CountLocationExtensionRule: 'Updated Call Extension',
+      PhoneRule: 'Updated Call Extension',
+      CountLocationCallExtensionRule: 'Updated Call Extension',
+      UrlRule: 'URL Change'
     }
     this.overview = []
     this.teams = []
@@ -54,7 +54,7 @@ class ServicesReport {
       time: `${(now.getTime() - this.t0)} milliseconds`,
       overview: this.overview,
       teams: this.teams,
-      notes: this.notes,
+      notes: this.notes
     }
   }
 
@@ -129,7 +129,7 @@ class ServicesReport {
       this[note.team.name].category[annotationCategory.value]++
       if (!this[note.team.name].subCategory[annotationType]) {
         this[note.team.name].subCategory[annotationType] = {
-          count : 0,
+          count: 0,
           category: annotationCategory.value
         }
       }
@@ -137,6 +137,7 @@ class ServicesReport {
       this[note.team.name].subCategory[annotationType].count++
     })
   }
+
   /**
    * Group Cases by team and subcategory
    *
@@ -149,8 +150,8 @@ class ServicesReport {
         this.CC.subCategory[requestType.name] = {
           count: 0,
           category: 'Cases Solved'
+        }
       }
-    }
       this.CC.subCategory[requestType.name].count++
       if (!this.CC.category['Cases Solved']) {
         this.CC.category['Cases Solved'] = 0
@@ -159,6 +160,7 @@ class ServicesReport {
       this.CC.category['Cases Solved']++
     })
   }
+
   /**
    * Group WorkQ items by subcategory
    *
@@ -169,14 +171,15 @@ class ServicesReport {
       this.DA.category.Optimizations++
       if (!this.DA.subCategory[this.daSubCatMap[item.rule.class_name]]) {
         this.DA.subCategory[this.daSubCatMap[item.rule.class_name]] = {
-          count : 0,
+          count: 0,
           category: 'Optimizations'
+        }
       }
-    }
       this.addToTimeline('DA', 'Optimizations', 1, this.daSubCatMap[item.rule.class_name], true, item.created_at)
       this.DA.subCategory[this.daSubCatMap[item.rule.class_name]].count++
     })
   }
+
   /**
    * Add Item to Timeline
    *
@@ -194,17 +197,18 @@ class ServicesReport {
     }
     // const locationCount = typeof locations === 'number' ? locations : ( locations.length > 3 ? locations.length : locations.join())
     const locationCount = typeof locations === 'number' ? locations : locations.length
-    const locationNames = typeof locations === 'number' ? '' : ( locations.length > 3 ? '' : locations.join())
+    const locationNames = typeof locations === 'number' ? '' : (locations.length > 3 ? '' : locations.join())
 
-      this[teamName].timeline[timelineName].push([
-        timestamp,
-        1,
-        locationCount,
-        note,
-        internal,
-        locationNames
-      ])
+    this[teamName].timeline[timelineName].push([
+      timestamp,
+      1,
+      locationCount,
+      note,
+      internal,
+      locationNames
+    ])
   }
+
   /**
    * Formate All Teams Data for use in the report
    *
@@ -215,6 +219,7 @@ class ServicesReport {
     this.formatTeam(this.CC)
     this.formatTeam(this.SEO)
   }
+
   /**
    * Format the teams data to work for the report
    *
@@ -235,24 +240,25 @@ class ServicesReport {
       timeline: this.formatTimeline(timeline)
     }
     const overviews = {}
-    keys.forEach((key => {
+    keys.forEach((key) => {
       teamOverview.data.push({
         x: key,
         y: category[key]
       })
       overviews[key] = []
-    }))
+    })
     const subKeys = Object.keys(subCategory)
     subKeys.forEach((key) => {
       overviews[subCategory[key].category].push({
         name: key,
-        data: [subCategory[key].count ]
+        data: [subCategory[key].count]
       })
     })
     teamData.overview = this.formatSubCatCharts(overviews)
     this.teams.push(teamData)
     this.overview.push(teamOverview)
   }
+
   /**
    * Build Timeline Objects
    *
@@ -270,6 +276,7 @@ class ServicesReport {
       }
     })
   }
+
   /**
    * Format the sub category charts
    *
@@ -280,7 +287,7 @@ class ServicesReport {
   formatSubCatCharts(overview) {
     const data = []
     const keys = Object.keys(overview)
-    keys.forEach((key => {
+    keys.forEach((key) => {
       if (overview[key].length > 0) {
         data.push({
           id: key.toLowerCase(),
@@ -288,13 +295,18 @@ class ServicesReport {
           series: overview[key]
         })
       }
-    }))
+    })
     return data
   }
+
   getCategories() {
-    return notesService.getCategories().then(({data}) => this.categories = data)
+    // eslint-disable-next-line no-return-assign
+    return notesService.getCategories().then(({ data }) => this.categories = data)
   }
+
   setOverviewCategories() {
+    // eslint-disable-next-line no-console
+    console.log(this.categories)
     this.categories.forEach((category) => {
       this.DA.category[category.name] = 0
       this.CC.category[category.name] = 0

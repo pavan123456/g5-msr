@@ -2,9 +2,11 @@ require('dotenv').config()
 const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
-const app = express()
-const models = require('./models')
 const config = require('../nuxt.config.js')
+const queue = require('./controllers/queue')
+const app = express()
+queue.init(app)
+const models = require('./models')
 config.dev = process.env.NODE_ENV !== 'production'
 require('./routes')(app)
 const notesService = require('./controllers/annotationService')
@@ -27,11 +29,11 @@ async function start () {
     .sync()
     .then(() => {
     })
-    try {
-      notesService.login()
-    } catch (error) {
-      throw new Error('Could not login to the Notes Service')
-    }
+  try {
+    notesService.login()
+  } catch (error) {
+    throw new Error('Could not login to the Notes Service')
+  }
   app.listen(port, host)
   consola.ready({
     message: `Server listening on http://${host}:${port}`,
