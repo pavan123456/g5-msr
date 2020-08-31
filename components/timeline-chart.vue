@@ -5,7 +5,6 @@
       :options="options"
       height="275"
     />
-    <!-- {{ chart }} -->
   </b-card>
 </template>
 
@@ -92,7 +91,7 @@ export default {
                   ${w.config.series[seriesIndex].name}
                 </h2>
                 <div class="py-1 px-2 text-left" style="max-width: 300px;">
-                  <p class="font-weight-bold mb-1">
+                  <p class="font-weight-bold mb-1 text-wrap">
                     ${w.config.series[seriesIndex].data[dataPointIndex][5] === null ? '' : w.config.series[seriesIndex].data[dataPointIndex][5]}
                   </p>
                   <div class="text-wrap my-2">
@@ -123,6 +122,6 @@ export default {
 
 <style>
 .timeline-tooltip {
-  min-width: 200px;
+  min-width: 300px;
 }
 </style>

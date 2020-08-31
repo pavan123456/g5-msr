@@ -64,7 +64,7 @@
             </h2>
             <b-card-body class="text-muted">
               Will display the heatmap overview in a more condensed format minus the chart.
-              <spark-chart :chart="overview" />
+              <!-- <spark-chart :chart="overview" /> -->
             </b-card-body>
           </b-card>
           <div class="mt-3">
@@ -92,7 +92,7 @@ import TableHelpers from '~/mixins/table-helpers'
 import NavHeader from '~/components/nav-header'
 import TimelineChart from '~/components/timeline-chart'
 import TeamOverviewChart from '~/components/team-overview-chart'
-import SparkChart from '~/components/spark-chart'
+// import SparkChart from '~/components/spark-chart'
 import PromotedNotes from '~/components/promoted-notes'
 import ByLine from '~/components/strategist-byline'
 import TableEditor from '~/components/table-editor'
@@ -103,7 +103,7 @@ export default {
     PromotedNotes,
     TeamOverviewChart,
     ByLine,
-    SparkChart,
+    // SparkChart,
     NavHeader
   },
   mixins: [table, metricsData, TableHelpers],

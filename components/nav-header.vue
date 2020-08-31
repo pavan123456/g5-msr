@@ -50,13 +50,7 @@ export default {
   methods: {
     ...mapActions({
       onUpdate: 'inputs/onUpdate'
-    }),
-    updateReport() {
-      if (this.client) {
-        this.onUpdate({ key: 'isBusy', value: true })
-        this.$emit('get-report', this.client.urn)
-      }
-    }
+    })
   }
 }
 </script>

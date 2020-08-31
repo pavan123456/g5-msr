@@ -306,7 +306,7 @@ class ServicesReport {
 
   setOverviewCategories() {
     // eslint-disable-next-line no-console
-    console.log(this.categories)
+    // console.log(this.categories)
     this.categories.forEach((category) => {
       this.DA.category[category.name] = 0
       this.CC.category[category.name] = 0
