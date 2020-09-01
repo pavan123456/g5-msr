@@ -21,10 +21,11 @@
       </b-btn>
       <b-form-checkbox
         :id="`promoted-${rowId}`"
-        v-model="promoted"
+        :value="promoted"
         button
         button-variant="transparent"
         size="sm"
+        @input="onUpdate({ key: 'promoted', value: $event })"
       >
         <b-icon-star-fill v-if="promoted" />
         <b-icon-star v-else />
@@ -55,15 +56,25 @@ export default {
     rowId: {
       type: Number,
       required: true
+    },
+    promoted: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
-      promoted: false,
+      // promoted: false,
       editable: false,
       editor: new Editor({
         editable: false,
-        content: this.content
+        content: this.content,
+        onUpdate({ getHTML, getJSON }) {
+          return {
+            html: getHTML(),
+            annotation: getJSON()
+          }
+        }
       })
     }
   },
@@ -76,6 +87,20 @@ export default {
   },
   beforeDestroy() {
     this.editor.destroy()
+  },
+  methods: {
+    onUpdate(evt) {
+      this.$emit('on-update', evt)
+      this.$emit('on-updated', true)
+      // const content = this.editor.onUpdate()
+      // this.$axios
+      //   .$put('api/v1/notes', {
+      //     id: this.rowId,
+      //     promoted: this.promoted,
+      //     ...content
+      //   })
+      //   .then()
+    }
   }
 }
 </script>

@@ -12,6 +12,7 @@
       :per-page="perPage"
       :current-page="currentPage"
       show-empty
+      selectable
       select-mode="multi"
       head-variant="light"
       sticky-header="45vh"
@@ -28,10 +29,12 @@
         </h1>
       </template>
       <template v-slot:head(selected)>
-        <b-form-checkbox />
+        <b-form-checkbox
+          @input="selectAllRows"
+        />
       </template>
-      <template v-slot:cell(selected)>
-        <b-form-checkbox />
+      <template v-slot:cell(selected)="{ rowSelected }">
+        <b-icon-check v-if="rowSelected" scale="2" />
       </template>
       <template v-slot:cell(internal)="row">
         <div class="hover-anchor">
@@ -96,7 +99,12 @@
       </template>
       <template v-slot:cell(note)="row">
         <!-- <span v-html="row.item.note" /> -->
-        <text-editor :content="row.item.note" :row-id="row.item.id" />
+        <text-editor
+          :content="row.item.note"
+          :row-id="row.item.id"
+          :promoted="row.item.promoted"
+          @on-updated="refreshTable"
+        />
       </template>
       <template v-slot:cell(clientName)="row">
         <b-badge variant="neutral" class="text-wrap">
@@ -149,11 +157,26 @@
                 placement="top"
                 variant="neutral"
               >
-                Mark Selected notes as <b>Promoted Notes</b>.
+                Mark selected notes as <b>Promoted Notes</b>.
+              </b-popover>
+              <b-btn
+                id="is-unpromoted-btn"
+                variant="neutral"
+              >
+                <b-icon-star />
+              </b-btn>
+              <b-popover
+                target="is-unpromoted-btn"
+                triggers="hover"
+                placement="top"
+                variant="neutral"
+              >
+                Unmark selected notes as <b>Promoted Notes</b>.
               </b-popover>
               <b-btn
                 id="toggle-select"
                 variant="neutral"
+                @click="selectAllRows(false)"
               >
                 Deselect All
               </b-btn>
@@ -235,6 +258,7 @@ export default {
     return {
       perPage: 10,
       currentPage: 1,
+      selected: false,
       pageOptions: [10, 20, 50],
       emptyText: '🦥 Nothing to See Here.',
       filteredText: '🦥 Adjust your Search String.',
@@ -244,6 +268,20 @@ export default {
   methods: {
     onClearSearch() {
       this.search = ''
+    },
+    onBulkUpdate(selected, action) {
+      // selected will be rows, action will be promoted, internal booleans
+      // make api put to api/v1/notes with array of rows.
+    },
+    selectAllRows(select = false) {
+      select === true
+        ? this.$refs[this.table.id].selectAllRows()
+        : this.$refs[this.table.id].clearSelected()
+    },
+    refreshTable(pull = false) {
+      if (pull) {
+        // refetch data
+      }
     }
   }
 }

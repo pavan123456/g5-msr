@@ -1,6 +1,10 @@
 <template>
   <div class="collapse-ctn">
+    <b-card v-if="notes.length === 0" class="h1">
+      {{ fallback }}
+    </b-card>
     <b-card-group
+      v-else
       v-for="g in groups"
       :key="g.id"
       :class="[{ 'is-collapsed': g.isCollapsed }, 'collapsible', 'mb-3', 'pt-4']"
@@ -53,7 +57,20 @@
 <script>
 import { promotedNotes } from '~/mixins/staged-data'
 export default {
+  props: {
+    notes: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
   mixins: [promotedNotes],
+  data() {
+    return {
+      fallback: '😢 Oh no! You don\'t have any Promoted Notes for this time period. Please use the table above to promote notes you want the customer to be able to see. If there are no notes worthy of promotion, consider adding some notes that encapsulate the themes of the work you did in this period.'
+    }
+  },
   methods: {
     group(date) {
       return this.promoted.filter(n => n.date === date)

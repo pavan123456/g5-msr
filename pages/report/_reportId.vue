@@ -28,7 +28,7 @@
       <b-card bg-variant="primary-1" no-body class="border-0 m-0">
         <table-editor
           :table="{
-            id: 'team-table',
+            id: 'teamTable',
             items: items,
             fields: fields,
             totalRows: items.length
@@ -53,6 +53,8 @@
           >
             <timeline-chart :chart="annotations[team].timeline" />
           </b-card>
+          <promoted-notes :notes="annotations[team].promoted" />
+          {{ annotations[team].promoted }}
           <b-card
             header-class="p-0 my-2"
             class="my-2"
@@ -93,9 +95,11 @@ import TableEditor from '~/components/table-editor'
 import SparkChart from '~/components/heatmap-overview-chart'
 import TimelineChart from '~/components/timeline-chart'
 import TeamOverviewChart from '~/components/team-overview-chart'
+import PromotedNotes from '~/components/promoted-notes'
 export default {
   components: {
     TableEditor,
+    PromotedNotes,
     TimelineChart,
     TeamOverviewChart,
     SparkChart,
@@ -113,13 +117,23 @@ export default {
       time,
       overview,
       teams,
+      approvals,
       notes
     } = await $axios.$get(`api/v1/report/${params.reportId}`)
 
     const annotations = {
       da: {
         notes: notes.filter(n => n.team.name === 'DA'),
-        promoted: [],
+        promoted: notes
+          .filter(n => n.team.name === 'DA' && n.promoted === true)
+          .map((n) => {
+            return {
+              id: '',
+              text: n.note,
+              date: n.createdAt,
+              locations: n.locations.map(l => l.name).join(', ')
+            }
+          }),
         ...teams.find(n => n.name === 'Digital Advertising')
       },
       seo: {
@@ -136,6 +150,7 @@ export default {
       time,
       overview,
       teams,
+      approvals,
       annotations,
       collapseIsVisible: true,
       overviewVisible: true
