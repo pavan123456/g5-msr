@@ -7,7 +7,7 @@ module.exports = (app) => {
     for (let i = 0; i < body.rows.length; i++) {
       const { id } = body.rows[i]
       const { keep, discard: update } = objectUtil.split(body.rows[i], ['id'])
-      await notesService.updateNote(id, update)
+      // await notesService.updateNote(id, update)
     }
     res.json({ stuff: 'all good' })
   })
