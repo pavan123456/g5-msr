@@ -117,7 +117,13 @@ export default {
               date: n.createdAt,
               locations: n.locations.map(l => l.name).join(', ')
             }
-          }),
+          })
+          .reduce((obj, n) => {
+            const month = new Date(n.date).toLocaleString('default', { month: 'long' })
+            obj[month] = obj[month] || []
+            obj[month].push(n)
+            return obj
+          }, {}),
         ...teams.find(n => n.name === 'Digital Advertising')
       },
       seo: {
