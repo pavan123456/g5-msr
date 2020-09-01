@@ -289,14 +289,14 @@ export default {
       // this.$emit('method-onSelected', rows)
       this.selectedRows = rows
     },
-    onBulkUpdate(action) {
+    onBulkUpdate(actions) {
       if (this.selectedRows.length > 0) {
         this.isBusy = true
         this.$axios
           .$put('api/v1/update', {
             rows: this.selectedRows.map(row => ({
               id: row.id,
-              ...action
+              ...actions
             }))
           })
           .then((res) => {
