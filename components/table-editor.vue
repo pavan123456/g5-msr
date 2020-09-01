@@ -11,9 +11,11 @@
       :filter="search"
       :per-page="perPage"
       :current-page="currentPage"
+      :busy="isBusy"
       show-empty
       selectable
       select-mode="multi"
+      selected-variant="quaternary-1"
       head-variant="light"
       sticky-header="45vh"
       primary-key="id"
@@ -22,6 +24,7 @@
       striped
       borderless
       responsive
+      @row-selected="onSelected"
     >
       <template v-slot:empty>
         <h1 class="text-center">
@@ -119,7 +122,9 @@
             <b-btn-group size="sm">
               <b-btn
                 id="is-visible-btn"
+                :disabled="isBusy"
                 variant="neutral"
+                @click="onBulkUpdate({ internal: false })"
               >
                 <b-icon-emoji-sunglasses />
               </b-btn>
@@ -133,7 +138,9 @@
               </b-popover>
               <b-btn
                 id="is-internal-btn"
+                :disabled="isBusy"
                 variant="neutral"
+                @click="onBulkUpdate({ internal: true })"
               >
                 <b-icon-emoji-neutral />
               </b-btn>
@@ -147,7 +154,9 @@
               </b-popover>
               <b-btn
                 id="is-promoted-btn"
+                :disabled="isBusy"
                 variant="neutral"
+                @click="onBulkUpdate({ promoted: true })"
               >
                 <b-icon-star-fill />
               </b-btn>
@@ -161,7 +170,9 @@
               </b-popover>
               <b-btn
                 id="is-unpromoted-btn"
+                :disabled="isBusy"
                 variant="neutral"
+                @click="onBulkUpdate({ promoted: false })"
               >
                 <b-icon-star />
               </b-btn>
@@ -256,20 +267,41 @@ export default {
   },
   data() {
     return {
+      isBusy: false,
       perPage: 10,
       currentPage: 1,
       selected: false,
       pageOptions: [10, 20, 50],
       emptyText: '🦥 Nothing to See Here.',
       filteredText: '🦥 Adjust your Search String.',
-      search: ''
+      search: '',
+      selectedRows: []
     }
   },
   methods: {
     onClearSearch() {
       this.search = ''
     },
-    onBulkUpdate(selected, action) {
+    onSelected(rows) {
+      // this.$emit('method-onSelected', rows)
+      this.selectedRows = rows
+    },
+    onBulkUpdate(action) {
+      if (this.selectedRows.length > 0) {
+        this.isBusy = true
+        this.$axios
+          .$put('api/v1/update', {
+            field: action,
+            rows: this.selectedRows
+          })
+          .then((res) => {
+            this.$emit('success-put', res)
+            this.selectAllRows(false)
+          })
+          .finally(() => {
+            this.isBusy = false
+          })
+      }
       // selected will be rows, action will be promoted, internal booleans
       // make api put to api/v1/notes with array of rows.
     },
