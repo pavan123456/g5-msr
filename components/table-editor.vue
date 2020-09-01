@@ -291,8 +291,10 @@ export default {
         this.isBusy = true
         this.$axios
           .$put('api/v1/update', {
-            field: action,
-            rows: this.selectedRows
+            rows: this.selectedRows.map(row => ({
+              id: row.id,
+              ...action
+            }))
           })
           .then((res) => {
             this.$emit('success-put', res)
