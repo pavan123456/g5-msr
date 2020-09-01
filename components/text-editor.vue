@@ -89,6 +89,7 @@ export default {
     this.editor.destroy()
   },
   methods: {
+    onRevert() {},
     onUpdate(evt) {
       this.$emit('on-update', evt)
       this.$emit('on-updated', true)

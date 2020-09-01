@@ -16,7 +16,7 @@
             triggers="hover"
             placement="left"
           >
-            Toggle Editor.
+            Open/Close Editor
           </b-popover>
         </b-btn-group>
       </template>
@@ -37,51 +37,33 @@
       </b-card>
     </b-collapse>
     <b-container>
-      <b-row>
+      <b-row v-if="annotations[team].overview.length > 0" class="my-2">
         <b-col>
-          <b-card
-            v-if="annotations[team].overview.length > 0"
-            no-body
-            class="my-2"
-          >
+          <section-wrapper v-bind="tips.teamOverview">
             <team-overview-chart :charts="annotations[team].overview" />
-          </b-card>
-          <b-card
-            v-if="annotations[team].timeline.length > 0"
-            no-body
-            class="my-2"
-          >
+          </section-wrapper>
+        </b-col>
+      </b-row>
+      <b-row v-if="annotations[team].timeline.length > 0" class="my-2">
+        <b-col>
+          <section-wrapper v-bind="tips.teamTimeline">
             <timeline-chart :chart="annotations[team].timeline" />
-          </b-card>
-          <promoted-notes :notes="annotations[team].promoted" />
-          {{ annotations[team].promoted }}
-          <b-card
-            header-class="p-0 my-2"
-            class="my-2"
-          >
-            <template v-slot:header>
-              <b-btn
-                block
-                variant="transparent"
-                class="rounded-0 d-flex justify-content-between text-muted text-uppercase"
-                @click="overviewVisible = !overviewVisible"
-              >
-                All Teams
-                <b-icon-chevron-up v-if="overviewVisible" />
-                <b-icon-chevron-down v-else />
-              </b-btn>
-            </template>
-            <b-collapse
-              v-model="overviewVisible"
-            >
-              <spark-chart
-                :chart="{ id: 'overview-chart', series: overview }"
-              />
-              <h1 style="font-size:2em;">
-                {{ time }}
-              </h1>
-            </b-collapse>
-          </b-card>
+          </section-wrapper>
+        </b-col>
+      </b-row>
+      <b-row class="my-2">
+        <b-col>
+          <section-wrapper v-bind="tips.teamPromoted">
+            <promoted-notes :notes="annotations[team].promoted" />
+          </section-wrapper>
+          <!-- {{ annotations[team].promoted }} -->
+        </b-col>
+      </b-row>
+      <b-row class="my-2">
+        <b-col>
+          <section-wrapper v-bind="tips.overview">
+            <spark-chart :chart="{ id: 'overview-chart', series: overview }" />
+          </section-wrapper>
         </b-col>
       </b-row>
     </b-container>
@@ -96,6 +78,7 @@ import SparkChart from '~/components/heatmap-overview-chart'
 import TimelineChart from '~/components/timeline-chart'
 import TeamOverviewChart from '~/components/team-overview-chart'
 import PromotedNotes from '~/components/promoted-notes'
+import SectionWrapper from '~/components/section-wrapper'
 export default {
   components: {
     TableEditor,
@@ -103,6 +86,7 @@ export default {
     TimelineChart,
     TeamOverviewChart,
     SparkChart,
+    SectionWrapper,
     NavHeader
   },
   mixins: [Helpers],
@@ -152,8 +136,29 @@ export default {
       teams,
       approvals,
       annotations,
-      collapseIsVisible: true,
-      overviewVisible: true
+      collapseIsVisible: true
+    }
+  },
+  data() {
+    return {
+      tips: {
+        overview: {
+          title: 'Overview',
+          description: 'This section is used to provide a summary of work completed across all teams for the time period. It pulls from transactional notes (WorkQ, SEO Audit Tool, SF Cases) and manual notes taken from the extension or UI.'
+        },
+        teamOverview: {
+          title: 'Team Overview',
+          description: 'This section is used to dive a little deeper into the type of work completed over the time period. It pulls from transactional notes (WorkQ, SEO Audit Tool, SF Cases) and manual notes taken from the extension or UI.'
+        },
+        teamTimeline: {
+          title: 'Team Timeline',
+          description: 'This section is used to show the work you\'ve completed over time. It pulls from transactional notes (WorkQ, SEO Audit Tool, SF Cases) and manual notes taken from the extension or UI.'
+        },
+        teamPromoted: {
+          title: 'Team Promoted Notes',
+          description: 'This section is used to convey important information to a customer. It pulls from the notes you have previously marked as Promoted. This is the only section that displays the actual content of your notes.\n You can add or remove notes from this section by promoting or un-promoting them in the table above.'
+        }
+      }
     }
   },
   computed: {

@@ -31,8 +31,15 @@
           {{ emptyText }}
         </h1>
       </template>
+      <template v-slot:table-busy>
+        <h1 class="text-center">
+          <b-spinner v-if="isBusy" />
+          Applying those changes...
+        </h1>
+      </template>
       <template v-slot:head(selected)>
         <b-form-checkbox
+          :checked="selected"
           @input="selectAllRows"
         />
       </template>
@@ -132,7 +139,6 @@
                 target="is-visible-btn"
                 triggers="hover"
                 placement="top"
-                variant="neutral"
               >
                 Mark selected notes as <b>Customer-Facing</b>.
               </b-popover>
@@ -148,9 +154,8 @@
                 target="is-internal-btn"
                 triggers="hover"
                 placement="top"
-                variant="neutral"
               >
-                Mark Selected notes as <b>Internal-Only</b>.
+                Mark selected notes as <b>Internal-Only</b>.
               </b-popover>
               <b-btn
                 id="is-promoted-btn"
@@ -164,7 +169,6 @@
                 target="is-promoted-btn"
                 triggers="hover"
                 placement="top"
-                variant="neutral"
               >
                 Mark selected notes as <b>Promoted Notes</b>.
               </b-popover>
@@ -180,9 +184,8 @@
                 target="is-unpromoted-btn"
                 triggers="hover"
                 placement="top"
-                variant="neutral"
               >
-                Unmark selected notes as <b>Promoted Notes</b>.
+                Remove selected notes from <b>Promoted Notes</b>.
               </b-popover>
               <b-btn
                 id="toggle-select"
@@ -308,6 +311,7 @@ export default {
       // make api put to api/v1/notes with array of rows.
     },
     selectAllRows(select = false) {
+      this.selected = select
       select === true
         ? this.$refs[this.table.id].selectAllRows()
         : this.$refs[this.table.id].clearSelected()

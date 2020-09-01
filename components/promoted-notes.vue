@@ -1,6 +1,6 @@
 <template>
   <div class="collapse-ctn">
-    <b-card v-if="notes.length === 0" class="h1">
+    <b-card v-if="notes.length === 0" class="h4">
       {{ fallback }}
     </b-card>
     <b-card-group

@@ -11,4 +11,8 @@ module.exports = (app) => {
     }
     res.json({ stuff: 'all good' })
   })
+
+  app.put('/api/v1/note', async (req, res) => {
+    // updates for a single note's text
+  })
 }
