@@ -103,7 +103,7 @@ export default {
       teams,
       approvals,
       notes
-    } = await $axios.$get(`api/v1/report/${params.reportId}`)
+    } = await $axios.$get(`api/v1/report/${params.reportId}?edit=true`)
 
     const annotations = {
       da: {
