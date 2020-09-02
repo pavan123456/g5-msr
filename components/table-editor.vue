@@ -48,8 +48,13 @@
       </template>
       <template v-slot:cell(internal)="row">
         <div class="hover-anchor">
-          <b-icon-emoji-neutral v-if="row.item.internal" font-scale="1.5" />
-          <b-icon-emoji-sunglasses v-else font-scale="1.5" />
+          <b-icon-emoji-neutral v-if="row.item.internal" scale="2" />
+          <b-iconstack v-else>
+            <b-icon-star-fill v-if="row.item.promoted" scale="3.5" variant="success" />
+            <b-icon-emoji-sunglasses scale="2" />
+          </b-iconstack>
+          <!-- <b-icon-emoji-neutral v-if="row.item.internal" font-scale="1.5" />
+          <b-icon-emoji-sunglasses v-else font-scale="1.5" /> -->
           <div class="hovered-icon small text-muted text-uppercase">
             {{ row.item.internal ? 'Internal Only' : 'Customer-Facing' }}
           </div>

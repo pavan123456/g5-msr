@@ -12,6 +12,7 @@ module.exports = (app) => {
       res.status(503).send(err)
     }
   })
+
   app.post('/api/v1/report/:clientUrn', async(req, res) => {
     const { to, from } = req.query
     const { clientUrn } = req.params
@@ -19,6 +20,7 @@ module.exports = (app) => {
     await models.report.createNew({ to, from, clientUrn, workQ })
     res.sendStatus(200)
   })
+
   app.get('/api/v1/report/:reportId', async (req, res) => {
     const { reportId } = req.params
     const report = await models.report.findOne({ where: { reportId } })
@@ -26,5 +28,10 @@ module.exports = (app) => {
     const servicesReport = new ServicesReport(to, from, clientUrn, workQ)
     await servicesReport.generate()
     res.json(servicesReport.display())
+  })
+
+  app.get('/api/v1/reports', async (req, res) => {
+    const reports = await models.report.findAll()
+    res.json(reports)
   })
 }

@@ -93,7 +93,7 @@ export default {
   fetch({ store, query }) {
     return store.dispatch('inputs/onUpdate', {
       key: 'team',
-      value: query.team
+      value: query.team || ''
     })
   },
   async asyncData({ params, $axios }) {
