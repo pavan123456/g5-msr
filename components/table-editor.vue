@@ -15,7 +15,7 @@
       show-empty
       selectable
       select-mode="multi"
-      selected-variant="quaternary-1"
+      selected-variant="secondary-2"
       head-variant="light"
       sticky-header="45vh"
       primary-key="id"
