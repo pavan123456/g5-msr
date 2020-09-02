@@ -1,6 +1,12 @@
 <template>
   <b-card header-class="border-0" no-body>
-    <b-tabs cards justified>
+    <b-card-body v-if="charts.length === 0" class="respect-linebreak h4">
+      {{ fallback }}
+      <a href="https://notes.g5marketingcloud.com" target="_blank">
+        Open Notes Service
+      </a>
+    </b-card-body>
+    <b-tabs v-else cards justified>
       <b-tab
         v-for="(c, i) in charts"
         :key="`${c.id}-${i}`"
@@ -14,7 +20,6 @@
           type="bar"
           height="300"
         />
-        <!-- {{ c }} -->
       </b-tab>
     </b-tabs>
   </b-card>
@@ -61,6 +66,7 @@ export default {
   },
   data() {
     return {
+      fallback: '😢 Oh no! It looks like we can\'t find any notes for this time period. \n\n We\'d recommend adding some notes or if you think this is an error please report it!',
       categories: [
         'Optimizations',
         'Account Changes',
