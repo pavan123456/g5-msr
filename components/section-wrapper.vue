@@ -13,16 +13,20 @@
         <span class="h2 mb-0">
           {{ title }}
         </span>
-        <b-icon-question-circle
-          variant="muted"
+        <b-icon-question-circle-fill
+          variant="tertiary-2"
           scale="0.9"
         />
       </b-btn>
     </template>
     <b-collapse v-model="visible">
-      <b-card bg-variant="pale" class="rounded-0 small mb-2">
+      <b-alert
+        show
+        variant="tertiary"
+        class="rounded-0 mb-4 pb-4 respect-linebreak small"
+      >
         {{ description }}
-      </b-card>
+      </b-alert>
     </b-collapse>
     <slot />
   </b-card>
@@ -42,7 +46,7 @@ export default {
   },
   data() {
     return {
-      visible: true
+      visible: false
     }
   }
 }

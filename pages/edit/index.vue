@@ -4,7 +4,10 @@
       <b-col>
         <b-table :items="items">
           <template v-slot:cell(reportId)="{ item }">
-            <b-btn :to="`/report/${item.reportId}?team=da`" block variant="quaternary-3">
+            <b-btn :to="`/edit/${item.reportId}?team=da`" block variant="quaternary-3">
+              Edit Report
+            </b-btn>
+            <b-btn :to="`/report/${item.reportId}?edit=false`" block variant="tertiary-2">
               View Report
             </b-btn>
           </template>
