@@ -57,7 +57,8 @@ class ServicesReport {
         time: `${(now.getTime() - this.t0)} milliseconds`,
         overview: this.overview,
         teams: this.teams,
-        notes: this.notes
+        notes: this.notes,
+        approvals: this.approvals
       }
     } else {
       return {

@@ -32,6 +32,16 @@ module.exports = (app) => {
     await servicesReport.generate()
     res.json(servicesReport.display())
   })
+  app.put('/api/v1/report/:reportId', async (req, res) => {
+    const { body } = req
+    const report = await models.report.findOne({
+      where: {
+        reportId: req.params.reportId
+      }
+    })
+    await report.update(body)
+    res.sendStatus(200)
+  })
 
   app.get('/api/v1/reports', async (req, res) => {
     const reports = await models.report.findAll()
