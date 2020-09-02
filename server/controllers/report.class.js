@@ -1,10 +1,12 @@
 // const notesService = require('./noteService')
 const notesService = require('./annotationService')
 class ServicesReport {
-  constructor(to, from, clientUrn, workQ) {
+  constructor(to, from, clientUrn, workQ, approvals, edit) {
     this.t0 = null
     this.t1 = null
     this.categories = []
+    this.approvals = approvals
+    this.editing = edit
     this.to = to
     this.from = from
     this.clientUrn = clientUrn
@@ -48,16 +50,33 @@ class ServicesReport {
    * @memberof ServicesReport
    */
   display() {
-    this.formatReport()
-    const now = new Date()
-    return {
-      time: `${(now.getTime() - this.t0)} milliseconds`,
-      overview: this.overview,
-      teams: this.teams,
-      notes: this.notes
+    if (this.isApproved() || this.editing) {
+      this.formatReport()
+      const now = new Date()
+      return {
+        time: `${(now.getTime() - this.t0)} milliseconds`,
+        overview: this.overview,
+        teams: this.teams,
+        notes: this.notes
+      }
+    } else {
+      return {
+        error: 'this report is not ready to view'
+      }
     }
   }
 
+  isApproved () {
+    let approved = true
+    const keys = Object.keys(this.approvals)
+    for (let i = 0; i < keys.length; i++) {
+      if (keys[i]) {
+        approved = false
+        break
+      }
+    }
+    return approved
+  }
   /**
    * Fetch all report data and generate categorties
    *

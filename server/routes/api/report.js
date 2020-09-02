@@ -23,9 +23,12 @@ module.exports = (app) => {
 
   app.get('/api/v1/report/:reportId', async (req, res) => {
     const { reportId } = req.params
+    let { edit } = req.query
+    edit = (edit === 'true') || false
     const report = await models.report.findOne({ where: { reportId } })
-    const { to, from, clientUrn, workQ } = report.dataValues
-    const servicesReport = new ServicesReport(to, from, clientUrn, workQ)
+    const { to, from, clientUrn, workQ, approvals } = report.dataValues
+
+    const servicesReport = new ServicesReport(to, from, clientUrn, workQ, approvals, edit)
     await servicesReport.generate()
     res.json(servicesReport.display())
   })
