@@ -197,7 +197,7 @@ class ServicesReport {
     }
     // const locationCount = typeof locations === 'number' ? locations : ( locations.length > 3 ? locations.length : locations.join())
     const locationCount = typeof locations === 'number' ? locations : locations.length
-    const locationNames = typeof locations === 'number' ? '' : (locations.length > 3 ? '' : locations.join())
+    const locationNames = typeof locations === 'number' ? '' : (locations.length > 3 ? '' : locations.join(', '))
 
     this[teamName].timeline[timelineName].push([
       timestamp,
