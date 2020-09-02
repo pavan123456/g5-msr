@@ -1,6 +1,10 @@
 <template>
   <div class="collapse-ctn">
-    <b-card v-if="notes.length === 0" class="h4">
+    <b-card
+      v-if="Object.keys(notes).length === 0 && notes.constructor === Object"
+      class="h4"
+      body-class="respect-linebreak"
+    >
       {{ fallback }}
     </b-card>
     <b-card-group
@@ -14,18 +18,10 @@
         {{ g.date }}
       </b-badge>
       <b-card
-        v-for="note in group(g.date)"
-        :key="note.id"
-        header-tag="h4"
+        v-for="(note, i) in notes[g.date]"
+        :key="`${note.id}-${i}`"
       >
-        <template v-slot:header>
-          <div>
-            {{ note.headline }}
-          </div>
-        </template>
-        <div class="mb-3">
-          {{ note.text }}
-        </div>
+        <div v-html="note.text" class="mb-3" />
         <b-badge
           v-for="l in note.locations"
           :key="l"
@@ -34,11 +30,9 @@
         >
           {{ l }}
         </b-badge>
-        <template v-slot:footer>
-          {{ note.level }}
-        </template>
       </b-card>
       <b-btn
+        v-if="notes[g.date].length > 1"
         variant="transparent"
         block
         class="collapse-btn py-0 text-uppercase"
@@ -55,26 +49,31 @@
 </template>
 
 <script>
-import { promotedNotes } from '~/mixins/staged-data'
+import Helpers from '~/mixins/table-helpers'
 export default {
   props: {
     notes: {
-      type: Array,
+      type: Object,
       default() {
-        return []
+        return {}
       }
     }
   },
-  mixins: [promotedNotes],
+  mixins: [Helpers],
   data() {
     return {
-      fallback: '😢 Oh no! You don\'t have any Promoted Notes for this time period. Please use the table above to promote notes you want the customer to be able to see. If there are no notes worthy of promotion, consider adding some notes that encapsulate the themes of the work you did in this period.'
+      groups: [],
+      fallback: '😢 Oh no! You don\'t have any Promoted Notes for this time period. Please use the table above to promote notes you want the customer to be able to see.\n\n If there are no notes worthy of promotion, consider adding some notes that encapsulate the themes of the work you did in this period.'
     }
   },
-  methods: {
-    group(date) {
-      return this.promoted.filter(n => n.date === date)
-    }
+  created() {
+    this.groups = Object
+      .keys(this.notes)
+      .map(key => ({
+        id: key.toLowerCase(),
+        date: key,
+        isCollapsed: true
+      }))
   }
 }
 </script>

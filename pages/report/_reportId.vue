@@ -115,7 +115,7 @@ export default {
               id: '',
               text: n.note,
               date: n.createdAt,
-              locations: n.locations.map(l => l.name).join(', ')
+              locations: n.locations.map(l => l.name)
             }
           })
           .reduce((obj, n) => {
@@ -162,7 +162,7 @@ export default {
         },
         teamPromoted: {
           title: 'Team Promoted Notes',
-          description: 'This section is used to convey important information to a customer. It pulls from the notes you have previously marked as Promoted. This is the only section that displays the actual content of your notes.\n You can add or remove notes from this section by promoting or un-promoting them in the table above.'
+          description: 'This section is used to convey important information to a customer. It pulls from the notes you have previously marked as Promoted. This is the only section that displays the actual content of your notes.\n\n You can add or remove notes from this section by promoting or un-promoting them in the table above.'
         }
       }
     }
