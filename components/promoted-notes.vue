@@ -8,8 +8,8 @@
       {{ fallback }}
     </b-card>
     <b-card-group
-      v-else
       v-for="g in groups"
+      v-else
       :key="g.id"
       :class="[{ 'is-collapsed': g.isCollapsed }, 'collapsible', 'mb-3', 'pt-4']"
       deck
@@ -22,14 +22,28 @@
         :key="`${note.id}-${i}`"
       >
         <div v-html="note.text" class="mb-3" />
-        <b-badge
-          v-for="l in note.locations"
-          :key="l"
-          variant="pale"
-          class="mb-1 mr-1"
-        >
-          {{ l }}
-        </b-badge>
+        <div v-if="note.locations.length < 8">
+          <b-badge
+            v-for="(l, idx) in note.locations"
+            :key="`${l}-${idx}`"
+            variant="pale"
+            class="mb-1 mr-1"
+          >
+            {{ l }}
+          </b-badge>
+        </div>
+        <div v-else>
+          <b-container fluid class="scroll-container">
+            <b-badge
+              v-for="(l, idx) in note.locations"
+              :key="`${l}-${idx}`"
+              variant="pale"
+              class="mb-1 mr-1"
+            >
+              <span class="text-wrap">{{ l }}</span>
+            </b-badge>
+          </b-container>
+        </div>
       </b-card>
       <b-btn
         v-if="notes[g.date].length > 1"
@@ -51,6 +65,7 @@
 <script>
 import Helpers from '~/mixins/table-helpers'
 export default {
+  mixins: [Helpers],
   props: {
     notes: {
       type: Object,
@@ -59,7 +74,6 @@ export default {
       }
     }
   },
-  mixins: [Helpers],
   data() {
     return {
       groups: [],
@@ -106,6 +120,13 @@ export default {
       top: 200px;
       box-shadow: 0 -15px 15px 10px rgba(255, 255, 255, 0.8);
     }
+  }
+  & .scroll-container {
+    overflow-y: scroll;
+    max-height: 200px;
+    scroll-behavior: smooth;
+    padding: 0px;
+    overflow-x: hidden;
   }
 }
 </style>

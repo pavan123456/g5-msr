@@ -62,7 +62,7 @@
       <b-row class="my-2">
         <b-col>
           <section-wrapper v-bind="tips.overview">
-            <spark-chart :chart="{ id: 'overview-chart', series: overview }" />
+            <heatmap-chart :chart="{ id: 'overview-chart', series: overview }" />
           </section-wrapper>
         </b-col>
       </b-row>
@@ -74,7 +74,7 @@
 import NavHeader from '~/components/nav-header'
 import Helpers from '~/mixins/table-helpers'
 import TableEditor from '~/components/table-editor'
-import SparkChart from '~/components/heatmap-overview-chart'
+import HeatmapChart from '~/components/heatmap-overview-chart'
 import TimelineChart from '~/components/timeline-chart'
 import TeamOverviewChart from '~/components/team-overview-chart'
 import PromotedNotes from '~/components/promoted-notes'
@@ -85,7 +85,7 @@ export default {
     PromotedNotes,
     TimelineChart,
     TeamOverviewChart,
-    SparkChart,
+    HeatmapChart,
     SectionWrapper,
     NavHeader
   },
@@ -135,11 +135,22 @@ export default {
         ...teams.find(n => n.name === 'Customer Care')
       }
     }
+    const overviewColumns = ['Cases Solved', 'Account Audit', 'General Note', 'Account Changes', 'Optimizations']
+    overview.forEach((row) => {
+      row.data = row.data.filter((col) => {
+        return overviewColumns.includes(col.x)
+      })
+      const newData = []
+      overviewColumns.forEach((title) => {
+        newData.push(row.data.find(obj => obj.x === title))
+      })
+      row.data = newData
+    })
+    overview.reverse()
 
     return {
       time,
-      overview: overview.reverse(),
-      // overview,
+      overview,
       teams,
       approvals,
       annotations
@@ -185,6 +196,18 @@ export default {
         this.items = this.annotations[team].notes
         this.totalRows = this.annotations[team].notes.length
       }
+    },
+    formatOverviewData() {
+      // eslint-disable-next-line no-console
+      console.log(this.overview)
+      this.overview.forEach((row) => {
+        row.data = row.data.filter((col) => {
+          return this.overviewColumns.includes(col.x)
+        })
+      })
+      // eslint-disable-next-line no-console
+      console.log(this.overview)
+      return this.overview
     }
   }
 }
