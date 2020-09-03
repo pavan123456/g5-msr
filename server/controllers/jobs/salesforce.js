@@ -16,10 +16,8 @@ module.exports = async (job, sfApi) => {
     RecordTypeId: ticketData['sf:recordtypeid'][0],
     Request_Type__c: ticketData['sf:request_type__c'][0]
   }
-  const recordTypes = await sfApi.getRecordTypes([report.RecordTypeId], ['Id', 'Name'])
-  const accounts = await sfApi.getAccounts([report.AccountId], ['Id', 'Client_URN__c'])
-  const client = accounts.find(account => account.Id === report.AccountId)
-  const recordType = recordTypes.find(recordType => recordType.Id === report.RecordTypeId)
+  const recordType = await sfApi.getRecordTypes([report.RecordTypeId], ['Id', 'Name'])[0]
+  const client = await sfApi.getAccounts([report.AccountId], ['Id', 'Client_URN__c'])[0]
   report.clientUrn = client ? client.Client_URN__c : null
   report.recordType = recordType ? recordType.Name : null
   report.levelOfService = client ? client.Level_of_Service__c : null

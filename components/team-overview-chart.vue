@@ -71,12 +71,20 @@ export default {
         'Optimizations',
         'Account Changes',
         'General Note'
-      ]
+      ],
+      test: null
     }
   },
   computed: {
     options() {
       return {
+        tooltip: {
+          y: {
+            formatter(value, { series, seriesIndex, dataPointIndex, w }) {
+              return value
+            }
+          }
+        },
         colors: ['#6889b0', '#a0ced1', '#234082', '#7fd9a3', '#da808f', '#f39d1f', '#fb001e'],
         chart: { type: 'bar', height: 300 },
         dataLabels: {
@@ -127,6 +135,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss" >
+  .apexcharts-tooltip-title {
+      display: none !important;
+  }
 </style>

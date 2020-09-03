@@ -196,10 +196,10 @@ class SfApi extends jsforce.Connection {
   }
 
   /**
-   * Returns record types that matche where statement and attributes Array
+   * Returns record types that match where statement and attributes Array
    * @param { Object } where
    * @param { Array } attributes Array of attributes to match
-   * @returns { Object }
+   * @returns { Array }
    * @memberof SfApi
    */
   getRecordTypes(ids, attributes) {
@@ -208,10 +208,10 @@ class SfApi extends jsforce.Connection {
   }
 
   /**
-   * Returns account that matche where statement and attributes Array
+   * Returns accounts that match where statement and attributes Array
    * @param { Object } where
    * @param { Array } attributes Array of attributes to match
-   * @returns { Object }
+   * @returns { Array }
    * @memberof SfApi
    */
   getAccounts(ids, attributes) {
