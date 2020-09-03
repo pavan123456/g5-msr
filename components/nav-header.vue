@@ -19,7 +19,20 @@
       </div>
     </b-navbar-brand>
     <b-nav-form>
-      <label class="px-2 text-muted text-uppercase small">
+      <b-input-group class="flex-nowrap align-items-center">
+        <b-input-group-prepend class="px-2 text-muted text-uppercase small">
+          Team
+        </b-input-group-prepend>
+        <b-form-radio-group
+          :checked="team"
+          :options="teams"
+          buttons
+          size="sm"
+          button-variant="outline-primary-2"
+          @input="onUpdate({ key: 'team', value: $event })"
+        />
+      </b-input-group>
+      <!-- <label class="px-2 text-muted text-uppercase small">
         Team
       </label>
       <b-input-group
@@ -46,7 +59,7 @@
             <b-icon-check-circle v-else />
           </b-btn>
         </b-input-group-append>
-      </b-input-group>
+      </b-input-group> -->
     </b-nav-form>
     <slot name="dangle" />
   </b-navbar>
