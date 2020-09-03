@@ -1,6 +1,7 @@
 const ServicesReport = require('../../controllers/report.class')
 const notesService = require('../../controllers/annotationService')
 const models = require('../../models')
+const { Op } = models.Sequelize
 module.exports = (app) => {
   app.get('/api/v1/login', async (req, res) => {
     try {
@@ -17,6 +18,19 @@ module.exports = (app) => {
     const { to, from } = req.query
     const { clientUrn } = req.params
     const { data: workQ } = await notesService.getWorkQ(clientUrn, to, from)
+    const locationUrns = workQ.map(item => item.location_urn)
+    const locations = await models.g5_updatable_location.findAll({
+      where: {
+        urn: {
+          [Op.in]: locationUrns
+        }
+      }
+    })
+    workQ.forEach((item, i) => {
+      const location = locations.find(loc => loc.dataValues.urn = item.location_urn)
+      const locationName = location ? location.dataValues.name : 'location Name'
+      workQ[i].locations = [ locationName ]
+    })
     await models.report.createNew({ to, from, clientUrn, workQ })
     res.sendStatus(200)
   })

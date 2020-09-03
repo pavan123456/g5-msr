@@ -153,7 +153,8 @@ class ServicesReport {
           category: annotationCategory.value
         }
       }
-      this.addToTimeline(note.team.name, annotationCategory.value, note.locationNames, note.note, note.internal, note.createdAt)
+      console.log({ annotationType })
+      this.addToTimeline(annotationCategory.value, note.team.name, annotationType, note.locationNames, note.note, note.internal, note.createdAt)
       this[note.team.name].subCategory[annotationType].count++
     })
   }
@@ -176,7 +177,7 @@ class ServicesReport {
       if (!this.CC.category['Cases Solved']) {
         this.CC.category['Cases Solved'] = 0
       }
-      this.addToTimeline('CC', recordType.name, 1, null, true, ticket.createdAt)
+      this.addToTimeline('Cases Solved', 'CC', recordType.name, 1, null, true, ticket.createdAt)
       this.CC.category['Cases Solved']++
     })
   }
@@ -195,7 +196,7 @@ class ServicesReport {
           category: 'Optimizations'
         }
       }
-      this.addToTimeline('DA', 'Optimizations', item.locations, this.daSubCatMap[item.rule.class_name], true, item.created_at)
+      this.addToTimeline('Optimizations', 'DA', this.daSubCatMap[item.rule.class_name], item.locations, '', true, item.created_at)
       this.DA.subCategory[this.daSubCatMap[item.rule.class_name]].count++
     })
   }
@@ -203,28 +204,33 @@ class ServicesReport {
   /**
    * Add Item to Timeline
    *
+   * @param {String} category
    * @param {String} teamName
-   * @param {String} timelineName
+   * @param {String} actionType
    * @param {Array || String} locations
    * @param {String} note
    * @param {Boolean} internal
    * @param {Date} timestamp
    * @memberof ServicesReport
    */
-  addToTimeline(teamName, timelineName, locations, note, internal, timestamp) {
-    if (!this[teamName].timeline[timelineName]) {
-      this[teamName].timeline[timelineName] = []
+  addToTimeline(category, teamName, actionType, locations, note, internal, timestamp) {
+    if (!this[teamName].timeline[category]) {
+      this[teamName].timeline[category] = []
       // const locationCount = typeof locations === 'number' ? locations : ( locations.length > 3 ? locations.length : locations.join())
       const locationCount = typeof locations === 'number' ? locations : locations.length
-      const locationNames = typeof locations === 'number' ? '' : (locations.length > 3 ? '' : locations.join(', '))
+      const locationNames = typeof locations === 'number' ? [''] : locations
 
-      this[teamName].timeline[timelineName].push([
+      this[teamName].timeline[category].push([
         timestamp,
         1,
         locationCount,
-        note,
-        internal,
-        locationNames
+        {
+          category,
+          actionType,
+          note,
+          internal,
+          locationNames
+        }
       ])
     }
   }
