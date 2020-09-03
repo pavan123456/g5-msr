@@ -67,11 +67,11 @@ class ServicesReport {
     }
   }
 
-  isApproved () {
+  isApproved() {
     let approved = true
     const keys = Object.keys(this.approvals)
     for (let i = 0; i < keys.length; i++) {
-      if (keys[i]) {
+      if (!keys[i]) {
         approved = false
         break
       }
@@ -195,7 +195,7 @@ class ServicesReport {
           category: 'Optimizations'
         }
       }
-      this.addToTimeline('DA', 'Optimizations', 1, this.daSubCatMap[item.rule.class_name], true, item.created_at)
+      this.addToTimeline('DA', 'Optimizations', item.locations, this.daSubCatMap[item.rule.class_name], true, item.created_at)
       this.DA.subCategory[this.daSubCatMap[item.rule.class_name]].count++
     })
   }
@@ -214,19 +214,19 @@ class ServicesReport {
   addToTimeline(teamName, timelineName, locations, note, internal, timestamp) {
     if (!this[teamName].timeline[timelineName]) {
       this[teamName].timeline[timelineName] = []
-    }
-    // const locationCount = typeof locations === 'number' ? locations : ( locations.length > 3 ? locations.length : locations.join())
-    const locationCount = typeof locations === 'number' ? locations : locations.length
-    const locationNames = typeof locations === 'number' ? '' : (locations.length > 3 ? '' : locations.join(', '))
+      // const locationCount = typeof locations === 'number' ? locations : ( locations.length > 3 ? locations.length : locations.join())
+      const locationCount = typeof locations === 'number' ? locations : locations.length
+      const locationNames = typeof locations === 'number' ? '' : (locations.length > 3 ? '' : locations.join(', '))
 
-    this[teamName].timeline[timelineName].push([
-      timestamp,
-      1,
-      locationCount,
-      note,
-      internal,
-      locationNames
-    ])
+      this[teamName].timeline[timelineName].push([
+        timestamp,
+        1,
+        locationCount,
+        note,
+        internal,
+        locationNames
+      ])
+    }
   }
 
   /**
@@ -246,7 +246,7 @@ class ServicesReport {
    * @param {*} team
    * @memberof ServicesReport
    */
-  formatTeam (team) {
+  formatTeam(team) {
     const { category, name, subCategory, timeline } = team
     const keys = Object.keys(category)
 
@@ -286,7 +286,7 @@ class ServicesReport {
    * @returns
    * @memberof ServicesReport
    */
-  formatTimeline (timeline) {
+  formatTimeline(timeline) {
     const keys = Object.keys(timeline)
     return keys.map((key) => {
       return {
