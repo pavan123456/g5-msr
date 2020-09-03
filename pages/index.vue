@@ -1,29 +1,32 @@
 <template>
   <div class="centered">
-    <b-card>
-      <vue-multiselect
-        :value="client"
-        :options="clients"
-        placeholder="Search"
-        track-by="urn"
-        label="name"
-        @input="onUpdate({ key: 'client', value: $event })"
-      >
-        <template v-slot:option="{ option }">
-          <b>
-            {{ option.name }}
-          </b>
-          <p class="text-muted small mb-0">
-            {{ option.brandedName }}
-          </p>
-          <p class="text-muted small mb-0">
-            {{ option.urn }}
-          </p>
-        </template>
-      </vue-multiselect>
+    <b-card footer-class="justify-content-end border-0">
+      <b-form-group label="Select a client" label-class="text-muted">
+        <vue-multiselect
+          :value="client"
+          :options="clients"
+          placeholder="Search"
+          track-by="urn"
+          label="name"
+          @input="onUpdate({ key: 'client', value: $event })"
+        >
+          <template v-slot:option="{ option }">
+            <b>
+              {{ option.name }}
+            </b>
+            <p class="text-muted small mb-0">
+              {{ option.brandedName }}
+            </p>
+            <p class="text-muted small mb-0">
+              {{ option.urn }}
+            </p>
+          </template>
+        </vue-multiselect>
+      </b-form-group>
       <div class="d-flex justify-content-between mt-5">
         <swap-wrapper />
         <b-btn
+          :disabled="!client"
           variant="outline-primary-3"
           size="sm"
           @click="generateReport"
@@ -35,6 +38,16 @@
           Generate That Report...
         </b-btn>
       </div>
+      <template v-slot:footer>
+        <b-btn
+          v-if="status"
+          to="/edit"
+          size="sm"
+          variant="outline-primary-2"
+        >
+          View Generated Reports
+        </b-btn>
+      </template>
     </b-card>
   </div>
 </template>

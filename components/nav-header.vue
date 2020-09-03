@@ -32,34 +32,7 @@
           @input="onUpdate({ key: 'team', value: $event })"
         />
       </b-input-group>
-      <!-- <label class="px-2 text-muted text-uppercase small">
-        Team
-      </label>
-      <b-input-group
-        v-for="(t, i) in teams"
-        :key="i"
-        class="flex-nowrap align-items-stretch mr-2"
-      >
-        <b-form-radio
-          :checked="t.isSelected"
-          button
-          size="sm"
-          button-variant="outline-primary-2"
-          @input="beforeUpdate({ id: t.id, prop: 'isSelected' })"
-        >
-          {{ t.text }}
-        </b-form-radio>
-        <b-input-group-append>
-          <b-btn
-            :variant="approvals[t] ? 'success': 'quaternary-3'"
-            class="py-0 px-2"
-            @click="$emit('approved', { evt: $event, t, approvals: approvals[t] })"
-          >
-            <b-icon-check-circle-fill v-if="approvals[t]" />
-            <b-icon-check-circle v-else />
-          </b-btn>
-        </b-input-group-append>
-      </b-input-group> -->
+      {{ approvals }}
     </b-nav-form>
     <slot name="dangle" />
   </b-navbar>
@@ -82,22 +55,21 @@ export default {
   },
   computed: mapState({
     team: state => state.inputs.team,
-    teams: state => state.inputs.teams,
-    isBusy: state => state.inputs.isBusy,
-    isSubmitted: state => state.inputs.isSubmitted
+    teams: state => state.inputs.teams
   }),
   methods: {
     ...mapActions({
-      onUpdate: 'inputs/onUpdate',
-      onNested: 'inputs/onNested'
+      onUpdate: 'inputs/onUpdate'
     }),
-    beforeUpdate(evt) {
-      this.$emit('before-update', { id: evt.id, prop: evt.prop })
-      this.onNested({
-        id: evt.id,
-        prop: evt.prop,
-        value: true
-      })
+    updateReport(evt) {
+      if (evt) {
+        this.$emit('update-report', evt)
+        // this.$axios
+        //   .$put(`api/v1/report/${this.$route.params.reportId}`, {
+        //     approvals: {
+        //     }
+        //   })
+      }
     }
   }
 }
