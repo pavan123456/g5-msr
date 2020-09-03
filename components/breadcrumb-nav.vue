@@ -7,16 +7,16 @@
       </b-navbar-brand>
       <b-nav-text class="align-self-start p-0">
         <h1 class="mb-0">
-          StorQuest Self Storage
+          {{ name }}
         </h1>
         <div class="text-muted text-uppercase small mb-0">
           From
           <b-badge class="px-3" style="font-size: 0.75rem;" variant="pale">
-            {{ $route.query.from }}
+            {{ period.from }}
           </b-badge>
           To
           <b-badge class="px-3" style="font-size: 0.75rem;" variant="pale">
-            {{ $route.query.to }}
+            {{ period.to }}
           </b-badge>
         </div>
       </b-nav-text>
@@ -58,6 +58,21 @@ export default {
           { text: 'SEO', href: '#seo' },
           { text: 'Customer Care', href: '#cc' }
         ]
+      }
+    },
+    period: {
+      type: Object,
+      default() {
+        return {
+          to: '',
+          from: ''
+        }
+      }
+    },
+    name: {
+      type: String,
+      default() {
+        return ''
       }
     }
   },

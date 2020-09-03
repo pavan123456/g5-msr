@@ -1,4 +1,5 @@
 // const notesService = require('./noteService')
+const models = require('../models')
 const notesService = require('./annotationService')
 class ServicesReport {
   constructor(to, from, clientUrn, workQ, approvals, edit) {
@@ -13,6 +14,7 @@ class ServicesReport {
     this.notes = []
     this.cases = []
     this.workQ = workQ
+    this.clientName = null
 
     this.DA = {
       name: 'Digital Advertising',
@@ -53,6 +55,7 @@ class ServicesReport {
     if (this.isApproved() || this.editing) {
       this.formatReport()
       const now = new Date()
+      //
       return {
         time: `${(now.getTime() - this.t0)} milliseconds`,
         overview: this.overview,
@@ -62,7 +65,10 @@ class ServicesReport {
           name: this[team.id.toUpperCase()].name,
           ...team
         }
-        ))
+        )),
+        to: this.to,
+        from: this.from,
+        clientName: this.clientName
       }
     } else {
       return {
@@ -81,6 +87,19 @@ class ServicesReport {
     }
     return approved
   }
+
+  getClientName() {
+    return models.g5_updatable_client.findOne({
+      where: {
+        urn: this.clientUrn
+      }
+    }).then((client) => {
+      this.clientName = client.dataValues.properties.branded_name
+        ? client.dataValues.properties.branded_name
+        : client.dataValues.name
+    })
+  }
+
   /**
    * Fetch all report data and generate categorties
    *
@@ -93,6 +112,7 @@ class ServicesReport {
     await this.getCategories()
     this.setOverviewCategories()
     // const workQ = this.getWorkQ()
+    await this.getClientName()
     const notes = this.getNotes()
     const cases = this.getCases()
     return Promise.all([notes, cases])
@@ -219,24 +239,24 @@ class ServicesReport {
     if (!this[teamName].timeline[category]) {
       this[teamName].timeline[category] = []
     }
-      // const locationCount = typeof locations === 'number' ? locations : ( locations.length > 3 ? locations.length : locations.join())
-      const locationCount = typeof locations === 'number' ? locations : ( locations.length === 0 ? 1000 : locations.length)
-      console.log(locationCount)
-      const locationNames = typeof locations === 'number' ? [''] : locations
+    // const locationCount = typeof locations === 'number' ? locations : ( locations.length > 3 ? locations.length : locations.join())
+    const locationCount = typeof locations === 'number' ? locations : (locations.length === 0 ? 1000 : locations.length)
+    console.log(locationCount)
+    const locationNames = typeof locations === 'number' ? [''] : locations
 
-      this[teamName].timeline[category].push([
-        timestamp,
-        1,
-        locationCount,
-        {
-          category,
-          actionType,
-          note,
-          internal,
-          locationNames
-        }
-      ])
-    }
+    this[teamName].timeline[category].push([
+      timestamp,
+      1,
+      locationCount,
+      {
+        category,
+        actionType,
+        note,
+        internal,
+        locationNames
+      }
+    ])
+  }
 
   /**
    * Formate All Teams Data for use in the report
