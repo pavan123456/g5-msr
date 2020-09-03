@@ -1,20 +1,18 @@
 <template>
-  <div>
-    <apex-chart
-    :series="chart"
-    :options="options"
-    height=300
-  />
-    </div>
-  <!-- <b-card>
+  <b-card>
     <b-card-body v-if="chart.length === 0" class="respect-linebreak h4">
       {{ fallback }}
       <a href="https://notes.g5marketingcloud.com" target="_blank">
         Open Notes Service
       </a>
     </b-card-body>
-
-  </b-card> -->
+     <apex-chart
+      v-else
+      :series="chart"
+      :options="options"
+      height="275"
+    />
+  </b-card>
 </template>
 
 <script>
