@@ -179,7 +179,7 @@ class ServicesReport {
       if (!this.CC.category['Cases Solved']) {
         this.CC.category['Cases Solved'] = 0
       }
-      this.addToTimeline('Cases Solved', 'CC', recordType.name, 1, null, true, ticket.createdAt)
+      this.addToTimeline('Cases Solved', 'CC', recordType.name, 1, null, true, ticket.closedDate)
       this.CC.category['Cases Solved']++
     })
   }
@@ -220,8 +220,7 @@ class ServicesReport {
       this[teamName].timeline[category] = []
     }
       // const locationCount = typeof locations === 'number' ? locations : ( locations.length > 3 ? locations.length : locations.join())
-      const locationCount = typeof locations === 'number' ? locations : ( locations.length === 0 ? 1000 : locations.length)
-      console.log(locationCount)
+      const locationCount = typeof locations === 'number' ? locations : ( locations.length === 0 ? 10 : locations.length)
       const locationNames = typeof locations === 'number' ? [''] : locations
 
       this[teamName].timeline[category].push([
