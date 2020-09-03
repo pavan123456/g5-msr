@@ -34,18 +34,21 @@ export const state = () => {
       {
         text: 'Digital Advertising',
         id: 'da',
+        value: 'da',
         isSelected: true,
         isApproved: false
       },
       {
         text: 'SEO',
         id: 'seo',
+        value: 'seo',
         isSelected: false,
         isApproved: false
       },
       {
         text: 'Customer Care',
         id: 'cc',
+        value: 'cc',
         isSelected: false,
         isApproved: true
       }
