@@ -1,128 +1,67 @@
 <template>
-  <b-container fluid class="px-0">
-    <nav-header @get-report="getReport">
-      <template v-slot:dangle>
-        <b-btn-group class="dangle-group bg-white border border-neutral" size="sm">
-          <b-btn
-            id="editor-toggle"
-            variant="transparent"
-            @click="collapseIsVisible = !collapseIsVisible"
-          >
-            <b-icon-caret-up v-if="collapseIsVisible" />
-            <b-icon-caret-down v-else />
-          </b-btn>
-          <b-popover
-            target="editor-toggle"
-            triggers="hover"
-            placement="left"
-          >
-            Toggle Editor.
-          </b-popover>
-        </b-btn-group>
-      </template>
-    </nav-header>
-    <b-collapse
-      id="editor"
-      v-model="collapseIsVisible"
-    >
-      <b-card bg-variant="primary-1" no-body class="border-0 m-0">
-        <table-editor :table="table" />
-      </b-card>
-    </b-collapse>
-    <b-container fluid class="py-2">
-      <b-row no-gutters class="mb-2">
-        <b-col cols="6" offset="3">
-          <b-btn-group size="sm" class="w-100">
-            <b-btn
-              id="report-refresh-btn"
-              variant="light"
-              @click="reportIsBusy = !reportIsBusy"
-            >
-              Refresh Report Preview
-              <b-icon-arrow-clockwise :animation="reportIsBusy ? 'spin' : ''" />
-            </b-btn>
-            <b-popover
-              target="report-refresh-btn"
-              triggers="hover"
-              placement="topleft"
-            >
-              <template v-slot:title>
-                <span style="font-size: 1.5em;">
-                  This reloads visualizations and promoted notes.
-                </span>
-              </template>
-              You should click this if you have made changes to the data above and want to see the effect on the output.
-            </b-popover>
-          </b-btn-group>
-        </b-col>
-      </b-row>
-      <b-row :class="[{ 'is-busy': reportIsBusy }]">
-        <b-col cols="3">
-          <b-card no-body>
-            <h2 class="px-2">
-              Overview
-            </h2>
-            <b-card-body class="text-muted">
-              Will display the heatmap overview in a more condensed format minus the chart.
-              <!-- <spark-chart :chart="overview" /> -->
-            </b-card-body>
-          </b-card>
-          <div class="mt-3">
-            <by-line />
-          </div>
-        </b-col>
-        <b-col>
-          <div class="mb-3">
-            <team-overview-chart />
-          </div>
-          <div class="mb-3">
-            <timeline-chart :chart="timeline" />
-          </div>
-          <promoted-notes />
-        </b-col>
-      </b-row>
-    </b-container>
-  </b-container>
+  <div class="centered">
+    <b-card>
+      <vue-multiselect
+        :value="client"
+        :options="clients"
+        placeholder="Search"
+        track-by="urn"
+        label="name"
+        @input="onUpdate({ key: 'client', value: $event })"
+      >
+        <template v-slot:option="{ option }">
+          <b>
+            {{ option.name }}
+          </b>
+          <p class="text-muted small mb-0">
+            {{ option.brandedName }}
+          </p>
+          <p class="text-muted small mb-0">
+            {{ option.urn }}
+          </p>
+        </template>
+      </vue-multiselect>
+      <div class="d-flex justify-content-between mt-5">
+        <swap-wrapper />
+        <b-btn
+          variant="outline-primary-3"
+          size="sm"
+          @click="generateReport"
+        >
+          <b-spinner v-if="isBusy" small />
+          <span v-else>
+            {{ status }}
+          </span>
+          Generate That Report...
+        </b-btn>
+      </div>
+    </b-card>
+  </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
-import { table, metricsData } from '~/mixins/staged-data'
-import TableHelpers from '~/mixins/table-helpers'
-import NavHeader from '~/components/nav-header'
-import TimelineChart from '~/components/timeline-chart'
-import TeamOverviewChart from '~/components/team-overview-chart'
-// import SparkChart from '~/components/spark-chart'
-import PromotedNotes from '~/components/promoted-notes'
-import ByLine from '~/components/strategist-byline'
-import TableEditor from '~/components/table-editor'
+import { mapState, mapActions, mapGetters } from 'vuex'
+import VueMultiselect from 'vue-multiselect'
+import SwapWrapper from '~/components/swap-wrapper'
 export default {
   components: {
-    TimelineChart,
-    TableEditor,
-    PromotedNotes,
-    TeamOverviewChart,
-    ByLine,
-    // SparkChart,
-    NavHeader
+    VueMultiselect,
+    SwapWrapper
   },
-  mixins: [table, metricsData, TableHelpers],
-  async fetch({ store }) {
-    await store.dispatch('inputs/fillClients')
+  fetch({ store }) {
+    store.dispatch('inputs/fillClients')
   },
   data() {
     return {
-      collapseIsVisible: true,
-      pageIsBusy: false,
-      reportIsBusy: false,
-      timeline: {},
-      overview: {}
+      isBusy: false,
+      status: null
     }
   },
   computed: {
     ...mapState({
       monthly: state => state.inputs.monthly,
-      team: state => state.inputs.team
+      client: state => state.inputs.client,
+      clients: state => state.inputs.clients
     }),
     ...mapGetters({
       selectedDate: 'inputs/selectedDate',
@@ -130,47 +69,33 @@ export default {
     })
   },
   methods: {
-    onError(err) {
-      this.$store.dispatch('inputs/onError', err)
-    },
-    getReport(urn) {
-      const from = (this.monthly)
-        ? this.selectedDate.from
-        : this.selectedQuarter.from
-      const to = (this.monthly)
-        ? this.selectedDate.to
-        : this.selectedQuarter.to
-      this.$axios
-        .$get(`api/v1/report/${urn}?from=${from}&to=${to}`)
-        .then((res) => {
-          this.table.totalRows = res.notes.length
-          this.table.items = res.notes
-          this.timeline = res.teams.find(t => t.name === this.team)
-          this.overview = res.overview
-        })
-        .catch(err => this.onError(err))
-        .finally(() => {
-          this.$store.dispatch('inputs/onUpdate', {
-            key: 'isBusy',
-            value: false
+    generateReport() {
+      if (this.client && !this.monthly) {
+        this.isBusy = true
+        const { from, to } = this.selectedQuarter
+        this.$axios
+          .$post(`api/v1/report/${this.client.urn}?from=${from}&to=${to}`)
+          .then((status) => {
+            this.status = status
           })
-        })
-    }
+          .finally(() => {
+            this.isBusy = false
+          })
+      }
+    },
+    ...mapActions({
+      onUpdate: 'inputs/onUpdate'
+    })
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.dangle-group {
-  position: absolute;
+.centered {
+  position: fixed;
+  width: 50vw;
+  top: 50%;
   left: 50%;
-  bottom: 0;
-  transform: translate(-50%, 50%);
-  z-index: 10;
-  border-radius: 50%;
-  overflow: hidden;
-}
-.is-busy {
-  opacity: 0.5;
+  transform: translate(-50%, -50%);
 }
 </style>
