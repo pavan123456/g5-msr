@@ -6,7 +6,7 @@
         Open Notes Service
       </a>
     </b-card-body>
-    <apex-chart
+     <apex-chart
       v-else
       :series="chart"
       :options="options"
@@ -27,11 +27,12 @@ export default {
             name: 'Fallback Category',
             requestType: 'Fallback Request Type',
             data: [
-              ['01/03/2020 03:15 PM', 1, 0],
-              ['01/14/2020 01:19 PM', 1, 17],
-              ['02/01/2020 01:42 PM', 1, 30],
-              ['03/15/2020 05:00 PM', 1, 9],
-              ['03/24/2020 02:28 PM', 1, 3]
+              ['01/01/2020 03:15 PM', 1, 1, { category: 'Category', actionType: 'Updated Call Extension', note: '', internal: true, locationNames: ['StorQuest Self Storage'] }],
+              ['01/03/2020 03:15 PM', 1, 10, { category: 'Category', actionType: 'Updated Call Extension', note: '', internal: true, locationNames: ['StorQuest Self Storage'] }],
+              ['01/14/2020 01:19 PM', 1, 20, { category: 'Category', actionType: 'Updated Call Extension', note: '', internal: true, locationNames: ['StorQuest Self Storage'] }],
+              ['02/01/2020 01:42 PM', 1, 30, { category: 'Category', actionType: 'Updated Call Extension', note: '', internal: true, locationNames: ['StorQuest Self Storage'] }],
+              ['03/15/2020 05:00 PM', 1, 40, { category: 'Category', actionType: 'Updated Call Extension', note: '', internal: true, locationNames: ['StorQuest Self Storage'] }],
+              ['03/24/2020 02:28 PM', 1, 50, { category: 'Category', actionType: 'Updated Call Extension', note: '', internal: true, locationNames: ['StorQuest Self Storage'] }]
             ]
           }
         ]
@@ -44,7 +45,7 @@ export default {
       options: {
         id: 'timeline-chart',
         colors: ['#8dc7cb', '#e00033', '#62bc60', '#feb800'],
-        chart: { type: 'bubble', height: 250 },
+        chart: { type: 'bubble' },
         dataLabels: { enabled: false },
         fill: { opacity: 0.8 },
         title: { text: 'Activity Timeline' },
@@ -63,19 +64,20 @@ export default {
           }
         },
         legend: { position: 'top' },
-        yaxis: {
+        yaxis: [{
           show: false,
           min: 0,
           max: 2,
           tickAmount: 2
-        },
+        }],
         plotOptions: {
           bubble: {
-            minBubbleRadius: 1,
-            maxBubbleRadius: 300
+            minBubbleRadius: 5,
+            maxBubbleRadius: 50
           }
         },
         xaxis: {
+          // min: '12/01/2019 03:15 PM',
           type: 'datetime',
           position: 'bottom',
           labels: {
@@ -93,20 +95,22 @@ export default {
         tooltip: {
           y: { show: false },
           custom({ series, seriesIndex, dataPointIndex, w }) {
+            const { category, actionType, note, locationNames } = w.config.series[seriesIndex].data[dataPointIndex][3]
+
             return `
               <div class="pb-1 pt-0 timeline-tooltip">
                 <h2 class="badge w-100 my-0 badge-primary-1">
-                  ${w.config.series[seriesIndex].name}
+                  ${category}
                 </h2>
                 <div class="py-1 px-2 text-left" style="max-width: 300px;">
                   <p class="font-weight-bold mb-1 text-wrap">
-                    ${w.config.series[seriesIndex].data[dataPointIndex][5] === null ? '' : w.config.series[seriesIndex].data[dataPointIndex][5]}
+                   ${actionType}
                   </p>
                   <div class="text-wrap my-2">
-                    ${!w.config.series[seriesIndex].data[dataPointIndex][4] ? w.config.series[seriesIndex].data[dataPointIndex][3] : ''}
+                    ${note}
                   </div>
                   <p class="text-muted text-wrap border-pale border-top pt-2">
-                    ${w.config.series[seriesIndex].data[dataPointIndex][6]}
+                    ${locationNames.length > 3 ? locationNames.length : locationNames}
                   </p>
                 </div>
               </div>
