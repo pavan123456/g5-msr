@@ -10,7 +10,7 @@
       v-else
       :series="chart"
       :options="options"
-      height="275"
+      height="300"
     />
   </b-card>
 </template>
@@ -72,8 +72,8 @@ export default {
         }],
         plotOptions: {
           bubble: {
-            minBubbleRadius: 5,
-            maxBubbleRadius: 50
+            minBubbleRadius: 10,
+            maxBubbleRadius: 200
           }
         },
         xaxis: {
@@ -95,7 +95,7 @@ export default {
         tooltip: {
           y: { show: false },
           custom({ series, seriesIndex, dataPointIndex, w }) {
-            const { category, actionType, note, locationNames } = w.config.series[seriesIndex].data[dataPointIndex][3]
+            const { category, actionType, internal, note, locationNames } = w.config.series[seriesIndex].data[dataPointIndex][3]
 
             return `
               <div class="pb-1 pt-0 timeline-tooltip">
@@ -104,12 +104,13 @@ export default {
                 </h2>
                 <div class="py-1 px-2 text-left" style="max-width: 300px;">
                   <p class="font-weight-bold mb-1 text-wrap">
-                   ${actionType}
+                   ${actionType == null ? '' : actionType}
                   </p>
                   <div class="text-wrap my-2">
-                    ${note}
+                    ${!internal ? note : ''}
                   </div>
                   <p class="text-muted text-wrap border-pale border-top pt-2">
+                  ${locationNames.length}
                     ${locationNames.length > 3 ? locationNames.length : locationNames}
                   </p>
                 </div>

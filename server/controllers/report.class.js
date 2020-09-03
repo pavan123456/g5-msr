@@ -58,7 +58,11 @@ class ServicesReport {
         overview: this.overview,
         teams: this.teams,
         notes: this.notes,
-        approvals: this.approvals
+        approvals: this.approvals.map(team => ({
+          name: this[team.id.toUpperCase()].name,
+          ...team
+        }
+        ))
       }
     } else {
       return {
@@ -69,9 +73,8 @@ class ServicesReport {
 
   isApproved() {
     let approved = true
-    const keys = Object.keys(this.approvals)
-    for (let i = 0; i < keys.length; i++) {
-      if (!keys[i]) {
+    for (let i = 0; i < this.approvals.length; i++) {
+      if (!this.approvals[i].value) {
         approved = false
         break
       }
@@ -153,7 +156,6 @@ class ServicesReport {
           category: annotationCategory.value
         }
       }
-      console.log({ annotationType })
       this.addToTimeline(annotationCategory.value, note.team.name, annotationType, note.locationNames, note.note, note.internal, note.createdAt)
       this[note.team.name].subCategory[annotationType].count++
     })
@@ -216,8 +218,10 @@ class ServicesReport {
   addToTimeline(category, teamName, actionType, locations, note, internal, timestamp) {
     if (!this[teamName].timeline[category]) {
       this[teamName].timeline[category] = []
+    }
       // const locationCount = typeof locations === 'number' ? locations : ( locations.length > 3 ? locations.length : locations.join())
-      const locationCount = typeof locations === 'number' ? locations : locations.length
+      const locationCount = typeof locations === 'number' ? locations : ( locations.length === 0 ? 1000 : locations.length)
+      console.log(locationCount)
       const locationNames = typeof locations === 'number' ? [''] : locations
 
       this[teamName].timeline[category].push([
@@ -233,7 +237,6 @@ class ServicesReport {
         }
       ])
     }
-  }
 
   /**
    * Formate All Teams Data for use in the report

@@ -15,11 +15,21 @@ module.exports = sequelize => sequelize.define('report', {
   },
   approvals: {
     type: JSONB,
-    defaultValue: {
-      seo: false,
-      da: false,
-      cc: false
-    }
+    defaultValue: 
+      [
+        {
+          id: 'da',
+          approved: false,
+        },
+        {
+          id: 'seo',
+          approved: false,
+        },
+        {
+          id: 'cc',
+          approved: true,
+        }
+      ]
   },
   from: {
     type: DATEONLY
