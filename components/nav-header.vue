@@ -32,7 +32,6 @@
           @input="onUpdate({ key: 'team', value: $event })"
         />
       </b-input-group>
-      {{ approvals }}
       <b-input-group class="flex-nowrap align-items-center">
         <b-input-group-prepend class="px-2 text-muted text-uppercase small">
           Approvals
@@ -43,9 +42,10 @@
             :key="a.id"
             :variant="a.value ? 'success' : 'failure'"
             size="sm"
+            @click="updateReport(a, approvals)"
           >
             {{ a.name }}
-            <!-- <b-spinner v-if="" small /> -->
+            <b-spinner v-if="pending[a.id]" small />
             <b-icon-check-circle-fill v-if="a.value" />
             <b-icon-check-circle v-else />
           </b-btn>
@@ -61,13 +61,22 @@ import { mapState, mapActions } from 'vuex'
 export default {
   props: {
     approvals: {
-      type: Object,
+      type: Array,
       default() {
-        return {
-          da: false,
-          seo: false,
-          cc: true
-        }
+        return [
+          { name: 'Digital Advertising', id: 'da', value: false },
+          { name: 'SEO', id: 'seo', value: false },
+          { name: 'Customer Care', id: 'cc', value: true }
+        ]
+      }
+    }
+  },
+  data () {
+    return {
+      pending: {
+        da: false,
+        cc: false,
+        seo: false
       }
     }
   },
@@ -79,16 +88,20 @@ export default {
     ...mapActions({
       onUpdate: 'inputs/onUpdate'
     }),
-    updateReport(evt) {
+    updateReport(evt, allApprovals) {
+      allApprovals.find(obj => obj.id === evt.id).value = !evt.value
       if (evt) {
-        this.$emit('update-report', evt)
-        // this.$axios
-        //   .$put(`api/v1/report/${this.$route.params.reportId}`, {
-        //     approvals: [{
-        //       id: evt.id,
-        //       value: evt.value
-        //     }]
-        //   })
+        this.pending[evt.id] = true
+        this.$axios
+          .$put(`api/v1/report/${this.$route.params.reportId}`, {
+            approvals: allApprovals
+          }).then((res) => {
+            this.pending[evt.id] = false
+          }).catch((err) => {
+            // eslint-disable-next-line no-console
+            console.log(err)
+            this.pending[evt.id] = false
+          })
       }
     }
   }

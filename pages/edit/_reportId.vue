@@ -1,6 +1,8 @@
 <template>
   <div>
-    <nav-header :approvals="approvals">
+    <nav-header
+      :approvals="approvals"
+    >
       <template v-slot:dangle>
         <b-btn-group class="dangle-group bg-white border border-neutral" size="sm">
           <b-btn
