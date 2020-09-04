@@ -84,8 +84,10 @@ export default {
         this.$emit('update-report', evt)
         // this.$axios
         //   .$put(`api/v1/report/${this.$route.params.reportId}`, {
-        //     approvals: {
-        //     }
+        //     approvals: [{
+        //       id: evt.id,
+        //       value: evt.value
+        //     }]
         //   })
       }
     }
