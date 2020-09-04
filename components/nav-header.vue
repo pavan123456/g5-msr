@@ -33,6 +33,24 @@
         />
       </b-input-group>
       {{ approvals }}
+      <b-input-group class="flex-nowrap align-items-center">
+        <b-input-group-prepend class="px-2 text-muted text-uppercase small">
+          Approvals
+        </b-input-group-prepend>
+        <b-btn-group>
+          <b-btn
+            v-for="a in approvals"
+            :key="a.id"
+            :variant="a.value ? 'success' : 'failure'"
+            size="sm"
+          >
+            {{ a.name }}
+            <!-- <b-spinner v-if="" small /> -->
+            <b-icon-check-circle-fill v-if="a.value" />
+            <b-icon-check-circle v-else />
+          </b-btn>
+        </b-btn-group>
+      </b-input-group>
     </b-nav-form>
     <slot name="dangle" />
   </b-navbar>
