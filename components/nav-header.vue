@@ -40,13 +40,14 @@
           <b-btn
             v-for="a in approvals"
             :key="a.id"
-            :variant="a.value ? 'success' : 'failure'"
+            variant="outline-primary-2"
             size="sm"
+            class="approval-btn"
             @click="updateReport(a, approvals)"
           >
             {{ a.name }}
             <b-spinner v-if="pending[a.id]" small />
-            <b-icon-check-circle-fill v-if="a.value" />
+            <b-icon-check-circle-fill v-if="a.value" variant="success" />
             <b-icon-check-circle v-else />
           </b-btn>
         </b-btn-group>
@@ -109,11 +110,12 @@ export default {
 </script>
 
 <style lang="scss">
-.primary-nav {
-  border-bottom: 2px solid #e8e8e8;
-}
 .dangle-anchor {
   position: relative;
+}
+.approval-btn:focus  {
+  outline: none;
+  box-shadow: none;
 }
 .initialism {
   display: inline;
