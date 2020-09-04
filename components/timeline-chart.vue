@@ -96,7 +96,7 @@ export default {
           y: { show: false },
           custom({ series, seriesIndex, dataPointIndex, w }) {
             const { category, actionType, internal, note, locationNames } = w.config.series[seriesIndex].data[dataPointIndex][3]
-
+            const locations = locationNames.length === 0 ? 'All Locations' : (locationNames.length > 3 ? locationNames.length : locationNames)
             return `
               <div class="pb-1 pt-0 timeline-tooltip">
                 <h2 class="badge w-100 my-0 badge-primary-1">
@@ -110,8 +110,7 @@ export default {
                     ${!internal ? note : ''}
                   </div>
                   <p class="text-muted text-wrap border-pale border-top pt-2">
-                  ${locationNames.length}
-                    ${locationNames.length > 3 ? locationNames.length : locationNames}
+                    ${locations}
                   </p>
                 </div>
               </div>
