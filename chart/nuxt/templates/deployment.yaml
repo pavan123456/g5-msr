@@ -37,6 +37,8 @@ spec:
         env:
           - name: BROWSER_URL
             value: "stratypus.tk"
+          - name: INCLUDE_G5_UPDATABLES
+            value: "true"
           - name: DATABASE_MAX_CONNECTIONS
             value: "10"
           - name: DATABASE_MIN_CONNECTIONS

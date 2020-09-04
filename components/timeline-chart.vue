@@ -1,10 +1,18 @@
 <template>
   <b-card>
-    <b-card-body v-if="chart.length === 0" class="respect-linebreak h4">
-      {{ fallback }}
-      <a href="https://notes.g5marketingcloud.com" target="_blank">
+    <b-card-body v-if="charts.length === 0">
+      <b-alert show variant="tertiary-3" class="respect-linebreak pb-4">
+        {{ fallback }}
+      </b-alert>
+      <b-btn
+        href="https://notes.g5marketingcloud.com"
+        target="_blank"
+        variant="outline-tertiary-3"
+        size="sm"
+      >
         Open Notes Service
-      </a>
+        <b-icon-box-arrow-up-right />
+      </b-btn>
     </b-card-body>
      <apex-chart
       v-else

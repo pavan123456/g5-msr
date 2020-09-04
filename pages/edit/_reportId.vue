@@ -39,14 +39,14 @@
       </b-card>
     </b-collapse>
     <b-container>
-      <b-row v-if="annotations[team].overview.length > 0" class="my-2">
+      <b-row class="my-2">
         <b-col>
           <section-wrapper v-bind="tips.teamOverview">
             <team-overview-chart :charts="annotations[team].overview" />
           </section-wrapper>
         </b-col>
       </b-row>
-      <b-row v-if="annotations[team].timeline.length > 0" class="my-2">
+      <b-row class="my-2">
         <b-col>
           <section-wrapper v-bind="tips.teamTimeline">
             <timeline-chart :chart="annotations[team].timeline" />
