@@ -1,6 +1,10 @@
 <template>
   <div class="px-0">
-    <report-nav :items="sections" />
+    <report-nav
+      :items="sections"
+      :period="period"
+      :name="clientName"
+    />
     <b-container>
       <b-row
         v-for="(s, i) in sections"
@@ -98,7 +102,12 @@ export default {
           href: '#cc',
           ...res.teams.find(t => t.name === 'Customer Care')
         }
-      ]
+      ],
+      period: {
+        to: res.to,
+        from: res.from
+      },
+      clientName: res.clientName
     }
   }
 }
