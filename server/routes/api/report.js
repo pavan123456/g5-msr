@@ -28,7 +28,7 @@ module.exports = (app) => {
     })
     workQ.forEach((item, i) => {
       const location = locations.find(loc => loc.dataValues.urn = item.location_urn)
-      const locationName = location ? location.dataValues.name : 'location Name'
+      const locationName = location ? (location.dataValues.display_name ? location.dataValues.display_name : location.dataValues.name) : ''
       workQ[i].locations = [ locationName ]
     })
     await models.report.createNew({ to, from, clientUrn, workQ })
