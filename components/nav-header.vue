@@ -32,7 +32,7 @@
           @input="onUpdate({ key: 'team', value: $event })"
         />
       </b-input-group>
-      <b-input-group class="flex-nowrap align-items-center">
+      <b-input-group class="flex-nowrap align-items-center ml-3">
         <b-input-group-prepend class="px-2 text-muted text-uppercase small">
           Approvals
         </b-input-group-prepend>
@@ -40,14 +40,13 @@
           <b-btn
             v-for="a in approvals"
             :key="a.id"
-            variant="outline-primary-2"
+            :variant="a.value ? 'success' : 'outline-failure-1'"
             size="sm"
             class="approval-btn"
             @click="updateReport(a, approvals)"
           >
             {{ a.name }}
             <b-spinner v-if="pending[a.id]" small />
-            <b-icon-check-circle-fill v-if="a.value" variant="success" />
             <b-icon-check-circle v-else />
           </b-btn>
         </b-btn-group>
@@ -100,7 +99,7 @@ export default {
             this.pending[evt.id] = false
           }).catch((err) => {
             // eslint-disable-next-line no-console
-            console.log(err)
+            console.error(err)
             this.pending[evt.id] = false
           })
       }

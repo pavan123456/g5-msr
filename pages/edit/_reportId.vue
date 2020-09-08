@@ -58,7 +58,6 @@
           <section-wrapper v-bind="tips.teamPromoted">
             <promoted-notes :notes="annotations[team].promoted" />
           </section-wrapper>
-          <!-- {{ annotations[team].promoted }} -->
         </b-col>
       </b-row>
       <b-row class="my-2">
@@ -168,7 +167,8 @@ export default {
         },
         teamOverview: {
           title: 'Team Overview',
-          description: 'This section is used to dive a little deeper into the type of work completed over the time period. It pulls from transactional notes (WorkQ, SEO Audit Tool, SF Cases) and manual notes taken from the extension or UI.'
+          description: 'This section is used to dive a little deeper into the type of work completed over the time period. It pulls from transactional notes (WorkQ, SEO Audit Tool, SF Cases) and manual notes taken from the extension or UI.',
+          fallback: '😢 Oh no! It looks like we can\'t find any notes for this time period. \n We\'d recommend adding some notes or if you think this is an error please report it!'
         },
         teamTimeline: {
           title: 'Team Timeline',

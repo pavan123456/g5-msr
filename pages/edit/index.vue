@@ -21,6 +21,29 @@
               {{ item.workQ.length }}
             </h1>
           </template>
+          <template v-slot:cell(approvals)="{ item }">
+            <b-list-group>
+              <b-list-group-item
+                v-for="approval in item.approvals"
+                :key="approval.id"
+                class="small"
+              >
+                <b-icon-check-circle-fill v-if="approval.value" />
+                <b-icon-check-circle v-else />
+                {{ approval.name }}
+              </b-list-group-item>
+            </b-list-group>
+          </template>
+          <template v-slot:cell(from)="{ item }">
+            <b-badge variant="neutral">
+              {{ item.from }}
+            </b-badge>
+          </template>
+          <template v-slot:cell(to)="{ item }">
+            <b-badge variant="neutral">
+              {{ item.to }}
+            </b-badge>
+          </template>
         </b-table>
       </b-col>
     </b-row>
@@ -41,7 +64,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>
