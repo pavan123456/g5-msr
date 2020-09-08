@@ -1,10 +1,18 @@
 <template>
   <b-card header-class="border-0" no-body>
-    <b-card-body v-if="charts.length === 0" class="respect-linebreak h4">
-      {{ fallback }}
-      <a href="https://notes.g5marketingcloud.com" target="_blank">
+    <b-card-body v-if="charts.length === 0">
+      <b-alert show variant="tertiary-3" class="respect-linebreak pb-4">
+        {{ fallback }}
+      </b-alert>
+      <b-btn
+        href="https://notes.g5marketingcloud.com"
+        target="_blank"
+        variant="outline-tertiary-3"
+        size="sm"
+      >
         Open Notes Service
-      </a>
+        <b-icon-box-arrow-up-right />
+      </b-btn>
     </b-card-body>
     <b-tabs v-else cards justified>
       <b-tab
@@ -66,7 +74,7 @@ export default {
   },
   data() {
     return {
-      fallback: '😢 Oh no! It looks like we can\'t find any notes for this time period. \n\n We\'d recommend adding some notes or if you think this is an error please report it!',
+      fallback: '😢 Oh no! It looks like we can\'t find any notes for this time period. \n We\'d recommend adding some notes or if you think this is an error please report it!',
       categories: [
         'Optimizations',
         'Account Changes',
@@ -89,7 +97,7 @@ export default {
         chart: { type: 'bar', height: 300 },
         dataLabels: {
           enabled: true,
-          offsetY: -20,
+          offsetY: -25,
           style: {
             fontSize: '14px',
             colors: ['#000']
@@ -105,6 +113,7 @@ export default {
         yaxis: { show: false },
         plotOptions: {
           bar: {
+            columnWidth: '70%',
             dataLabels: {
               position: 'top'
             }
@@ -135,8 +144,8 @@ export default {
 }
 </script>
 
-<style lang="scss" >
-  .apexcharts-tooltip-title {
-      display: none !important;
-  }
+<style>
+.apexcharts-tooltip-title {
+  display: none !important;
+}
 </style>

@@ -2,10 +2,19 @@
   <div class="collapse-ctn">
     <b-card
       v-if="Object.keys(notes).length === 0 && notes.constructor === Object"
-      class="h4"
-      body-class="respect-linebreak"
     >
-      {{ fallback }}
+      <b-alert show variant="tertiary-3" class="respect-linebreak pb-4">
+        {{ fallback }}
+      </b-alert>
+      <b-btn
+        href="https://notes.g5marketingcloud.com"
+        target="_blank"
+        variant="outline-tertiary-3"
+        size="sm"
+      >
+        Open Notes Service
+        <b-icon-box-arrow-up-right />
+      </b-btn>
     </b-card>
     <b-card-group
       v-for="g in groups"
@@ -77,7 +86,7 @@ export default {
   data() {
     return {
       groups: [],
-      fallback: '😢 Oh no! You don\'t have any Promoted Notes for this time period. Please use the table above to promote notes you want the customer to be able to see.\n\n If there are no notes worthy of promotion, consider adding some notes that encapsulate the themes of the work you did in this period.'
+      fallback: '😢 Oh no! You don\'t have any Promoted Notes for this time period. Please use the table above to promote notes you want the customer to be able to see.\n If there are no notes worthy of promotion, consider adding some notes that encapsulate the themes of the work you did in this period.'
     }
   },
   created() {

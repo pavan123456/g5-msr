@@ -1,10 +1,18 @@
 <template>
-  <b-card>
-    <b-card-body v-if="chart.length === 0" class="respect-linebreak h4">
-      {{ fallback }}
-      <a href="https://notes.g5marketingcloud.com" target="_blank">
+  <b-card header-class="border-0" no-body>
+    <b-card-body v-if="chart.length === 0">
+      <b-alert show variant="tertiary-3" class="respect-linebreak pb-4">
+        {{ fallback }}
+      </b-alert>
+      <b-btn
+        href="https://notes.g5marketingcloud.com"
+        target="_blank"
+        variant="outline-tertiary-3"
+        size="sm"
+      >
         Open Notes Service
-      </a>
+        <b-icon-box-arrow-up-right />
+      </b-btn>
     </b-card-body>
      <apex-chart
       v-else
@@ -41,7 +49,7 @@ export default {
   },
   data() {
     return {
-      fallback: '😢 Oh no! It looks like we can\'t find any notes for this time period.\n\n We\'d recommend adding some notes or if you think this is an error, please report it!',
+      fallback: '😢 Oh no! It looks like we can\'t find any notes for this time period.\n We\'d recommend adding some notes or if you think this is an error, please report it!',
       options: {
         id: 'timeline-chart',
         colors: ['#8dc7cb', '#e00033', '#62bc60', '#feb800'],

@@ -1,6 +1,9 @@
 <template>
   <div>
-    <nav-header :approvals="approvals">
+    <nav-header
+      :approvals="approvals"
+      :client="client"
+    >
       <template v-slot:dangle>
         <b-btn-group class="dangle-group bg-white border border-neutral" size="sm">
           <b-btn
@@ -25,7 +28,7 @@
       id="editor"
       v-model="collapseIsVisible"
     >
-      <b-card bg-variant="primary-1" no-body class="border-0 m-0">
+      <b-card bg-variant="primary-1" no-body class="m-0 rounded-0">
         <table-editor
           :table="{
             id: 'teamTable',
@@ -37,14 +40,14 @@
       </b-card>
     </b-collapse>
     <b-container>
-      <b-row v-if="annotations[team].overview.length > 0" class="my-2">
+      <b-row class="my-2">
         <b-col>
           <section-wrapper v-bind="tips.teamOverview">
             <team-overview-chart :charts="annotations[team].overview" />
           </section-wrapper>
         </b-col>
       </b-row>
-      <b-row v-if="annotations[team].timeline.length > 0" class="my-2">
+      <b-row class="my-2">
         <b-col>
           <section-wrapper v-bind="tips.teamTimeline">
             <timeline-chart :chart="annotations[team].timeline" />
@@ -56,7 +59,6 @@
           <section-wrapper v-bind="tips.teamPromoted">
             <promoted-notes :notes="annotations[team].promoted" />
           </section-wrapper>
-          <!-- {{ annotations[team].promoted }} -->
         </b-col>
       </b-row>
       <b-row class="my-2">
@@ -102,7 +104,10 @@ export default {
       overview,
       teams,
       approvals,
-      notes
+      notes,
+      clientName,
+      to,
+      from
     } = await $axios.$get(`api/v1/report/${params.reportId}?edit=true`)
 
     const annotations = {
@@ -153,7 +158,12 @@ export default {
       overview,
       teams,
       approvals,
-      annotations
+      annotations,
+      client: {
+        name: clientName,
+        to,
+        from
+      }
     }
   },
   data() {
@@ -166,7 +176,8 @@ export default {
         },
         teamOverview: {
           title: 'Team Overview',
-          description: 'This section is used to dive a little deeper into the type of work completed over the time period. It pulls from transactional notes (WorkQ, SEO Audit Tool, SF Cases) and manual notes taken from the extension or UI.'
+          description: 'This section is used to dive a little deeper into the type of work completed over the time period. It pulls from transactional notes (WorkQ, SEO Audit Tool, SF Cases) and manual notes taken from the extension or UI.',
+          fallback: '😢 Oh no! It looks like we can\'t find any notes for this time period. \n We\'d recommend adding some notes or if you think this is an error please report it!'
         },
         teamTimeline: {
           title: 'Team Timeline',
