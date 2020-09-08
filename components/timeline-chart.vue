@@ -88,6 +88,12 @@ export default {
           // min: '12/01/2019 03:15 PM',
           type: 'datetime',
           position: 'bottom',
+          axisTicks: {
+            show: true,
+            color: '#000',
+            height: 8,
+            offsetY: -4
+          },
           labels: {
             style: {
               fontFamily: '"Fira Sans", sans-serif'

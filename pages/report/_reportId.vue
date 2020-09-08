@@ -72,6 +72,25 @@ export default {
   async asyncData({ params, $axios }) {
     const res = await $axios
       .$get(`api/v1/report/${params.reportId}`)
+    const overviewColumns = [
+      'Cases Solved',
+      'Account Audit',
+      'General Note',
+      'Account Changes',
+      'Optimizations'
+    ]
+    res.overview.forEach((row) => {
+      row.data = row.data.filter((col) => {
+        return overviewColumns.includes(col.x)
+      })
+      const newData = []
+      overviewColumns.forEach((title) => {
+        newData.push(row.data.find(obj => obj.x === title))
+      })
+      row.data = newData
+    })
+    res.overview.reverse()
+
     return {
       res,
       sections: [
