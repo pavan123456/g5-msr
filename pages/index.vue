@@ -1,6 +1,11 @@
 <template>
   <div class="centered">
-    <b-card footer-class="justify-content-end border-0">
+    <b-card footer-class="d-flex justify-content-end">
+      <template v-slot:header>
+        <h1 class="mb-0">
+          Generate an MSR!
+        </h1>
+      </template>
       <b-form-group label="Select a client" label-class="text-muted">
         <vue-multiselect
           :value="client"
@@ -23,29 +28,29 @@
           </template>
         </vue-multiselect>
       </b-form-group>
-      <div class="d-flex justify-content-between mt-5">
-        <swap-wrapper />
-        <b-btn
-          :disabled="!client"
-          variant="outline-primary-3"
-          size="sm"
-          @click="generateReport"
-        >
-          <b-spinner v-if="isBusy" small />
-          <span v-else>
-            {{ status }}
-          </span>
-          Generate That Report...
-        </b-btn>
-      </div>
+      <swap-wrapper />
+      <b-btn
+        :disabled="!client"
+        variant="outline-primary-3"
+        size="sm"
+        class="mt-5 mb-1"
+        @click="generateReport"
+      >
+        <b-spinner v-if="isBusy" small />
+        <span v-else>
+          {{ status }}
+        </span>
+        Generate That Report...
+      </b-btn>
       <template v-slot:footer>
         <b-btn
-          v-if="status"
           to="/edit"
           size="sm"
-          variant="outline-primary-2"
+          variant="tertiary-2"
+          class="py-2 px-4"
         >
-          View Generated Reports
+          Browse Existing Reports
+          <b-icon-arrow-right />
         </b-btn>
       </template>
     </b-card>
