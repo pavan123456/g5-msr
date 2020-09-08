@@ -195,9 +195,7 @@ class ServicesReport {
   groupCases() {
     this.cases.forEach((ticket) => {
       const { requestType, recordType } = ticket
-      console.log({requestType, recordType})
       const team = this.caseTeamMap[recordType.name]
-      console.log({ team })
       if (team) {
           if (!this[team].subCategory[requestType.name]) {
         this[team].subCategory[requestType.name] = {
@@ -309,7 +307,7 @@ class ServicesReport {
     const subKeys = Object.keys(subCategory)
     subKeys.forEach((key) => {
       overviews[subCategory[key].category].push({
-        name: key,
+        name: key === 'null' ? subCategory[key].category : key,
         data: [subCategory[key].count]
       })
     })
