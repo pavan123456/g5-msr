@@ -69,10 +69,12 @@
         </b-col>
       </b-row>
     </b-container>
+    {{ version }}
   </div>
 </template>
 
 <script>
+import { version } from '~/package.json'
 import NavHeader from '~/components/nav-header'
 import Helpers from '~/mixins/table-helpers'
 import TableEditor from '~/components/table-editor'
@@ -168,6 +170,7 @@ export default {
   },
   data() {
     return {
+      version,
       collapseIsVisible: true,
       tips: {
         overview: {

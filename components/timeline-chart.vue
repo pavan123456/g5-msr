@@ -121,7 +121,7 @@ export default {
               ? 'All Locations'
               : locationNames.length > 3
                 ? `${locationNames.length} locations`
-                : locationNames
+                : locationNames.join(', ')
             return `
               <div class="pb-1 pt-0 px-1 timeline-tooltip">
                 <h2 class="badge w-100 my-0 badge-tertiary-1">
