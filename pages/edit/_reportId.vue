@@ -2,6 +2,7 @@
   <div>
     <nav-header
       :approvals="approvals"
+      :client="client"
     >
       <template v-slot:dangle>
         <b-btn-group class="dangle-group bg-white border border-neutral" size="sm">
@@ -27,7 +28,7 @@
       id="editor"
       v-model="collapseIsVisible"
     >
-      <b-card bg-variant="primary-1" no-body class="border-0 m-0">
+      <b-card bg-variant="primary-1" no-body class="m-0 rounded-0">
         <table-editor
           :table="{
             id: 'teamTable',
@@ -103,7 +104,10 @@ export default {
       overview,
       teams,
       approvals,
-      notes
+      notes,
+      clientName,
+      to,
+      from
     } = await $axios.$get(`api/v1/report/${params.reportId}?edit=true`)
 
     const annotations = {
@@ -154,7 +158,12 @@ export default {
       overview,
       teams,
       approvals,
-      annotations
+      annotations,
+      client: {
+        name: clientName,
+        to,
+        from
+      }
     }
   },
   data() {

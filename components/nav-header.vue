@@ -1,23 +1,31 @@
 <template>
-  <b-navbar variant="white" class="primary-nav dangle-anchor justify-content-between">
+  <b-navbar
+    class="primary-nav dangle-anchor justify-content-between"
+    style="box-shadow: inset 0 -2px 0 0 #e8e8e8;"
+  >
     <b-navbar-brand
       to="/"
       class="h1 my-0"
       style="font-size: 2rem;"
     >
       <b-img-lazy src="/g5-primary-logo.png" height="45" />
-      <div class="initial">
-        <span class="initialism m">
-          M
-        </span>
-        <span class="initialism s">
-          S
-        </span>
-        <span class="initialism r">
-          R
-        </span>
-      </div>
+      M.S.R.
     </b-navbar-brand>
+    <b-nav-text class="align-self-start p-0">
+      <h2 class="mb-0 text-truncate">
+        {{ client.name }}
+      </h2>
+      <div class="text-muted text-uppercase small mb-0">
+        From
+        <b-badge class="px-3" style="font-size: 0.75rem;" variant="pale">
+          {{ client.from }}
+        </b-badge>
+        To
+        <b-badge class="px-3" style="font-size: 0.75rem;" variant="pale">
+          {{ client.to }}
+        </b-badge>
+      </div>
+    </b-nav-text>
     <b-nav-form>
       <b-input-group class="flex-nowrap align-items-center">
         <b-input-group-prepend class="px-2 text-muted text-uppercase small">
@@ -60,6 +68,16 @@
 import { mapState, mapActions } from 'vuex'
 export default {
   props: {
+    client: {
+      type: Object,
+      default() {
+        return {
+          name: 'Fallback Client Name',
+          to: 'to date',
+          from: 'from date'
+        }
+      }
+    },
     approvals: {
       type: Array,
       default() {
@@ -115,33 +133,5 @@ export default {
 .approval-btn:focus  {
   outline: none;
   box-shadow: none;
-}
-.initialism {
-  display: inline;
-  &::after {
-    width: 0;
-    overflow: hidden;
-    display: inline-block;
-    font-size: 0.75em;
-    vertical-align: middle;
-    text-transform: lowercase;
-    transition: 200ms linear;
-  }
-  &.m::after {
-    content: 'anaged';
-  }
-  &.s::after {
-    content: 'ervice';
-  }
-  &.r::after {
-    content: 'eport';
-  }
-}
-.initial {
-  display: inline;
-  &:hover .initialism::after {
-    width: 20%;
-    transform: translateX(-10%);
-  }
 }
 </style>

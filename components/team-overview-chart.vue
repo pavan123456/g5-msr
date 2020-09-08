@@ -97,7 +97,7 @@ export default {
         chart: { type: 'bar', height: 300 },
         dataLabels: {
           enabled: true,
-          offsetY: -20,
+          offsetY: -25,
           style: {
             fontSize: '14px',
             colors: ['#000']
@@ -113,6 +113,7 @@ export default {
         yaxis: { show: false },
         plotOptions: {
           bar: {
+            columnWidth: '70%',
             dataLabels: {
               position: 'top'
             }
