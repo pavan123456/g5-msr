@@ -41,6 +41,12 @@ class ServicesReport {
       CountLocationCallExtensionRule: 'Updated Call Extension',
       UrlRule: 'URL Change'
     }
+    this.caseTeamMap = {
+      'Technical Support' : 'CC',
+      'Website Maintenance' : 'CC',
+      'Digital Advertising' : 'DA',
+      'Search Engine Optimization' :  'SEO'
+    }
     this.overview = []
     this.teams = []
   }
@@ -189,18 +195,23 @@ class ServicesReport {
   groupCases() {
     this.cases.forEach((ticket) => {
       const { requestType, recordType } = ticket
-      if (!this.CC.subCategory[requestType.name]) {
-        this.CC.subCategory[requestType.name] = {
+      console.log({requestType, recordType})
+      const team = this.caseTeamMap[recordType.name]
+      console.log({ team })
+      if (team) {
+          if (!this[team].subCategory[requestType.name]) {
+        this[team].subCategory[requestType.name] = {
           count: 0,
           category: 'Cases Solved'
         }
       }
-      this.CC.subCategory[requestType.name].count++
-      if (!this.CC.category['Cases Solved']) {
-        this.CC.category['Cases Solved'] = 0
+      this[team].subCategory[requestType.name].count++
+      if (!this[team].category['Cases Solved']) {
+        this[team].category['Cases Solved'] = 0
       }
-      this.addToTimeline('Cases Solved', 'CC', recordType.name, 1, null, true, ticket.closedDate)
-      this.CC.category['Cases Solved']++
+      this.addToTimeline('Cases Solved', team, recordType.name, 1, null, true, ticket.closedDate)
+      this[team].category['Cases Solved']++
+      }
     })
   }
 

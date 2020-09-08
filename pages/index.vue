@@ -103,7 +103,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style>
 .centered {
   position: fixed;
   width: 50vw;
