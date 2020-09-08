@@ -28,8 +28,8 @@
                 :key="approval.id"
                 class="small"
               >
-                <b-icon-check-circle-fill v-if="approval.value" />
-                <b-icon-check-circle v-else />
+                <b-icon-check-circle-fill v-if="approval.value" variant="success" />
+                <b-icon-check-circle v-else variant="failure" />
                 {{ approval.name }}
               </b-list-group-item>
             </b-list-group>

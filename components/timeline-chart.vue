@@ -1,5 +1,5 @@
 <template>
-  <b-card header-class="border-0" no-body>
+  <b-card header-class="border-0" no-body class="px-4 py-2">
     <b-card-body v-if="chart.length === 0">
       <b-alert show variant="tertiary-3" class="respect-linebreak pb-4">
         {{ fallback }}
@@ -59,9 +59,9 @@ export default {
         title: { text: 'Activity Timeline' },
         grid: {
           borderColor: '#c1c1c1',
-          column: {
-            colors: ['#94abd7', 'transparent'],
-            opacity: 1
+          padding: {
+            left: -10,
+            right: -10
           },
           strokeDashArray: 2,
           xaxis: {
@@ -88,6 +88,12 @@ export default {
           // min: '12/01/2019 03:15 PM',
           type: 'datetime',
           position: 'bottom',
+          axisTicks: {
+            show: true,
+            color: '#000',
+            height: 8,
+            offsetY: -4
+          },
           labels: {
             style: {
               fontFamily: '"Fira Sans", sans-serif'
@@ -103,11 +109,22 @@ export default {
         tooltip: {
           y: { show: false },
           custom({ series, seriesIndex, dataPointIndex, w }) {
-            const { category, actionType, internal, note, locationNames } = w.config.series[seriesIndex].data[dataPointIndex][3]
-            const locations = locationNames.length === 0 ? 'All Locations' : (locationNames.length > 3 ? locationNames.length : locationNames)
+            const {
+              category,
+              actionType,
+              internal,
+              note,
+              locationNames
+            } = w.config.series[seriesIndex].data[dataPointIndex][3]
+
+            const locations = locationNames.length === 0
+              ? 'All Locations'
+              : locationNames.length > 3
+                ? `${locationNames.length} locations`
+                : locationNames
             return `
-              <div class="pb-1 pt-0 timeline-tooltip">
-                <h2 class="badge w-100 my-0 badge-primary-1">
+              <div class="pb-1 pt-0 px-1 timeline-tooltip">
+                <h2 class="badge w-100 my-0 badge-tertiary-1">
                   ${category}
                 </h2>
                 <div class="py-1 px-2 text-left" style="max-width: 300px;">

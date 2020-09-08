@@ -29,7 +29,7 @@
     <b-nav-form>
       <b-input-group class="flex-nowrap align-items-center">
         <b-input-group-prepend class="px-2 text-muted text-uppercase small">
-          Team
+          View
         </b-input-group-prepend>
         <b-form-radio-group
           :checked="team"
