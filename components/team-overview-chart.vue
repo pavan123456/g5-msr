@@ -24,7 +24,7 @@
         <apex-chart
           :id="c.id"
           :series="c.series"
-          :options="options"
+          :options="getOptions(c.series.length)"
           type="bar"
           height="300"
         />
@@ -72,20 +72,19 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      fallback: '😢 Oh no! It looks like we can\'t find any notes for this time period. \n We\'d recommend adding some notes or if you think this is an error please report it!',
-      categories: [
-        'Optimizations',
-        'Account Changes',
-        'General Note'
-      ],
-      test: null
-    }
-  },
-  computed: {
-    options() {
-      return {
+  data: () => ({
+    fallback: '😢 Oh no! It looks like we can\'t find any notes for this time period. \n We\'d recommend adding some notes or if you think this is an error please report it!',
+    categories: [
+      'Optimizations',
+      'Account Changes',
+      'General Note'
+    ],
+    test: null,
+    chartOpts: []
+  }),
+  methods: {
+    getOptions(seriesLength) {
+      const opts = {
         tooltip: {
           y: {
             formatter(value, { series, seriesIndex, dataPointIndex, w }) {
@@ -113,7 +112,7 @@ export default {
         yaxis: { show: false },
         plotOptions: {
           bar: {
-            columnWidth: '70%',
+            columnWidth: seriesLength > 1 ? '75%' : '10%',
             dataLabels: {
               position: 'top'
             }
@@ -139,6 +138,7 @@ export default {
           labels: { show: false }
         }
       }
+      return opts
     }
   }
 }
