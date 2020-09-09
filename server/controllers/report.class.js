@@ -207,7 +207,7 @@ class ServicesReport {
       if (!this[team].category['Cases Solved']) {
         this[team].category['Cases Solved'] = 0
       }
-      this.addToTimeline('Cases Solved', team, recordType.name, 1, null, true, ticket.closedDate)
+      this.addToTimeline('Cases Solved', team, requestType.name, 1, null, true, ticket.closedDate)
       this[team].category['Cases Solved']++
       }
     })
