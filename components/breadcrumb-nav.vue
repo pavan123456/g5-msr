@@ -38,7 +38,6 @@
       </b-list-group>
     </div>
     <b-progress
-      :max="items.length - 1"
       :value="position"
       class="w-100 mb-0 rounded-0"
       height="3px"
@@ -74,11 +73,15 @@ export default {
       default() {
         return ''
       }
+    },
+    progress: {
+      type: Number,
+      default: 0
     }
   },
-  data() {
-    return {
-      position: 0
+  computed: {
+    position() {
+      return `${Math.round(this.progress * 100)}%`
     }
   },
   methods: {

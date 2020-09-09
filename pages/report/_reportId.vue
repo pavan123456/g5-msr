@@ -1,53 +1,60 @@
 <template>
-  <div class="px-0">
+  <div class="px-0" >
     <report-nav
       :items="sections"
       :period="period"
       :name="clientName"
+      :progress="progress"
     />
-    <b-container>
-      <b-row
-        v-for="(s, i) in sections"
-        :key="`${s.text}-${i}`"
-        class="pt-5"
-      >
-        <b-col v-if="s.text === 'Overview'" cols="8" offset="2">
-          <h2
-            :id="s.id"
-            style="padding-top: 100px;"
-            class="text-center"
-          >
-            {{ s.text }}
-          </h2>
-          <heat-map :chart="s.chart" />
-        </b-col>
-        <b-col v-else cols="10" offset="1">
-          <b-row class="my-5 pt-5">
-            <b-col>
-              <h2
-                :id="s.id"
-                style="padding-top: 100px;"
-                class="text-center"
-              >
-                {{ s.text }}
-              </h2>
-              <team-overview :charts="s.overview" />
-            </b-col>
-          </b-row>
-          <b-row class="my-5">
-            <b-col>
-              <team-timeline :chart="s.timeline" />
-            </b-col>
-          </b-row>
-          <b-row v-if="Object.keys(s.promoted).length > 0">
-            <b-col>
-              <promoted-notes :notes="s.promoted" />
-            </b-col>
-          </b-row>
-        </b-col>
-      </b-row>
-    </b-container>
-    {{ version }}
+    <div
+      ref="scrollContainer"
+      class="scroll-container"
+      @scroll="onScroll"
+    >
+      <b-container>
+        <b-row
+          v-for="(s, i) in sections"
+          :key="`${s.text}-${i}`"
+          class="pt-5"
+        >
+          <b-col v-if="s.text === 'Overview'" cols="8" offset="2">
+            <h2
+              :id="s.id"
+              style="padding-top: 100px;"
+              class="text-center"
+            >
+              {{ s.text }}
+            </h2>
+            <heat-map :chart="s.chart" />
+          </b-col>
+          <b-col v-else cols="10" offset="1">
+            <b-row class="my-5 pt-5">
+              <b-col>
+                <h2
+                  :id="s.id"
+                  style="padding-top: 100px;"
+                  class="text-center"
+                >
+                  {{ s.text }}
+                </h2>
+                <team-overview :charts="s.overview" />
+              </b-col>
+            </b-row>
+            <b-row class="my-5">
+              <b-col>
+                <team-timeline :chart="s.timeline" />
+              </b-col>
+            </b-row>
+            <b-row v-if="Object.keys(s.promoted).length > 0">
+              <b-col>
+                <promoted-notes :notes="s.promoted" />
+              </b-col>
+            </b-row>
+          </b-col>
+        </b-row>
+      </b-container>
+      {{ version }}
+    </div>
   </div>
 </template>
 
@@ -162,11 +169,30 @@ export default {
     }
   },
   data() {
-    return { version }
+    return {
+      version,
+      progress: 0
+    }
+  },
+  methods: {
+    onScroll() {
+      const progress = this.$refs.scrollContainer.scrollTop / (this.$refs.scrollContainer.scrollHeight - this.$refs.scrollContainer.clientHeight)
+      if (progress > 1) {
+        this.progress = 1
+      } else if (progress < 0) {
+        this.progress = 0
+      } else {
+        this.progress = progress
+      }
+    }
   }
 }
 </script>
 
 <style>
-
+.scroll-container {
+  overflow: scroll;
+  height: 100vh;
+  max-height: 100vh;
+}
 </style>

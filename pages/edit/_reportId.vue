@@ -212,15 +212,11 @@ export default {
       }
     },
     formatOverviewData() {
-      // eslint-disable-next-line no-console
-      console.log(this.overview)
       this.overview.forEach((row) => {
         row.data = row.data.filter((col) => {
           return this.overviewColumns.includes(col.x)
         })
       })
-      // eslint-disable-next-line no-console
-      console.log(this.overview)
       return this.overview
     }
   }
