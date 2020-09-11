@@ -1,5 +1,5 @@
 <template>
-  <div class="px-0" >
+  <div class="px-0">
     <report-nav
       :items="sections"
       :period="period"
@@ -28,7 +28,7 @@
             <heat-map :chart="s.chart" />
           </b-col>
           <b-col v-else cols="10" offset="1">
-            <b-row class="my-5 pt-5">
+            <b-row v-if="s.overview.length > 0" class="my-2 pt-1">
               <b-col>
                 <h2
                   :id="s.id"
@@ -40,7 +40,7 @@
                 <team-overview :charts="s.overview" />
               </b-col>
             </b-row>
-            <b-row class="my-5">
+            <b-row v-if="s.timeline.length > 0" class="my-2">
               <b-col>
                 <team-timeline :chart="s.timeline" />
               </b-col>

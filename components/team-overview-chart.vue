@@ -148,4 +148,8 @@ export default {
 .apexcharts-tooltip-title {
   display: none !important;
 }
+.nav-link.active {
+  font-weight: 700;
+  color: #339698 !important;
+}
 </style>
