@@ -9,7 +9,8 @@
       style="font-size: 2rem;"
     >
       <b-img-lazy src="/g5-primary-logo.png" height="45" />
-      M.S.R.
+      <b-icon-alarm />
+      Activity Tracker
     </b-navbar-brand>
     <b-nav-text class="align-self-start p-0">
       <h2 class="mb-0 text-truncate">
