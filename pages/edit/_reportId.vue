@@ -24,56 +24,52 @@
         </b-btn-group>
       </template>
     </nav-header>
-    <div class="main-with-nav">
-      <b-container fluid class="scroll-container">
-        <b-collapse
-          id="editor"
-          v-model="collapseIsVisible"
-        >
-          <b-card bg-variant="primary-1" no-body class="m-0 rounded-0">
-            <table-editor
-              :table="{
-                id: 'teamTable',
-                items: items,
-                fields: fields,
-                totalRows: items.length
-              }"
-            />
-          </b-card>
-        </b-collapse>
-        <b-container>
-          <b-row class="my-2">
-            <b-col>
-              <section-wrapper v-bind="tips.teamOverview">
-                <team-overview-chart :charts="annotations[team].overview" />
-              </section-wrapper>
-            </b-col>
-          </b-row>
-          <b-row class="my-2">
-            <b-col>
-              <section-wrapper v-bind="tips.teamTimeline">
-                <timeline-chart :chart="annotations[team].timeline" />
-              </section-wrapper>
-            </b-col>
-          </b-row>
-          <b-row class="my-2">
-            <b-col>
-              <section-wrapper v-bind="tips.teamPromoted">
-                <promoted-notes :notes="annotations[team].promoted" />
-              </section-wrapper>
-            </b-col>
-          </b-row>
-          <b-row class="my-2">
-            <b-col>
-              <section-wrapper v-bind="tips.overview">
-                <heatmap-chart :chart="{ id: 'overview-chart', series: overview }" />
-              </section-wrapper>
-            </b-col>
-          </b-row>
-        </b-container>
-        {{ version }}
-      </b-container>
-    </div>
+    <b-collapse
+      id="editor"
+      v-model="collapseIsVisible"
+    >
+      <b-card bg-variant="primary-1" no-body class="m-0 rounded-0">
+        <table-editor
+          :table="{
+            id: 'teamTable',
+            items: items,
+            fields: fields,
+            totalRows: items.length
+          }"
+        />
+      </b-card>
+    </b-collapse>
+    <b-container>
+      <b-row class="my-2">
+        <b-col>
+          <section-wrapper v-bind="tips.teamOverview">
+            <team-overview-chart :charts="annotations[team].overview" />
+          </section-wrapper>
+        </b-col>
+      </b-row>
+      <b-row class="my-2">
+        <b-col>
+          <section-wrapper v-bind="tips.teamTimeline">
+            <timeline-chart :chart="annotations[team].timeline" />
+          </section-wrapper>
+        </b-col>
+      </b-row>
+      <b-row class="my-2">
+        <b-col>
+          <section-wrapper v-bind="tips.teamPromoted">
+            <promoted-notes :notes="annotations[team].promoted" />
+          </section-wrapper>
+        </b-col>
+      </b-row>
+      <b-row class="my-2">
+        <b-col>
+          <section-wrapper v-bind="tips.overview">
+            <heatmap-chart :chart="{ id: 'overview-chart', series: overview }" />
+          </section-wrapper>
+        </b-col>
+      </b-row>
+    </b-container>
+    {{ version }}
   </div>
 </template>
 
@@ -228,19 +224,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main-with-nav {
-  position: fixed;
-  top:4.7rem;
-  left: 0;
-  right: 0;
-}
-
-.scroll-container {
-  overflow-y: scroll;
-  height: 100%;
-  scroll-behavior: smooth
-}
-
 .dangle-group {
   position: absolute;
   left: 50%;
