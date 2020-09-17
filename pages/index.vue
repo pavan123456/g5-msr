@@ -3,7 +3,7 @@
     <b-card footer-class="d-flex justify-content-end">
       <template v-slot:header>
         <h1 class="mb-0">
-          Generate an MSR!
+          Generate an Activity Tracker!
         </h1>
       </template>
       <b-form-group label="Select a client" label-class="text-muted">

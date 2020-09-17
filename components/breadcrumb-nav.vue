@@ -3,12 +3,13 @@
     <div class="w-100 d-flex mb-2 px-3 justify-content-between">
       <b-navbar-brand>
         <b-img-lazy src="/g5-primary-logo.png" height="50" />
-        MSR
+        <b-icon-alarm />
+        Activity Tracker
       </b-navbar-brand>
       <b-nav-text class="align-self-start p-0">
-        <h1 class="mb-0">
+        <h2 class="mb-0">
           {{ name }}
-        </h1>
+        </h2>
         <div class="text-muted text-uppercase small mb-0">
           From
           <b-badge class="px-3" style="font-size: 0.75rem;" variant="pale">
