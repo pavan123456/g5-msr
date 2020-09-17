@@ -35,8 +35,12 @@ spec:
             cpu: "{{ .Values.image.resources.requests.cpu }}"
             memory: "{{ .Values.image.resources.requests.memory }}"
         env:
+          - name: DATABASE_LOGGING
+            value: "true"
           - name: BROWSER_URL
             value: "activity.g5marketingcloud.com"
+          - name: GKE
+            value: "true"
           - name: INCLUDE_G5_AUTH
             value: "true"
           - name: INCLUDE_G5_UPDATABLES
