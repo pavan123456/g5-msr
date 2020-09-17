@@ -38,6 +38,7 @@ queue.init(app)
 g5Auth.init(app, authConfig)
 const models = require('./models')
 config.dev = process.env.NODE_ENV !== 'production'
+app.use(checkWhiteList)
 require('./routes')(app)
 const notesService = require('./controllers/annotationService')
 async function start () {
@@ -54,7 +55,6 @@ async function start () {
     // require('appmetrics-prometheus').attach()
   }
   app.use(nuxt.render)
-  app.use(checkWhiteList)
   function checkWhiteList(req, res, next) {
     if (dynamicWhitelist(req.path)) {
       next()
