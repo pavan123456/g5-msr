@@ -1,5 +1,5 @@
 <template>
-  <div class="px-0">
+  <div class="px-0 wrapper">
     <report-nav
       :items="sections"
       :period="period"
@@ -15,12 +15,12 @@
         <b-row
           v-for="(s, i) in sections"
           :key="`${s.text}-${i}`"
-          class="pt-5"
+          class="pt-1"
         >
           <b-col v-if="s.text === 'Overview'" cols="8" offset="2">
             <h2
               :id="s.id"
-              style="padding-top: 100px;"
+              style="padding-top: 30px;"
               class="text-center"
             >
               {{ s.text }}
@@ -32,7 +32,7 @@
               <b-col>
                 <h2
                   :id="s.id"
-                  style="padding-top: 100px;"
+                  style="padding-top: 30px;"
                   class="text-center"
                 >
                   {{ s.text }}
@@ -190,9 +190,16 @@ export default {
 </script>
 
 <style>
+.wrapper {
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  overflow: hidden;
+}
+
 .scroll-container {
   overflow: scroll;
-  height: 100vh;
-  max-height: 100vh;
+  max-height: calc(100vh - 150px);
 }
+
 </style>

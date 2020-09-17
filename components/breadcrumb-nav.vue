@@ -1,5 +1,5 @@
 <template>
-  <b-navbar fixed="top" class="d-block px-0 bg-white">
+  <b-navbar class="nav-bar d-block px-0 bg-white">
     <div class="w-100 d-flex mb-2 px-3 justify-content-between">
       <b-navbar-brand>
         <b-img-lazy src="/g5-primary-logo.png" height="50" />
@@ -29,7 +29,7 @@
           <b-btn
             :href="item.href"
             variant="transparent"
-            class="p-o m-0 text-uppercase text-muted"
+            class="p-o m-0 text-uppercase text-muted nav-btn"
             @click="move(i)"
           >
             {{ item.text }}
@@ -97,3 +97,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .nav-btn:focus {
+    box-shadow: none;
+  }
+</style>
