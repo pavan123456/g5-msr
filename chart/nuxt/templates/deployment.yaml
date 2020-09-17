@@ -36,7 +36,9 @@ spec:
             memory: "{{ .Values.image.resources.requests.memory }}"
         env:
           - name: BROWSER_URL
-            value: "stratypus.tk"
+            value: "activity.g5marketingcloud.com"
+          - name: INCLUDE_G5_AUTH
+            value: "true"
           - name: INCLUDE_G5_UPDATABLES
             value: "true"
           - name: DATABASE_MAX_CONNECTIONS
@@ -91,6 +93,31 @@ spec:
               secretKeyRef:
                 name: msr
                 key: REDIS_URL
+          - name: G5_AUTH_ENDPOINT
+            valueFrom:
+              secretKeyRef:
+                name: msr
+                key: G5_AUTH_ENDPOINT
+          - name: G5_TOKEN_ENDPOINT
+            valueFrom:
+              secretKeyRef:
+                name: msr
+                key: G5_TOKEN_ENDPOINT
+          - name: G5_AUTH_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: msr
+                key: G5_AUTH_CLIENT_ID
+          - name: G5_AUTH_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: msr
+                key: G5_AUTH_CLIENT_SECRET
+          - name: G5_AUTH_REDIRECT_URI
+            valueFrom:
+              secretKeyRef:
+                name: msr
+                key: G5_AUTH_REDIRECT_URI
           - name: PORT
             value : "{{ .Values.service.servicePort }}"
         {{- if .Values.image.livenessProbe }}
