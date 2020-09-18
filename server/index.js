@@ -26,21 +26,8 @@ console.log({ authConfig })
 const regexWhitelist = [
   /\/report\/\S*$/,
   /\/api\/v1\/report\/\S*\?edit=false$/,
-  /\/report\/g5-primary-logo\.png$/,
-  /\/_nuxt\/manifest\.[0-9a-z]*\.json/,
-  /\/_nuxt\/[0-9a-z]*\.js/,
-  /\/_nuxt\/[0-9a-z]*\.app\.js/,
-  /\/_nuxt\/pages\/index\.pages\/share\/_hashId\/index\.js/,
-  /\/_nuxt\/vendors\.pages\/index\.pages\/share\/_hashId\/index\.js/,
-  /\/_nuxt\/pages\/share\/_hashId\/index\.js/,
-  /\/__webpack_hmr\/client/,
   /\/[0-9a-z-]*\.png/,
-  /\/[\./0-9a-z-]*\.js/,
-  /\/_nuxt\/icons\/[\S]*\.png/,
-  /\/_nuxt\/pages\/index\.js/,
-  /\/_nuxt\/vendors\.pages\/index\.js/,
-  /\/_nuxt\/app\.[0-9a-z-]*\.hot-update.js/,
-  /\/_nuxt\/pages\/add.pages\/index.pages\/input.pages\/share\/_hashId\/index.js/
+  /\/[\./0-9a-z-]*\.js/
 ]
 const express = require('express')
 const consola = require('consola')
