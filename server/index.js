@@ -22,6 +22,7 @@ const authConfig = {
   },
   sucessRedirectPath: '/'
 }
+console.log({ authConfig })
 const regexWhitelist = [
   /\/report\/\S*$/,
   /\/api\/v1\/report\/\S*\?edit=false$/,
