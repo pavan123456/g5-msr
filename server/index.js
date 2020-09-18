@@ -8,7 +8,6 @@ const {
   G5_AUTH_ME_ENDPOINT: authMeEndpoint,
   SESSION_SECRET: secret
 } = process.env
-console.log(process.env.DATABASE_URL)
 const authConfig = {
   passport: {
     authorizationURL,
@@ -23,7 +22,6 @@ const authConfig = {
   },
   sucessRedirectPath: '/'
 }
-console.log({ authConfig })
 const regexWhitelist = [
   /\/report\/\S*$/,
   /\/api\/v1\/report\/\S*\?edit=false$/,
@@ -33,26 +31,25 @@ const regexWhitelist = [
 const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
-// const g5Auth = require('@getg5/g5-auth')
+const g5Auth = require('@getg5/g5-auth')
 const config = require('../nuxt.config.js')
 const queue = require('./controllers/queue')
 const app = express()
 queue.init(app)
-// g5Auth.init(app, authConfig)
+g5Auth.init(app, authConfig)
 const models = require('./models')
 config.dev = process.env.NODE_ENV !== 'production'
-// function dynamicWhitelist(path) {
-//   return regexWhitelist.some(url => url.test(path))
-// }
-// function checkWhiteList(req, res, next) {
-//   console.log(req.path)
-//   if (dynamicWhitelist(req.path)) {
-//     next()
-//   } else {
-//     g5Auth.isAuthenticated(req, res, next)
-//   }
-// }
-// app.use(g5Auth.isAuthenticated)
+function dynamicWhitelist(path) {
+  return regexWhitelist.some(url => url.test(path))
+}
+function checkWhiteList(req, res, next) {
+  if (dynamicWhitelist(req.path)) {
+    next()
+  } else {
+    g5Auth.isAuthenticated(req, res, next)
+  }
+}
+app.use(checkWhiteList)
 require('./routes')(app)
 const notesService = require('./controllers/annotationService')
 async function start () {
