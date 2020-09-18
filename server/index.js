@@ -43,6 +43,7 @@ function dynamicWhitelist(path) {
   return regexWhitelist.some(url => url.test(path))
 }
 function checkWhiteList(req, res, next) {
+  console.log(req.path)
   if (dynamicWhitelist(req.path)) {
     next()
   } else {

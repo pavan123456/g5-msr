@@ -5,7 +5,7 @@ metadata:
   labels:
     chart: '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}'
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.replicaCount }}  
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -37,6 +37,14 @@ spec:
         env:
           - name: DATABASE_LOGGING
             value: "true"
+          - name: G5_AUTH_ENDPOINT
+            value: https://auth.g5search.com/oauth/authorize
+          - name: G5_TOKEN_ENDPOINT
+            value: https://auth.g5search.com/oauth/token
+          - name: G5_AUTH_REDIRECT_URI
+            value: https://activity.g5marketingcloud.com/g5_auth/users/auth/g5/callback
+          - name: G5_AUTH_ME_ENDPOINT
+            value: https://auth.g5search.com/v1/me
           - name: BROWSER_URL
             value: "activity.g5marketingcloud.com"
           - name: GKE
@@ -97,31 +105,21 @@ spec:
               secretKeyRef:
                 name: msr
                 key: REDIS_URL
-          - name: G5_AUTH_ENDPOINT
+          - name : G5_AUTH_CLIENT_ID
             valueFrom:
               secretKeyRef:
-                name: msr
-                key: G5_AUTH_ENDPOINT
-          - name: G5_TOKEN_ENDPOINT
-            valueFrom:
-              secretKeyRef:
-                name: msr
-                key: G5_TOKEN_ENDPOINT
-          - name: G5_AUTH_CLIENT_ID
-            valueFrom:
-              secretKeyRef:
-                name: msr
+                name: annotation
                 key: G5_AUTH_CLIENT_ID
-          - name: G5_AUTH_CLIENT_SECRET
+          - name : G5_AUTH_CLIENT_SECRET
             valueFrom:
               secretKeyRef:
-                name: msr
+                name: annotation
                 key: G5_AUTH_CLIENT_SECRET
-          - name: G5_AUTH_REDIRECT_URI
+          - name : SESSION_SECRET
             valueFrom:
               secretKeyRef:
-                name: msr
-                key: G5_AUTH_REDIRECT_URI
+                name: annotation
+                key: SESSION_SECRET
           - name: PORT
             value : "{{ .Values.service.servicePort }}"
         {{- if .Values.image.livenessProbe }}
