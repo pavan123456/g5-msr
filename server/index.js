@@ -8,6 +8,7 @@ const {
   G5_AUTH_ME_ENDPOINT: authMeEndpoint,
   SESSION_SECRET: secret
 } = process.env
+console.log(process.env.DATABASE_URL)
 const authConfig = {
   passport: {
     authorizationURL,
@@ -73,16 +74,17 @@ async function start () {
     .sync()
     .then(() => {
       console.log('models')
+      try {
+        notesService.login()
+      } catch (error) {
+        throw new Error('Could not login to the Notes Service')
+      }
+      app.listen(port, host)
+      consola.ready({
+        message: `Server listening on http://${host}:${port}`,
+        badge: true
+      })
     })
-  try {
-    notesService.login()
-  } catch (error) {
-    throw new Error('Could not login to the Notes Service')
-  }
-  app.listen(port, host)
-  consola.ready({
-    message: `Server listening on http://${host}:${port}`,
-    badge: true
-  })
+    .catch(err => console.log(err))
 }
 start()
