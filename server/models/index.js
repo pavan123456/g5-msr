@@ -43,11 +43,9 @@ const sequelize = new Sequelize(dbUrl, {
 //   ...includeAuth ? require('@getg5/g5-auth').models(sequelize) : {},
 //   ...includeUpdatables ? require('@getg5/g5-updatable').models(sequelize) : {}
 // }
-const updatableModels = require('@getg5/g5-updatable').models(sequelize)
-const authModels = require('@getg5/g5-auth').models(sequelize)
+// const updatableModels = require('@getg5/g5-updatable').models(sequelize)
+// const authModels = require('@getg5/g5-auth').models(sequelize)
 const db = {
-  ...updatableModels,
-  ...authModels
 }
 // db.user.associate = (models) => {
 //   models.user.hasMany(models.seoAssignment, { foreignKey: 'userId', sourceKey: 'id' })

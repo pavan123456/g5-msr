@@ -27,31 +27,31 @@ const regexWhitelist = [
   /\/report\/\S*$/,
   /\/api\/v1\/report\/\S*\?edit=false$/,
   /\/[0-9a-z-]*\.png/,
-  /\/[\./0-9a-z-]*\.js/
+  /\/[~\./0-9a-z-]*\.js/
 ]
 const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
-const g5Auth = require('@getg5/g5-auth')
+// const g5Auth = require('@getg5/g5-auth')
 const config = require('../nuxt.config.js')
 const queue = require('./controllers/queue')
 const app = express()
 queue.init(app)
-g5Auth.init(app, authConfig)
+// g5Auth.init(app, authConfig)
 const models = require('./models')
 config.dev = process.env.NODE_ENV !== 'production'
-function dynamicWhitelist(path) {
-  return regexWhitelist.some(url => url.test(path))
-}
-function checkWhiteList(req, res, next) {
-  console.log(req.path)
-  if (dynamicWhitelist(req.path)) {
-    next()
-  } else {
-    g5Auth.isAuthenticated(req, res, next)
-  }
-}
-app.use(checkWhiteList)
+// function dynamicWhitelist(path) {
+//   return regexWhitelist.some(url => url.test(path))
+// }
+// function checkWhiteList(req, res, next) {
+//   console.log(req.path)
+//   if (dynamicWhitelist(req.path)) {
+//     next()
+//   } else {
+//     g5Auth.isAuthenticated(req, res, next)
+//   }
+// }
+// app.use(g5Auth.isAuthenticated)
 require('./routes')(app)
 const notesService = require('./controllers/annotationService')
 async function start () {
@@ -72,6 +72,7 @@ async function start () {
   models.sequelize
     .sync()
     .then(() => {
+      console.log('models')
     })
   try {
     notesService.login()
