@@ -108,17 +108,17 @@ spec:
           - name : G5_AUTH_CLIENT_ID
             valueFrom:
               secretKeyRef:
-                name: msr
+                name: annotation
                 key: G5_AUTH_CLIENT_ID
           - name : G5_AUTH_CLIENT_SECRET
             valueFrom:
               secretKeyRef:
-                name: msr
+                name: annotation
                 key: G5_AUTH_CLIENT_SECRET
           - name : SESSION_SECRET
             valueFrom:
               secretKeyRef:
-                name: msr
+                name: annotation
                 key: SESSION_SECRET
           - name: PORT
             value : "{{ .Values.service.servicePort }}"
