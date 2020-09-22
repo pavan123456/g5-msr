@@ -4,7 +4,7 @@ replicaCount: 1
 revisionHistoryLimit: 1
 image:
   repository: g5opex/g5-msr
-  tag: 0.3.23
+  tag: 0.3.26
   pullPolicy: IfNotPresent
   resources:
     requests:
