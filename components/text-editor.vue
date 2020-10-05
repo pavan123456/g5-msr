@@ -7,8 +7,11 @@
         :button-variant="editable ? 'tertiary': 'transparent'"
         button
         size="sm"
+        @input="beforeUpdate"
       >
-        <save-icon v-if="editable" class="save-btn" />
+        <span v-if="editable" class="save-btn">
+          SAVE
+        </span>
         <b-icon-pencil v-else />
       </b-form-checkbox>
       <b-btn
@@ -16,35 +19,18 @@
         :variant="editable ? 'failure' : 'transparent'"
         :disabled="!editable"
         size="sm"
+        @click="onRevert"
       >
         <b-icon-x-circle />
       </b-btn>
-      <b-form-checkbox
-        :id="`promoted-${rowId}`"
-        v-model="promoted"
-        button
-        button-variant="transparent"
-        size="sm"
-      >
-        <b-icon-star-fill v-if="promoted" />
-        <b-icon-star v-else />
-      </b-form-checkbox>
-      <b-popover
-        :target="`promoted-${rowId}`"
-        triggers="hover"
-      >
-        Promote this Note.
-      </b-popover>
     </div>
   </div>
 </template>
 
 <script>
 import { Editor, EditorContent } from 'tiptap'
-import SaveIcon from '~/components/icons/save'
 export default {
   components: {
-    SaveIcon,
     EditorContent
   },
   props: {
@@ -55,15 +41,25 @@ export default {
     rowId: {
       type: Number,
       required: true
+    },
+    promoted: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
-      promoted: false,
       editable: false,
+      actions: {},
       editor: new Editor({
         editable: false,
-        content: this.content
+        content: this.content,
+        onUpdate: ({ getHTML, getJSON }) => {
+          this.actions = {
+            annotation: getJSON(),
+            html: getHTML()
+          }
+        }
       })
     }
   },
@@ -76,6 +72,32 @@ export default {
   },
   beforeDestroy() {
     this.editor.destroy()
+  },
+  methods: {
+    onRevert() {
+      this.editor.content = this.content
+      this.editable = false
+    },
+    beforeUpdate() {
+      if (!this.editable && this.actions.html) {
+        this.onUpdate({ ...this.actions })
+      }
+    },
+    onUpdate(actions) {
+      this.$emit('on-update', actions)
+      if (actions) {
+        this.$axios
+          .$put('api/v1/update', {
+            rows: [{
+              id: this.rowId,
+              ...actions
+            }]
+          })
+          .then(() => {
+            this.$emit('update-table', true)
+          })
+      }
+    }
   }
 }
 </script>
@@ -109,7 +131,7 @@ export default {
         box-shadow: 0 0 2px 2px rgba(37, 107, 106, 0.5),
         0 5px 20px rgba(10, 10, 10, 0.2);
         transform-origin: right top;
-        transform: scale(1.1);
+        transform: scale(1.05);
       }
     }
   }

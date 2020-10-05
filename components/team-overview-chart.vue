@@ -1,6 +1,20 @@
 <template>
   <b-card header-class="border-0" no-body>
-    <b-tabs cards justified>
+    <b-card-body v-if="charts.length === 0">
+      <b-alert show variant="tertiary-3" class="respect-linebreak pb-4">
+        {{ fallback }}
+      </b-alert>
+      <b-btn
+        href="https://notes.g5marketingcloud.com"
+        target="_blank"
+        variant="outline-tertiary-3"
+        size="sm"
+      >
+        Open Notes Service
+        <b-icon-box-arrow-up-right />
+      </b-btn>
+    </b-card-body>
+    <b-tabs v-else cards justified>
       <b-tab
         v-for="(c, i) in charts"
         :key="`${c.id}-${i}`"
@@ -10,11 +24,10 @@
         <apex-chart
           :id="c.id"
           :series="c.series"
-          :options="options"
+          :options="getOptions(c.series.length)"
           type="bar"
           height="300"
         />
-        <!-- {{ c }} -->
       </b-tab>
     </b-tabs>
   </b-card>
@@ -59,23 +72,31 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      categories: [
-        'Optimizations',
-        'Account Changes',
-        'General Note'
-      ]
-    }
-  },
-  computed: {
-    options() {
-      return {
+  data: () => ({
+    fallback: '😢 Oh no! It looks like we can\'t find any notes for this time period. \n We\'d recommend adding some notes or if you think this is an error please report it!',
+    categories: [
+      'Optimizations',
+      'Account Changes',
+      'General Note'
+    ],
+    test: null,
+    chartOpts: []
+  }),
+  methods: {
+    getOptions(seriesLength) {
+      const opts = {
+        tooltip: {
+          y: {
+            formatter(value, { series, seriesIndex, dataPointIndex, w }) {
+              return value
+            }
+          }
+        },
         colors: ['#6889b0', '#a0ced1', '#234082', '#7fd9a3', '#da808f', '#f39d1f', '#fb001e'],
         chart: { type: 'bar', height: 300 },
         dataLabels: {
           enabled: true,
-          offsetY: -20,
+          offsetY: -25,
           style: {
             fontSize: '14px',
             colors: ['#000']
@@ -91,6 +112,7 @@ export default {
         yaxis: { show: false },
         plotOptions: {
           bar: {
+            columnWidth: seriesLength > 1 ? '75%' : '10%',
             dataLabels: {
               position: 'top'
             }
@@ -116,11 +138,18 @@ export default {
           labels: { show: false }
         }
       }
+      return opts
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-
+<style>
+.apexcharts-tooltip-title {
+  display: none !important;
+}
+.nav-link.active {
+  font-weight: 700;
+  color: #339698 !important;
+}
 </style>

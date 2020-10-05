@@ -1,22 +1,23 @@
 <template>
-  <b-navbar fixed="top" class="d-block px-0 bg-white">
+  <b-navbar class="nav-bar d-block px-0 bg-white">
     <div class="w-100 d-flex mb-2 px-3 justify-content-between">
       <b-navbar-brand>
         <b-img-lazy src="/g5-primary-logo.png" height="50" />
-        MSR
+        <b-icon-alarm />
+        Activity Tracker
       </b-navbar-brand>
       <b-nav-text class="align-self-start p-0">
-        <h1 class="mb-0">
-          StorQuest Self Storage
-        </h1>
+        <h2 class="mb-0">
+          {{ name }}
+        </h2>
         <div class="text-muted text-uppercase small mb-0">
           From
           <b-badge class="px-3" style="font-size: 0.75rem;" variant="pale">
-            {{ $route.query.from }}
+            {{ period.from }}
           </b-badge>
           To
           <b-badge class="px-3" style="font-size: 0.75rem;" variant="pale">
-            {{ $route.query.to }}
+            {{ period.to }}
           </b-badge>
         </div>
       </b-nav-text>
@@ -29,7 +30,7 @@
           <b-btn
             :href="item.href"
             variant="transparent"
-            class="p-o m-0 text-uppercase text-muted"
+            class="p-o m-0 text-uppercase text-muted nav-btn"
             @click="move(i)"
           >
             {{ item.text }}
@@ -38,7 +39,6 @@
       </b-list-group>
     </div>
     <b-progress
-      :max="items.length - 1"
       :value="position"
       class="w-100 mb-0 rounded-0"
       height="3px"
@@ -59,11 +59,30 @@ export default {
           { text: 'Customer Care', href: '#cc' }
         ]
       }
+    },
+    period: {
+      type: Object,
+      default() {
+        return {
+          to: '',
+          from: ''
+        }
+      }
+    },
+    name: {
+      type: String,
+      default() {
+        return ''
+      }
+    },
+    progress: {
+      type: Number,
+      default: 0
     }
   },
-  data() {
-    return {
-      position: 0
+  computed: {
+    position() {
+      return `${Math.round(this.progress * 100)}%`
     }
   },
   methods: {
@@ -79,3 +98,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .nav-btn:focus {
+    box-shadow: none;
+  }
+</style>

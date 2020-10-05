@@ -1,16 +1,20 @@
 // const notesService = require('./noteService')
+const models = require('../models')
 const notesService = require('./annotationService')
 class ServicesReport {
-  constructor(to, from, clientUrn) {
+  constructor(to, from, clientUrn, workQ, approvals, edit) {
     this.t0 = null
     this.t1 = null
-    this.categories  = []
+    this.categories = []
+    this.approvals = approvals
+    this.editing = edit
     this.to = to
     this.from = from
     this.clientUrn = clientUrn
     this.notes = []
     this.cases = []
-    this.workQ = []
+    this.workQ = workQ
+    this.clientName = null
 
     this.DA = {
       name: 'Digital Advertising',
@@ -32,10 +36,16 @@ class ServicesReport {
     }
 
     this.daSubCatMap = {
-      CountLocationExtensionRule: "Updated Call Extension",
-      PhoneRule: "Updated Call Extension",
-      CountLocationCallExtensionRule: "Updated Call Extension",
-      UrlRule: "URL Change"
+      CountLocationExtensionRule: 'Updated Call Extension',
+      PhoneRule: 'Updated Call Extension',
+      CountLocationCallExtensionRule: 'Updated Call Extension',
+      UrlRule: 'URL Change'
+    }
+    this.caseTeamMap = {
+      'Technical Support' : 'CC',
+      'Website Maintenance' : 'CC',
+      'Digital Advertising' : 'DA',
+      'Search Engine Optimization' :  'SEO'
     }
     this.overview = []
     this.teams = []
@@ -48,14 +58,52 @@ class ServicesReport {
    * @memberof ServicesReport
    */
   display() {
-    this.formatReport()
-    const now = new Date()
-    return {
-      time: `${(now.getTime() - this.t0)} milliseconds`,
-      overview: this.overview,
-      teams: this.teams,
-      notes: this.notes,
+    if (this.isApproved() || this.editing) {
+      this.formatReport()
+      const now = new Date()
+      //
+      return {
+        time: `${(now.getTime() - this.t0)} milliseconds`,
+        overview: this.overview,
+        teams: this.teams,
+        notes: this.notes,
+        approvals: this.approvals.map(team => ({
+          name: this[team.id.toUpperCase()].name,
+          ...team
+        }
+        )),
+        to: this.to,
+        from: this.from,
+        clientName: this.clientName
+      }
+    } else {
+      return {
+        error: 'this report is not ready to view'
+      }
     }
+  }
+
+  isApproved() {
+    let approved = true
+    for (let i = 0; i < this.approvals.length; i++) {
+      if (!this.approvals[i].value) {
+        approved = false
+        break
+      }
+    }
+    return approved
+  }
+
+  getClientName() {
+    return models.g5_updatable_client.findOne({
+      where: {
+        urn: this.clientUrn
+      }
+    }).then((client) => {
+      this.clientName = client.dataValues.properties.branded_name
+        ? client.dataValues.properties.branded_name
+        : client.dataValues.name
+    })
   }
 
   /**
@@ -69,10 +117,11 @@ class ServicesReport {
     this.t0 = now.getTime()
     await this.getCategories()
     this.setOverviewCategories()
-    const workQ = this.getWorkQ()
+    // const workQ = this.getWorkQ()
+    await this.getClientName()
     const notes = this.getNotes()
     const cases = this.getCases()
-    return Promise.all([workQ, notes, cases])
+    return Promise.all([notes, cases])
       .then(() => {
         this.groupWorkQ()
         this.groupNotes()
@@ -129,14 +178,15 @@ class ServicesReport {
       this[note.team.name].category[annotationCategory.value]++
       if (!this[note.team.name].subCategory[annotationType]) {
         this[note.team.name].subCategory[annotationType] = {
-          count : 0,
+          count: 0,
           category: annotationCategory.value
         }
       }
-      this.addToTimeline(note.team.name, annotationCategory.value, note.locationNames, note.note, note.internal, note.createdAt)
+      this.addToTimeline(annotationCategory.value, note.team.name, annotationType, note.locationNames, note.note, note.internal, note.createdAt)
       this[note.team.name].subCategory[annotationType].count++
     })
   }
+
   /**
    * Group Cases by team and subcategory
    *
@@ -145,20 +195,24 @@ class ServicesReport {
   groupCases() {
     this.cases.forEach((ticket) => {
       const { requestType, recordType } = ticket
-      if (!this.CC.subCategory[requestType.name]) {
-        this.CC.subCategory[requestType.name] = {
+      const team = this.caseTeamMap[recordType.name]
+      if (team) {
+          if (!this[team].subCategory[requestType.name]) {
+        this[team].subCategory[requestType.name] = {
           count: 0,
           category: 'Cases Solved'
+        }
       }
-    }
-      this.CC.subCategory[requestType.name].count++
-      if (!this.CC.category['Cases Solved']) {
-        this.CC.category['Cases Solved'] = 0
+      this[team].subCategory[requestType.name].count++
+      if (!this[team].category['Cases Solved']) {
+        this[team].category['Cases Solved'] = 0
       }
-      this.addToTimeline('CC', recordType.name, 1, null, true, ticket.createdAt)
-      this.CC.category['Cases Solved']++
+      this.addToTimeline('Cases Solved', team, requestType.name, 1, null, true, ticket.closedDate)
+      this[team].category['Cases Solved']++
+      }
     })
   }
+
   /**
    * Group WorkQ items by subcategory
    *
@@ -169,42 +223,49 @@ class ServicesReport {
       this.DA.category.Optimizations++
       if (!this.DA.subCategory[this.daSubCatMap[item.rule.class_name]]) {
         this.DA.subCategory[this.daSubCatMap[item.rule.class_name]] = {
-          count : 0,
+          count: 0,
           category: 'Optimizations'
+        }
       }
-    }
-      this.addToTimeline('DA', 'Optimizations', 1, this.daSubCatMap[item.rule.class_name], true, item.created_at)
+      this.addToTimeline('Optimizations', 'DA', this.daSubCatMap[item.rule.class_name], item.locations, '', true, item.created_at)
       this.DA.subCategory[this.daSubCatMap[item.rule.class_name]].count++
     })
   }
+
   /**
    * Add Item to Timeline
    *
+   * @param {String} category
    * @param {String} teamName
-   * @param {String} timelineName
+   * @param {String} actionType
    * @param {Array || String} locations
    * @param {String} note
    * @param {Boolean} internal
    * @param {Date} timestamp
    * @memberof ServicesReport
    */
-  addToTimeline(teamName, timelineName, locations, note, internal, timestamp) {
-    if (!this[teamName].timeline[timelineName]) {
-      this[teamName].timeline[timelineName] = []
+  addToTimeline(category, teamName, actionType, locations, note, internal, timestamp) {
+    if (!this[teamName].timeline[category]) {
+      this[teamName].timeline[category] = []
     }
     // const locationCount = typeof locations === 'number' ? locations : ( locations.length > 3 ? locations.length : locations.join())
-    const locationCount = typeof locations === 'number' ? locations : locations.length
-    const locationNames = typeof locations === 'number' ? '' : ( locations.length > 3 ? '' : locations.join())
+    const locationCount = typeof locations === 'number' ? locations : (locations.length === 0 ? 10 : locations.length)
+    const locationNames = typeof locations === 'number' ? [''] : locations
 
-      this[teamName].timeline[timelineName].push([
-        timestamp,
-        1,
-        locationCount,
+    this[teamName].timeline[category].push([
+      timestamp,
+      1,
+      locationCount,
+      {
+        category,
+        actionType,
         note,
         internal,
         locationNames
-      ])
+      }
+    ])
   }
+
   /**
    * Formate All Teams Data for use in the report
    *
@@ -215,13 +276,14 @@ class ServicesReport {
     this.formatTeam(this.CC)
     this.formatTeam(this.SEO)
   }
+
   /**
    * Format the teams data to work for the report
    *
    * @param {*} team
    * @memberof ServicesReport
    */
-  formatTeam (team) {
+  formatTeam(team) {
     const { category, name, subCategory, timeline } = team
     const keys = Object.keys(category)
 
@@ -235,24 +297,25 @@ class ServicesReport {
       timeline: this.formatTimeline(timeline)
     }
     const overviews = {}
-    keys.forEach((key => {
+    keys.forEach((key) => {
       teamOverview.data.push({
         x: key,
         y: category[key]
       })
       overviews[key] = []
-    }))
+    })
     const subKeys = Object.keys(subCategory)
     subKeys.forEach((key) => {
       overviews[subCategory[key].category].push({
-        name: key,
-        data: [subCategory[key].count ]
+        name: key === 'null' ? subCategory[key].category : key,
+        data: [subCategory[key].count]
       })
     })
     teamData.overview = this.formatSubCatCharts(overviews)
     this.teams.push(teamData)
     this.overview.push(teamOverview)
   }
+
   /**
    * Build Timeline Objects
    *
@@ -260,7 +323,7 @@ class ServicesReport {
    * @returns
    * @memberof ServicesReport
    */
-  formatTimeline (timeline) {
+  formatTimeline(timeline) {
     const keys = Object.keys(timeline)
     return keys.map((key) => {
       return {
@@ -270,6 +333,7 @@ class ServicesReport {
       }
     })
   }
+
   /**
    * Format the sub category charts
    *
@@ -280,7 +344,7 @@ class ServicesReport {
   formatSubCatCharts(overview) {
     const data = []
     const keys = Object.keys(overview)
-    keys.forEach((key => {
+    keys.forEach((key) => {
       if (overview[key].length > 0) {
         data.push({
           id: key.toLowerCase(),
@@ -288,13 +352,18 @@ class ServicesReport {
           series: overview[key]
         })
       }
-    }))
+    })
     return data
   }
+
   getCategories() {
-    return notesService.getCategories().then(({data}) => this.categories = data)
+    // eslint-disable-next-line no-return-assign
+    return notesService.getCategories().then(({ data }) => this.categories = data)
   }
+
   setOverviewCategories() {
+    // eslint-disable-next-line no-console
+    // console.log(this.categories)
     this.categories.forEach((category) => {
       this.DA.category[category.name] = 0
       this.CC.category[category.name] = 0

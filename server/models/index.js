@@ -39,11 +39,16 @@ const sequelize = new Sequelize(dbUrl, {
 })
 
 // NOT SURE THIS WILL WORK, BUT IT SEEMS LIKE WE WOULD WANT TO OPTIONALIZE THESE
+// const db = {
+//   ...includeAuth ? require('@getg5/g5-auth').models(sequelize) : {},
+//   ...includeUpdatables ? require('@getg5/g5-updatable').models(sequelize) : {}
+// }
+const updatableModels = require('@getg5/g5-updatable').models(sequelize)
+const authModels = require('@getg5/g5-auth').models(sequelize)
 const db = {
-  ...includeAuth ? require('@getg5/g5-auth').models(sequelize) : {},
-  ...includeUpdatables ? require('@getg5/g5-updatable').models(sequelize) : {}
+  ...updatableModels,
+  ...authModels
 }
-
 // db.user.associate = (models) => {
 //   models.user.hasMany(models.seoAssignment, { foreignKey: 'userId', sourceKey: 'id' })
 // }
@@ -69,7 +74,7 @@ Object.keys(db)
     }
   })
 
-require('./prototypes')(db)
+require('./prototypes')(db, Sequelize, sequelize)
 require('./hooks')(db)
 
 module.exports = {

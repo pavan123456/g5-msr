@@ -1,11 +1,25 @@
 <template>
-  <b-card>
-    <apex-chart
+  <b-card header-class="border-0" no-body class="px-4 py-2">
+    <b-card-body v-if="chart.length === 0">
+      <b-alert show variant="tertiary-3" class="respect-linebreak pb-4">
+        {{ fallback }}
+      </b-alert>
+      <b-btn
+        href="https://notes.g5marketingcloud.com"
+        target="_blank"
+        variant="outline-tertiary-3"
+        size="sm"
+      >
+        Open Notes Service
+        <b-icon-box-arrow-up-right />
+      </b-btn>
+    </b-card-body>
+     <apex-chart
+      v-else
       :series="chart"
       :options="options"
-      height="275"
+      height="300"
     />
-    <!-- {{ chart }} -->
   </b-card>
 </template>
 
@@ -21,11 +35,12 @@ export default {
             name: 'Fallback Category',
             requestType: 'Fallback Request Type',
             data: [
-              ['01/03/2020 03:15 PM', 1, 0],
-              ['01/14/2020 01:19 PM', 1, 17],
-              ['02/01/2020 01:42 PM', 1, 30],
-              ['03/15/2020 05:00 PM', 1, 9],
-              ['03/24/2020 02:28 PM', 1, 3]
+              ['01/01/2020 03:15 PM', 1, 1, { category: 'Category', actionType: 'Updated Call Extension', note: '', internal: true, locationNames: ['StorQuest Self Storage'] }],
+              ['01/03/2020 03:15 PM', 1, 10, { category: 'Category', actionType: 'Updated Call Extension', note: '', internal: true, locationNames: ['StorQuest Self Storage'] }],
+              ['01/14/2020 01:19 PM', 1, 20, { category: 'Category', actionType: 'Updated Call Extension', note: '', internal: true, locationNames: ['StorQuest Self Storage'] }],
+              ['02/01/2020 01:42 PM', 1, 30, { category: 'Category', actionType: 'Updated Call Extension', note: '', internal: true, locationNames: ['StorQuest Self Storage'] }],
+              ['03/15/2020 05:00 PM', 1, 40, { category: 'Category', actionType: 'Updated Call Extension', note: '', internal: true, locationNames: ['StorQuest Self Storage'] }],
+              ['03/24/2020 02:28 PM', 1, 50, { category: 'Category', actionType: 'Updated Call Extension', note: '', internal: true, locationNames: ['StorQuest Self Storage'] }]
             ]
           }
         ]
@@ -34,18 +49,19 @@ export default {
   },
   data() {
     return {
+      fallback: '😢 Oh no! It looks like we can\'t find any notes for this time period.\n We\'d recommend adding some notes or if you think this is an error, please report it!',
       options: {
         id: 'timeline-chart',
         colors: ['#8dc7cb', '#e00033', '#62bc60', '#feb800'],
-        chart: { type: 'bubble', height: 250 },
+        chart: { type: 'bubble' },
         dataLabels: { enabled: false },
         fill: { opacity: 0.8 },
         title: { text: 'Activity Timeline' },
         grid: {
           borderColor: '#c1c1c1',
-          column: {
-            colors: ['#94abd7', 'transparent'],
-            opacity: 1
+          padding: {
+            left: -10,
+            right: -10
           },
           strokeDashArray: 2,
           xaxis: {
@@ -56,21 +72,28 @@ export default {
           }
         },
         legend: { position: 'top' },
-        yaxis: {
+        yaxis: [{
           show: false,
           min: 0,
           max: 2,
           tickAmount: 2
-        },
+        }],
         plotOptions: {
           bubble: {
-            minBubbleRadius: 1,
-            maxBubbleRadius: 300
+            minBubbleRadius: 10,
+            maxBubbleRadius: 200
           }
         },
         xaxis: {
+          // min: '12/01/2019 03:15 PM',
           type: 'datetime',
           position: 'bottom',
+          axisTicks: {
+            show: true,
+            color: '#000',
+            height: 8,
+            offsetY: -4
+          },
           labels: {
             style: {
               fontFamily: '"Fira Sans", sans-serif'
@@ -86,20 +109,33 @@ export default {
         tooltip: {
           y: { show: false },
           custom({ series, seriesIndex, dataPointIndex, w }) {
+            const {
+              category,
+              actionType,
+              internal,
+              note,
+              locationNames
+            } = w.config.series[seriesIndex].data[dataPointIndex][3]
+
+            const locations = locationNames.length === 0
+              ? 'All Locations'
+              : locationNames.length > 3
+                ? `${locationNames.length} locations`
+                : locationNames.join(', ')
             return `
-              <div class="pb-1 pt-0 timeline-tooltip">
-                <h2 class="badge w-100 my-0 badge-primary-1">
-                  ${w.config.series[seriesIndex].name}
+              <div class="pb-1 pt-0 px-1 timeline-tooltip">
+                <h2 class="badge w-100 my-0 badge-tertiary-1">
+                  ${category}
                 </h2>
                 <div class="py-1 px-2 text-left" style="max-width: 300px;">
-                  <p class="font-weight-bold mb-1">
-                    ${w.config.series[seriesIndex].data[dataPointIndex][5] === null ? '' : w.config.series[seriesIndex].data[dataPointIndex][5]}
+                  <p class="font-weight-bold mb-1 text-wrap">
+                   ${actionType == null ? '' : actionType}
                   </p>
                   <div class="text-wrap my-2">
-                    ${!w.config.series[seriesIndex].data[dataPointIndex][4] ? w.config.series[seriesIndex].data[dataPointIndex][3] : ''}
+                    ${!internal ? note : ''}
                   </div>
                   <p class="text-muted text-wrap border-pale border-top pt-2">
-                    ${w.config.series[seriesIndex].data[dataPointIndex][6]}
+                    ${locations}
                   </p>
                 </div>
               </div>
@@ -123,6 +159,6 @@ export default {
 
 <style>
 .timeline-tooltip {
-  min-width: 200px;
+  min-width: 300px;
 }
 </style>

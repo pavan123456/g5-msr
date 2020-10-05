@@ -11,8 +11,11 @@
       :filter="search"
       :per-page="perPage"
       :current-page="currentPage"
+      :busy="isBusy"
       show-empty
+      selectable
       select-mode="multi"
+      selected-variant="secondary-2"
       head-variant="light"
       sticky-header="45vh"
       primary-key="id"
@@ -21,22 +24,37 @@
       striped
       borderless
       responsive
+      @row-selected="onSelected"
     >
       <template v-slot:empty>
         <h1 class="text-center">
           {{ emptyText }}
         </h1>
       </template>
-      <template v-slot:head(selected)>
-        <b-form-checkbox />
+      <template v-slot:table-busy>
+        <h1 class="text-center">
+          <b-spinner v-if="isBusy" />
+          Applying those changes...
+        </h1>
       </template>
-      <template v-slot:cell(selected)>
-        <b-form-checkbox />
+      <template v-slot:head(selected)>
+        <b-form-checkbox
+          :checked="selected"
+          @input="selectAllRows"
+        />
+      </template>
+      <template v-slot:cell(selected)="{ rowSelected }">
+        <b-icon-check v-if="rowSelected" scale="2" />
       </template>
       <template v-slot:cell(internal)="row">
         <div class="hover-anchor">
-          <b-icon-emoji-neutral v-if="row.item.internal" font-scale="1.5" />
-          <b-icon-emoji-sunglasses v-else font-scale="1.5" />
+          <b-icon-emoji-neutral v-if="row.item.internal" scale="2" />
+          <b-iconstack v-else>
+            <b-icon-star-fill v-if="row.item.promoted" scale="3.5" variant="success" />
+            <b-icon-emoji-sunglasses scale="2" />
+          </b-iconstack>
+          <!-- <b-icon-emoji-neutral v-if="row.item.internal" font-scale="1.5" />
+          <b-icon-emoji-sunglasses v-else font-scale="1.5" /> -->
           <div class="hovered-icon small text-muted text-uppercase">
             {{ row.item.internal ? 'Internal Only' : 'Customer-Facing' }}
           </div>
@@ -96,7 +114,12 @@
       </template>
       <template v-slot:cell(note)="row">
         <!-- <span v-html="row.item.note" /> -->
-        <text-editor :content="row.item.note" :row-id="row.item.id" />
+        <text-editor
+          :content="row.item.note"
+          :row-id="row.item.id"
+          :promoted="row.item.promoted"
+          @on-updated="refreshTable"
+        />
       </template>
       <template v-slot:cell(clientName)="row">
         <b-badge variant="neutral" class="text-wrap">
@@ -111,7 +134,9 @@
             <b-btn-group size="sm">
               <b-btn
                 id="is-visible-btn"
+                :disabled="isBusy"
                 variant="neutral"
+                @click="onBulkUpdate({ internal: false })"
               >
                 <b-icon-emoji-sunglasses />
               </b-btn>
@@ -119,13 +144,14 @@
                 target="is-visible-btn"
                 triggers="hover"
                 placement="top"
-                variant="neutral"
               >
                 Mark selected notes as <b>Customer-Facing</b>.
               </b-popover>
               <b-btn
                 id="is-internal-btn"
+                :disabled="isBusy"
                 variant="neutral"
+                @click="onBulkUpdate({ internal: true })"
               >
                 <b-icon-emoji-neutral />
               </b-btn>
@@ -133,13 +159,14 @@
                 target="is-internal-btn"
                 triggers="hover"
                 placement="top"
-                variant="neutral"
               >
-                Mark Selected notes as <b>Internal-Only</b>.
+                Mark selected notes as <b>Internal-Only</b>.
               </b-popover>
               <b-btn
                 id="is-promoted-btn"
+                :disabled="isBusy"
                 variant="neutral"
+                @click="onBulkUpdate({ promoted: true })"
               >
                 <b-icon-star-fill />
               </b-btn>
@@ -147,13 +174,28 @@
                 target="is-promoted-btn"
                 triggers="hover"
                 placement="top"
-                variant="neutral"
               >
-                Mark Selected notes as <b>Promoted Notes</b>.
+                Mark selected notes as <b>Promoted Notes</b>.
+              </b-popover>
+              <b-btn
+                id="is-unpromoted-btn"
+                :disabled="isBusy"
+                variant="neutral"
+                @click="onBulkUpdate({ promoted: false })"
+              >
+                <b-icon-star />
+              </b-btn>
+              <b-popover
+                target="is-unpromoted-btn"
+                triggers="hover"
+                placement="top"
+              >
+                Remove selected notes from <b>Promoted Notes</b>.
               </b-popover>
               <b-btn
                 id="toggle-select"
                 variant="neutral"
+                @click="selectAllRows(false)"
               >
                 Deselect All
               </b-btn>
@@ -233,17 +275,56 @@ export default {
   },
   data() {
     return {
+      isBusy: false,
       perPage: 10,
       currentPage: 1,
+      selected: false,
       pageOptions: [10, 20, 50],
       emptyText: '🦥 Nothing to See Here.',
       filteredText: '🦥 Adjust your Search String.',
-      search: ''
+      search: '',
+      selectedRows: []
     }
   },
   methods: {
     onClearSearch() {
       this.search = ''
+    },
+    onSelected(rows) {
+      // this.$emit('method-onSelected', rows)
+      this.selectedRows = rows
+    },
+    onBulkUpdate(actions) {
+      if (this.selectedRows.length > 0) {
+        this.isBusy = true
+        this.$axios
+          .$put('api/v1/update', {
+            rows: this.selectedRows.map(row => ({
+              id: row.id,
+              ...actions
+            }))
+          })
+          .then((res) => {
+            this.$emit('success-put', res)
+            this.selectAllRows(false)
+          })
+          .finally(() => {
+            this.isBusy = false
+          })
+      }
+      // selected will be rows, action will be promoted, internal booleans
+      // make api put to api/v1/notes with array of rows.
+    },
+    selectAllRows(select = false) {
+      this.selected = select
+      select === true
+        ? this.$refs[this.table.id].selectAllRows()
+        : this.$refs[this.table.id].clearSelected()
+    },
+    refreshTable(pull = false) {
+      if (pull) {
+        // refetch data
+      }
     }
   }
 }

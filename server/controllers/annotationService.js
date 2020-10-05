@@ -80,6 +80,9 @@ async getCategories() {
       return this.login()
     }
   }
+  updateNote(id, update) {
+    return axios.put(`${noteServiceUrl}/api/v1/note/${id}?access_token=${this.apiToken}`, update)
+  }
 }
  
 module.exports =  new AnnotationService()

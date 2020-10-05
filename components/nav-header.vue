@@ -1,39 +1,36 @@
 <template>
-  <b-navbar variant="white" class="primary-nav dangle-anchor">
-    <b-navbar-brand to="/" class="h1 my-0 pr-3" style="font-size: 2rem; border-right: 2px solid #e8e8e8;">
+  <b-navbar
+    class="primary-nav dangle-anchor justify-content-between"
+    style="box-shadow: inset 0 -2px 0 0 #e8e8e8;"
+  >
+    <b-navbar-brand
+      to="/"
+      class="h1 my-0"
+      style="font-size: 2rem;"
+    >
       <b-img-lazy src="/g5-primary-logo.png" height="45" />
-      🦧.🐳.🐝.
+      <b-icon-alarm />
+      Activity Tracker
     </b-navbar-brand>
-    <b-nav-form class="w-100">
-      <b-input-group style="flex-wrap: nowrap; align-items: center;">
-        <b-input-group-prepend class="px-2 text-muted text-uppercase small">
-          Client
-        </b-input-group-prepend>
-        <vue-multiselect
-          id="client-select"
-          :value="client"
-          :options="clients"
-          label="name"
-          track-by="urn"
-          placeholder="Select a Client"
-          @input="onUpdate({ key: 'client', value: $event })"
-        />
-      </b-input-group>
-      <swap-wrapper />
-      <year-input />
-      <b-btn
-        id="refresh-table-btn"
-        class="px-2 ml-2"
-        variant="primary-2"
-        size="sm"
-        @click="updateReport"
-      >
-        <b-icon-arrow-repeat :animation="isBusy ? 'spin' : ''" />
-      </b-btn>
-      <div style="width: 0; height: 100%; border-right: 2px solid #e8e8e8;" />
+    <b-nav-text class="align-self-start p-0">
+      <h2 class="mb-0 text-truncate">
+        {{ client.name }}
+      </h2>
+      <div class="text-muted text-uppercase small mb-0">
+        From
+        <b-badge class="px-3" style="font-size: 0.75rem;" variant="pale">
+          {{ client.from }}
+        </b-badge>
+        To
+        <b-badge class="px-3" style="font-size: 0.75rem;" variant="pale">
+          {{ client.to }}
+        </b-badge>
+      </div>
+    </b-nav-text>
+    <b-nav-form>
       <b-input-group class="flex-nowrap align-items-center">
         <b-input-group-prepend class="px-2 text-muted text-uppercase small">
-          Team
+          View
         </b-input-group-prepend>
         <b-form-radio-group
           :checked="team"
@@ -44,59 +41,86 @@
           @input="onUpdate({ key: 'team', value: $event })"
         />
       </b-input-group>
-      <b-btn
-        id="approve-btn"
-        variant="outline-tertiary-2"
-        size="sm"
-        class="ml-2 px-4"
-        @click="onUpdate({ key: 'isSubmitted', value: !isSubmitted })"
-      >
-        <b-icon-check-circle-fill v-if="isSubmitted" />
-        <b-icon-check-circle v-else />
-        {{ isSubmitted ? 'Approved' : 'Approve' }}
-      </b-btn>
+      <b-input-group class="flex-nowrap align-items-center ml-3">
+        <b-input-group-prepend class="px-2 text-muted text-uppercase small">
+          Approvals
+        </b-input-group-prepend>
+        <b-btn-group>
+          <b-btn
+            v-for="a in approvals"
+            :key="a.id"
+            :variant="a.value ? 'success' : 'outline-failure-1'"
+            size="sm"
+            class="approval-btn"
+            @click="updateReport(a, approvals)"
+          >
+            {{ a.name }}
+            <b-spinner v-if="pending[a.id]" small />
+            <b-icon-check-circle v-else />
+          </b-btn>
+        </b-btn-group>
+      </b-input-group>
     </b-nav-form>
-    <b-navbar-nav class="ml-auto">
-      <b-nav-item-dropdown right>
-        <template v-slot:text>
-          <b-icon-person />
-        </template>
-        <b-dropdown-item to="/staged">
-          Output Test
-        </b-dropdown-item>
-      </b-nav-item-dropdown>
-    </b-navbar-nav>
     <slot name="dangle" />
   </b-navbar>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import VueMultiselect from 'vue-multiselect'
-import SwapWrapper from '~/components/swap-wrapper'
-import YearInput from '~/components/year-select'
 export default {
-  components: {
-    SwapWrapper,
-    YearInput,
-    VueMultiselect
+  props: {
+    client: {
+      type: Object,
+      default() {
+        return {
+          name: 'Fallback Client Name',
+          to: 'to date',
+          from: 'from date'
+        }
+      }
+    },
+    approvals: {
+      type: Array,
+      default() {
+        return [
+          { name: 'Digital Advertising', id: 'da', value: false },
+          { name: 'SEO', id: 'seo', value: false },
+          { name: 'Customer Care', id: 'cc', value: true }
+        ]
+      }
+    }
+  },
+  data () {
+    return {
+      pending: {
+        da: false,
+        cc: false,
+        seo: false
+      }
+    }
   },
   computed: mapState({
-    client: state => state.inputs.client,
-    clients: state => state.inputs.clients,
     team: state => state.inputs.team,
-    teams: state => state.inputs.teams,
-    isBusy: state => state.inputs.isBusy,
-    isSubmitted: state => state.inputs.isSubmitted
+    teams: state => state.inputs.teams
   }),
   methods: {
     ...mapActions({
       onUpdate: 'inputs/onUpdate'
     }),
-    updateReport() {
-      if (this.client) {
-        this.onUpdate({ key: 'isBusy', value: true })
-        this.$emit('get-report', this.client.urn)
+    updateReport(evt, allApprovals) {
+      allApprovals.find(obj => obj.id === evt.id).value = !evt.value
+      if (evt) {
+        this.pending[evt.id] = true
+        this.$axios
+          .$put(`api/v1/report/${this.$route.params.reportId}`, {
+            approvals: allApprovals
+          }).then((res) => {
+            this.pending[evt.id] = false
+          }).catch((err) => {
+            // eslint-disable-next-line no-console
+            console.error(err)
+            this.pending[evt.id] = false
+          })
       }
     }
   }
@@ -104,10 +128,11 @@ export default {
 </script>
 
 <style lang="scss">
-.primary-nav {
-  border-bottom: 2px solid #e8e8e8;
-}
 .dangle-anchor {
   position: relative;
+}
+.approval-btn:focus  {
+  outline: none;
+  box-shadow: none;
 }
 </style>

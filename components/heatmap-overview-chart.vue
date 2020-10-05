@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div>
     <apex-chart
       :id="chart.id"
       :series="chart.series"
@@ -7,7 +7,6 @@
       type="heatmap"
       height="400"
     />
-    <!-- {{ chart.series }} -->
   </div>
 </template>
 
