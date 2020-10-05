@@ -31,12 +31,12 @@ const regexWhitelist = [
 const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
-const g5Auth = require('@getg5/g5-auth')
+// const g5Auth = require('@getg5/g5-auth')
 const config = require('../nuxt.config.js')
 const queue = require('./controllers/queue')
 const app = express()
 queue.init(app)
-g5Auth.init(app, authConfig)
+// g5Auth.init(app, authConfig)
 const models = require('./models')
 config.dev = process.env.NODE_ENV !== 'production'
 function dynamicWhitelist(path) {
@@ -49,7 +49,7 @@ function checkWhiteList(req, res, next) {
     g5Auth.isAuthenticated(req, res, next)
   }
 }
-app.use(checkWhiteList)
+// app.use(checkWhiteList)
 require('./routes')(app)
 const notesService = require('./controllers/annotationService')
 async function start () {
@@ -61,10 +61,8 @@ async function start () {
   if (config.dev) {
     const builder = new Builder(nuxt)
     await builder.build()
-  } else {
-    // require('appmetrics-zipkin')()
-    // require('appmetrics-prometheus').attach()
   }
+
   app.use(nuxt.render)
 
   models.sequelize

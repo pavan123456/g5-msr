@@ -88,9 +88,16 @@ export default {
   },
   methods: {
     generateReport() {
-      if (this.client && !this.monthly) {
+      if (this.client) {
         this.isBusy = true
-        const { from, to } = this.selectedQuarter
+        let from, to
+        if (this.monthly === false) {
+          from = this.selectedQuarter.from
+          to = this.selectedQuarter.to
+        } else {
+          from = this.selectedDate.from
+          to = this.selectedDate.to
+        }
         this.$axios
           .$post(`api/v1/report/${this.client.urn}?from=${from}&to=${to}`)
           .then((status) => {
