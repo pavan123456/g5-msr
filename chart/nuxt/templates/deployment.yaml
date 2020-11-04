@@ -23,7 +23,7 @@ spec:
         version: "current"
     spec:
       nodeSelector:
-        cloud.google.com/gke-nodepool: pool-1
+        cloud.google.com/gke-nodepool: "non-whitelisted-apps"
       containers:
       - name: "{{  .Chart.Name  }}"
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
