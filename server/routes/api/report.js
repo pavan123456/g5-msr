@@ -17,24 +17,7 @@ module.exports = (app) => {
   app.post('/api/v1/report/:clientUrn', async(req, res) => {
     const { to, from } = req.query
     const { clientUrn } = req.params
-    const { data: workQ } = await notesService.getWorkQ(clientUrn, to, from)
-    const locationUrns = workQ.map(item => item.location_urn)
-    const locations = await models.g5_updatable_location.findAll({
-      where: {
-        urn: {
-          [Op.in]: locationUrns
-        }
-      }
-    })
-    workQ.forEach((item, i) => {
-      const location = locations.find(loc => loc.dataValues.urn = item.location_urn)
-      let locationName = ''
-      if (location) {
-        locationName = location.dataValues.display_name ? location.dataValues.display_name : location.dataValues.name
-      }
-      workQ[i].locations = [ locationName ]
-    })
-    await models.report.createNew({ to, from, clientUrn, workQ })
+    await models.report.createNew({ to, from, clientUrn, workQ: [] })
     res.sendStatus(200)
   })
 
