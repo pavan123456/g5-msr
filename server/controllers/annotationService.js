@@ -50,19 +50,6 @@ async getCases(clientUrn, to = '2020-08-07', from = '2020-06-01') {
     return axios.get(`${noteServiceUrl}/api/v1/cases?access_token=${this.apiToken}&clientUrn=${clientUrn}&searchBy=closedDate&to=${to}&from=${from}`)
   }
 /**
- * Get all workQ items for a period and client urn
- *
- * @param {*} clientUrn
- * @param {string} [to='2020-08-07']
- * @param {string} [from='2020-06-01']
- * @returns
- * @memberof AnnotationService
- */
-async getWorkQ(clientUrn, to = '2020-08-07', from = '2020-06-01') {
-    await this.checkTokenAge()
-    return axios.get(`${noteServiceUrl}/api/v1/dam/workq/${clientUrn}?access_token=${this.apiToken}&searchBy=created_at&to=${to}&from=${from}`)
-  }
-/**
  *
  *
  * @returns

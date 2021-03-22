@@ -117,7 +117,6 @@ class ServicesReport {
     this.t0 = now.getTime()
     await this.getCategories()
     this.setOverviewCategories()
-    // const workQ = this.getWorkQ()
     await this.getClientName()
     const notes = this.getNotes()
     const cases = this.getCases()
@@ -147,16 +146,6 @@ class ServicesReport {
   async getCases() {
     const { data: cases } = await notesService.getCases(this.clientUrn, this.to, this.from)
     this.cases = cases
-  }
-
-  /**
-   * Get all completed workq items from the DAM
-   *
-   * @memberof ServicesReport
-   */
-  async getWorkQ() {
-    const { data: workQ } = await notesService.getWorkQ(this.clientUrn, this.to, this.from)
-    this.workQ = workQ
   }
 
   /**

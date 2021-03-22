@@ -22,7 +22,7 @@ module.exports = async (job, sfApi) => {
   report.recordType = recordType ? recordType.Name : null
   report.levelOfService = client ? client.Level_of_Service__c : null
   const { to, from } = getDateRange(report.levelOfService)
-  const { data: workQ } = await notesService.getWorkQ(report.clientUrn, to, from)
+
   const newReport = await models.report.findOrCreate({
     where: {
       clientUrn: report.clientUrn,
@@ -33,7 +33,7 @@ module.exports = async (job, sfApi) => {
       clientUrn: report.clientUrn,
       from,
       to,
-      workQ
+      workQ: []
     }
   })
   // call SF and send structured URL with query param team

@@ -11,7 +11,7 @@ export const state = () => {
       'Q3',
       'Q4'
     ],
-    year: 2020,
+    year: 2021,
     monthly: false,
     month: 7,
     months: [
