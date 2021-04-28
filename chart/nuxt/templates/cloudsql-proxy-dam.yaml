@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudsql-proxy-dam
+  labels:
+    run: cloudsql-proxy-dam
+spec:
+  ports:
+  - port: 5432
+    protocol: TCP
+  selector:
+    app: cloudsql-proxy-dam
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudsql-proxy-dam
+  labels:
+    app: cloudsql-proxy-dam
+spec:
+  selector:
+    matchLabels:
+      app: cloudsql-proxy-dam
+  template:
+    metadata:
+      name: cloudsql-proxy-dam
+      labels:
+        app: cloudsql-proxy-dam
+    spec:
+      containers:
+        - name: cloudsql-proxy-dam
+          image: gcr.io/cloudsql-docker/gce-proxy:1.16
+          ports:
+            - containerPort: 5432
+          command: ["/cloud_sql_proxy",
+                    "-instances=analytics-prod-d7ed:us-central1:dam-n=tcp:0.0.0.0:5432",
+                    "-credential_file=/secrets/cloudsql/service-account.json"]
+          securityContext:
+            runAsUser: 2  # non-root user
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: dam-proxy-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true
+      volumes:
+        - name: dam-proxy-credentials
+          secret:
+            defaultMode: 420
+            secretName: dam-proxy-credentials
+# create secret from JSON via:
+# kubectl create secret generic dam-proxy-credentials --from-file=service-account.json
