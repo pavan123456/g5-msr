@@ -1,0 +1,5 @@
+global:
+  projectID: opex-prod-ebbd
+configuration: production
+environment: opex-prod
+databaseConnectionName: "operational-excellence-239518:us-west2:opex-crs"

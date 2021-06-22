@@ -1,0 +1,20 @@
+global: 
+  applicationName: activity
+image:
+  name: gcr.io/g5-images/activity-tracker
+configurations:
+  staging:
+    configMapData:
+      BROWSER_URL: 'https://activity-opex-staging.g5devops.com'
+      NOTE_SERVICE_URL: https://notes.g5marketingcloud.com
+      G5_AUTH_ENDPOINT:
+      G5_TOKEN_ENDPOINT:
+      G5_AUTH_REDIRECT_URI:
+  prime:
+    configMapData:
+      BROWSER_URL: 'https://activity-opex-prime.g5devops.com'
+      NOTE_SERVICE_URL: https://notes.g5marketingcloud.com
+  production:
+    configMapData:
+      BROWSER_URL: 'https://activity.g5marketingcloud.com/'
+      NOTE_SERVICE_URL: https://notes.g5marketingcloud.com

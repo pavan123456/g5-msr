@@ -1,0 +1,5 @@
+global:
+  projectID: opex-staging-b877
+configuration: staging
+environment: opex-staging
+databaseConnectionName: "operational-excellence-239518:us-west2:opex-crs"
