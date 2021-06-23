@@ -4,7 +4,7 @@ metadata:
   name: {{ .Release.Name | quote }}
   labels:
     {{ include "activity.labels" . | nindent 4 }}
-  activitys:
+  annotations:
     reloader.stakater.com/search: "true"
 spec:
   replicas: 1
@@ -22,7 +22,7 @@ spec:
       name: node
       labels:
         {{ include "activity.labels" . | nindent 8 }}
-      activitys:
+      annotations:
         kubectl.kubernetes.io/default-logs-container: node
     spec:
       serviceAccountName: {{ include "activity.serviceAccountName" . }}
