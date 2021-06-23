@@ -1,6 +1,7 @@
 FROM node:12
 
 ARG NPM_TOKEN
+ARG BROWSER_URL
 
 RUN mkdir -p /usr/src/opex
 WORKDIR /usr/src/opex
