@@ -1,5 +1,6 @@
 global: 
   applicationName: activity
+  region: us-central1
 image:
   name: gcr.io/g5-images/activity-tracker
 configurations:
