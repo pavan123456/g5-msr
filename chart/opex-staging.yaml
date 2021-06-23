@@ -3,3 +3,5 @@ global:
 configuration: staging
 environment: opex-staging
 databaseConnectionName: "operational-excellence-239518:us-central1:opex-postgres"
+memorystore: 
+  instanceSuffix: a

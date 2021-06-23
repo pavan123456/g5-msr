@@ -3,3 +3,5 @@ global:
 configuration: prime
 environment: opex-prime
 databaseConnectionName: "operational-excellence-239518:us-central1:opex-postgres"
+memorystore: 
+  instanceSuffix: a
