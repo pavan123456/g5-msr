@@ -2,4 +2,4 @@ global:
   projectID: opex-prime-25d3
 configuration: prime
 environment: opex-prime
-databaseConnectionName: "operational-excellence-239518:us-west2:opex-crs"
+databaseConnectionName: "operational-excellence-239518:us-central1:opex-postgres"
