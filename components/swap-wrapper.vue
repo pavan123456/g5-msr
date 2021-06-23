@@ -24,18 +24,18 @@ export default {
     MonthPicker,
     PeriodPicker
   },
-  data() {
+  data () {
     return {
       showMonth: false
     }
   },
   computed: {
-    monthly() {
+    monthly () {
       return this.$store.state.inputs.monthly
     }
   },
   methods: {
-    onUpdate(payload) {
+    onUpdate (payload) {
       this.showMonth = !this.showMonth
       this.$store.dispatch('inputs/onUpdate', payload)
     }

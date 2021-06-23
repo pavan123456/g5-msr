@@ -26,27 +26,27 @@
       responsive
       @row-selected="onSelected"
     >
-      <template v-slot:empty>
+      <template #empty>
         <h1 class="text-center">
           {{ emptyText }}
         </h1>
       </template>
-      <template v-slot:table-busy>
+      <template #table-busy>
         <h1 class="text-center">
           <b-spinner v-if="isBusy" />
           Applying those changes...
         </h1>
       </template>
-      <template v-slot:head(selected)>
+      <template #head(selected)>
         <b-form-checkbox
           :checked="selected"
           @input="selectAllRows"
         />
       </template>
-      <template v-slot:cell(selected)="{ rowSelected }">
+      <template #cell(selected)="{ rowSelected }">
         <b-icon-check v-if="rowSelected" scale="2" />
       </template>
-      <template v-slot:cell(internal)="row">
+      <template #cell(internal)="row">
         <div class="hover-anchor">
           <b-icon-emoji-neutral v-if="row.item.internal" scale="2" />
           <b-iconstack v-else>
@@ -60,12 +60,12 @@
           </div>
         </div>
       </template>
-      <template v-slot:cell(annotationCategory)="row">
+      <template #cell(annotationCategory)="row">
         <small class="text-muted">
           {{ row.item.annotationCategory.text }}
         </small>
       </template>
-      <template v-slot:cell(annotationType)="row">
+      <template #cell(annotationType)="row">
         <small class="text-muted">
           {{ row.item.annotationType }}
         </small>
@@ -76,17 +76,17 @@
           End: {{ row.item.endDate }}
         </b-badge>
       </template>
-      <template v-slot:cell(createdAt)="row">
+      <template #cell(createdAt)="row">
         <b-badge variant="neutral">
           {{ formatDate(row.item.createdAt) }}
         </b-badge>
       </template>
-      <template v-slot:cell(updatedAt)="row">
+      <template #cell(updatedAt)="row">
         <b-badge variant="neutral">
           {{ formatDate(row.item.updatedAt) }}
         </b-badge>
       </template>
-      <template v-slot:cell(locationNames)="row">
+      <template #cell(locationNames)="row">
         <div v-if="row.item.locationNames.length >= 10">
           {{ row.item.locationNames.length }} Locations
         </div>
@@ -100,7 +100,7 @@
           {{ loc }}
         </b-badge>
       </template>
-      <template v-slot:cell(salesforceSync)="row">
+      <template #cell(salesforceSync)="row">
         <b-icon-check-circle-fill
           v-if="row.item.salesforceSync"
           scale="1.2"
@@ -112,7 +112,7 @@
           class="text-tertiary"
         />
       </template>
-      <template v-slot:cell(note)="row">
+      <template #cell(note)="row">
         <!-- <span v-html="row.item.note" /> -->
         <text-editor
           :content="row.item.note"
@@ -121,13 +121,13 @@
           @on-updated="refreshTable"
         />
       </template>
-      <template v-slot:cell(clientName)="row">
+      <template #cell(clientName)="row">
         <b-badge variant="neutral" class="text-wrap">
           {{ row.item.clientName }}
         </b-badge>
       </template>
     </b-table>
-    <template v-slot:footer>
+    <template #footer>
       <b-container fluid class="px-0">
         <b-row>
           <b-col cols="4">
@@ -235,7 +235,7 @@
                 size="sm"
                 style="border: 2px solid #e8e8e8; border-radius: 5px;"
               />
-              <template v-slot:append>
+              <template #append>
                 <b-btn
                   v-show="search !== ''"
                   variant="transparent"
@@ -264,7 +264,7 @@ export default {
   props: {
     table: {
       type: Object,
-      default() {
+      default () {
         return {
           id: '',
           fields: [],
@@ -273,7 +273,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       isBusy: false,
       perPage: 10,
@@ -287,14 +287,14 @@ export default {
     }
   },
   methods: {
-    onClearSearch() {
+    onClearSearch () {
       this.search = ''
     },
-    onSelected(rows) {
+    onSelected (rows) {
       // this.$emit('method-onSelected', rows)
       this.selectedRows = rows
     },
-    onBulkUpdate(actions) {
+    onBulkUpdate (actions) {
       if (this.selectedRows.length > 0) {
         this.isBusy = true
         this.$axios
@@ -315,13 +315,13 @@ export default {
       // selected will be rows, action will be promoted, internal booleans
       // make api put to api/v1/notes with array of rows.
     },
-    selectAllRows(select = false) {
+    selectAllRows (select = false) {
       this.selected = select
       select === true
         ? this.$refs[this.table.id].selectAllRows()
         : this.$refs[this.table.id].clearSelected()
     },
-    refreshTable(pull = false) {
+    refreshTable (pull = false) {
       if (pull) {
         // refetch data
       }

@@ -3,7 +3,7 @@
     <b-row>
       <b-col>
         <b-table :items="items" :fields="fields">
-          <template v-slot:cell(reportId)="{ item }">
+          <template #cell(reportId)="{ item }">
             <b-btn
               :to="`/edit/${item.reportId}?team=da`"
               block
@@ -16,12 +16,12 @@
               View Report
             </b-btn>
           </template>
-          <template v-slot:cell(workQ)="{ item }">
+          <template #cell(workQ)="{ item }">
             <h1>
               {{ item.workQ.length }}
             </h1>
           </template>
-          <template v-slot:cell(approvals)="{ item }">
+          <template #cell(approvals)="{ item }">
             <b-list-group>
               <b-list-group-item
                 v-for="approval in item.approvals"
@@ -34,12 +34,12 @@
               </b-list-group-item>
             </b-list-group>
           </template>
-          <template v-slot:cell(from)="{ item }">
+          <template #cell(from)="{ item }">
             <b-badge variant="neutral">
               {{ item.from }}
             </b-badge>
           </template>
-          <template v-slot:cell(to)="{ item }">
+          <template #cell(to)="{ item }">
             <b-badge variant="neutral">
               {{ item.to }}
             </b-badge>
@@ -52,7 +52,7 @@
 
 <script>
 export default {
-  async asyncData({ $axios }) {
+  async asyncData ({ $axios }) {
     const items = await $axios.$get('api/v1/reports')
     return {
       items,

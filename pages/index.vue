@@ -1,7 +1,7 @@
 <template>
   <div class="centered">
     <b-card footer-class="d-flex justify-content-end">
-      <template v-slot:header>
+      <template #header>
         <h1 class="mb-0">
           Generate an Activity Tracker!
         </h1>
@@ -15,7 +15,7 @@
           label="name"
           @input="onUpdate({ key: 'client', value: $event })"
         >
-          <template v-slot:option="{ option }">
+          <template #option="{ option }">
             <b>
               {{ option.name }}
             </b>
@@ -42,7 +42,7 @@
         </span>
         Generate That Report...
       </b-btn>
-      <template v-slot:footer>
+      <template #footer>
         <b-btn
           to="/edit"
           size="sm"
@@ -66,14 +66,14 @@ export default {
     VueMultiselect,
     SwapWrapper
   },
-  fetch({ store }) {
-    store.dispatch('inputs/fillClients')
-  },
-  data() {
+  data () {
     return {
       isBusy: false,
       status: null
     }
+  },
+  fetch ({ store }) {
+    store.dispatch('inputs/fillClients')
   },
   computed: {
     ...mapState({
@@ -87,11 +87,11 @@ export default {
     })
   },
   methods: {
-    generateReport() {
+    generateReport () {
       if (this.client) {
         this.isBusy = true
         let from, to
-        if (this.monthly === false) {
+        if (!this.monthly) {
           from = this.selectedQuarter.from
           to = this.selectedQuarter.to
         } else {

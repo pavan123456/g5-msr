@@ -1,5 +1,5 @@
 export default {
-  data() {
+  data () {
     return {
       fields: [
         {
@@ -74,8 +74,8 @@ export default {
     }
   },
   methods: {
-    createFields(row, exclude = []) {},
-    formatDate(date) {
+    createFields (row, exclude = []) {},
+    formatDate (date) {
       const d = new Date(date)
       let month = '' + (d.getMonth() + 1)
       let day = '' + d.getDate()
@@ -88,7 +88,7 @@ export default {
       }
       return [year, month, day].join('-')
     },
-    generateTimeline(items) {
+    generateTimeline (items) {
       // this.$emit('generate-timeline', items)
       const categories = [
         'Optimizations',

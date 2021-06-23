@@ -3,7 +3,7 @@
     header-class="p-0 m-0 border-0"
     class="my-0 border-0"
   >
-    <template v-slot:header>
+    <template #header>
       <b-btn
         block
         variant="transparent"
@@ -44,7 +44,7 @@ export default {
       default: 'description here'
     }
   },
-  data() {
+  data () {
     return {
       visible: false
     }

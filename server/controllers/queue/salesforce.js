@@ -14,14 +14,14 @@ function bullConfig (Bull) {
   salesforce.on('completed', checkForSignout)
   salesforce.on('failed', checkForSignout)
 
-  async function checkForSignout(job, res) {
+  async function checkForSignout (job, res) {
     const waiting = await salesforce.getWaitingCount()
     const active = await salesforce.getActiveCount()
     if (waiting === 0 && active === 0) {
-      console.log('Signing Out')
       await sfApi.signOut()
     }
   }
+
   return salesforce
 }
 

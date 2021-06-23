@@ -57,7 +57,7 @@ export const state = () => {
 }
 
 export const getters = {
-  selectedDate(state) {
+  selectedDate (state) {
     const thirtyOne = [1, 3, 5, 7, 8, 10, 12]
     const mo = state.month < 10
       ? `0${state.month}`
@@ -72,7 +72,7 @@ export const getters = {
       to: `${state.year}-${mo}-${day}`
     }
   },
-  selectedQuarter(state) {
+  selectedQuarter (state) {
     const ranges = {
       Q1: { start: '01-01', end: '03-31' },
       Q2: { start: '04-01', end: '06-30' },
@@ -87,13 +87,13 @@ export const getters = {
 }
 
 export const actions = {
-  onUpdate({ commit }, payload) {
+  onUpdate ({ commit }, payload) {
     commit('ON_UPDATE', payload)
   },
-  onNested({ commit }, payload) {
+  onNested ({ commit }, payload) {
     commit('ON_NESTED', payload)
   },
-  fillClients({ commit }) {
+  fillClients ({ commit }) {
     this.$axios
       .$get('api/v1/hub/clients')
       .then(clients => commit('FILL_CLIENTS', clients))
@@ -101,17 +101,17 @@ export const actions = {
 }
 
 export const mutations = {
-  ON_UPDATE(state, payload) {
+  ON_UPDATE (state, payload) {
     state[payload.key] = payload.value
   },
-  ON_NESTED(state, payload) {
+  ON_NESTED (state, payload) {
     state.teams.forEach((team) => {
       team.isSelected = false
     })
     const i = state.teams.findIndex(team => team.id === payload.id)
     state.teams[i][payload.prop] = payload.value
   },
-  FILL_CLIENTS(state, clients) {
+  FILL_CLIENTS (state, clients) {
     state.clients = clients
   }
 }

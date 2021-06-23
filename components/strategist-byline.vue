@@ -18,7 +18,7 @@ export default {
   props: {
     content: {
       type: Object,
-      default() {
+      default () {
         return {
           src: 'http://placekitten.com/200/200',
           name: 'Kitten Strategist',

@@ -15,7 +15,7 @@
       class="mb-0"
       @input="onUpdate({ key: 'month', value: $event })"
     >
-      <template v-slot:page="{ page }">
+      <template #page="{ page }">
         {{ months[page].text }}
       </template>
     </b-pagination>

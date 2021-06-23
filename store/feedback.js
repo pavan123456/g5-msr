@@ -15,10 +15,10 @@ export const state = () => {
 }
 
 export const getters = {
-  commentLength(state) {
+  commentLength (state) {
     return state.comment.length
   },
-  isValid(state) {
+  isValid (state) {
     return state.comment === ''
       ? null
       : state.comment.length <= state.maxCommentLength
@@ -26,13 +26,13 @@ export const getters = {
 }
 
 export const actions = {
-  onUpdate({ commit }, payload) {
+  onUpdate ({ commit }, payload) {
     commit('ON_UPDATE', payload)
   }
 }
 
 export const mutations = {
-  ON_UPDATE(state, payload) {
+  ON_UPDATE (state, payload) {
     state[payload.key] = payload.value
   }
 }

@@ -1,6 +1,6 @@
 const { salesforce } = require('../../controllers/queue')
 
-module.exports = (app, sfApi) => {
+module.exports = (app) => {
   // case coming from SFDC
   // vip monthly, everyone else quarterly
   // most recently completed quarter or month

@@ -1,20 +1,18 @@
 const ServicesReport = require('../../controllers/report.class')
 const notesService = require('../../controllers/annotationService')
 const models = require('../../models')
-const { Op } = models.Sequelize
+
 module.exports = (app) => {
   app.get('/api/v1/login', async (req, res) => {
     try {
-      const token = await notesService.login()
-      // eslint-disable-next-line no-console
-      console.log({ token })
+      await notesService.login()
       res.status(201)
     } catch (err) {
       res.status(503).send(err)
     }
   })
 
-  app.post('/api/v1/report/:clientUrn', async(req, res) => {
+  app.post('/api/v1/report/:clientUrn', async (req, res) => {
     const { to, from } = req.query
     const { clientUrn } = req.params
     await models.report.createNew({ to, from, clientUrn, workQ: [] })

@@ -21,13 +21,13 @@ export default {
   props: {
     size: {
       type: String,
-      default() {
+      default () {
         return '1em'
       }
     },
     color: {
       type: String,
-      default() {
+      default () {
         return 'currentColor'
       }
     }

@@ -62,7 +62,7 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       show: false
     }
@@ -74,16 +74,16 @@ export default {
       comment: state => state.feedback.comment,
       max: state => state.feedback.maxCommentLength
     }),
-    commentLength() {
+    commentLength () {
       return this.$store.getters['feedback/commentLength']
     },
-    isValid() {
+    isValid () {
       return this.$store.getters['feedback/isValid']
     }
   },
   methods: {
-    onSubmit() {},
-    onClear() {},
+    onSubmit () {},
+    onClear () {},
     ...mapActions({
       onUpdate: 'feedback/onUpdate'
     })

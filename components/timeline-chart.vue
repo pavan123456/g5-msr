@@ -14,7 +14,7 @@
         <b-icon-box-arrow-up-right />
       </b-btn>
     </b-card-body>
-     <apex-chart
+    <apex-chart
       v-else
       :series="chart"
       :options="options"
@@ -29,7 +29,7 @@ export default {
   props: {
     chart: {
       type: Array,
-      default() {
+      default () {
         return [
           {
             name: 'Fallback Category',
@@ -47,7 +47,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       fallback: '😢 Oh no! It looks like we can\'t find any notes for this time period.\n We\'d recommend adding some notes or if you think this is an error, please report it!',
       options: {
@@ -108,7 +108,7 @@ export default {
         },
         tooltip: {
           y: { show: false },
-          custom({ series, seriesIndex, dataPointIndex, w }) {
+          custom ({ series, seriesIndex, dataPointIndex, w }) {
             const {
               category,
               actionType,

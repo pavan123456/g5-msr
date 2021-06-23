@@ -4,7 +4,7 @@
       :approvals="approvals"
       :client="client"
     >
-      <template v-slot:dangle>
+      <template #dangle>
         <b-btn-group class="dangle-group bg-white border border-neutral" size="sm">
           <b-btn
             id="editor-toggle"
@@ -94,13 +94,7 @@ export default {
     NavHeader
   },
   mixins: [Helpers],
-  fetch({ store, query }) {
-    return store.dispatch('inputs/onUpdate', {
-      key: 'team',
-      value: query.team || 'da'
-    })
-  },
-  async asyncData({ params, $axios }) {
+  async asyncData ({ params, $axios }) {
     const {
       time,
       overview,
@@ -168,7 +162,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       version,
       collapseIsVisible: true,
@@ -193,25 +187,31 @@ export default {
       }
     }
   },
+  fetch ({ store, query }) {
+    return store.dispatch('inputs/onUpdate', {
+      key: 'team',
+      value: query.team || 'da'
+    })
+  },
   computed: {
-    team() {
+    team () {
       return this.$store.state.inputs.team
     },
-    teamOptions() {
+    teamOptions () {
       return this.$store.state.inputs.teams
     }
   },
-  created() {
+  created () {
     this.items = this.annotations[this.team].notes
   },
   methods: {
-    onTeamChange(team) {
+    onTeamChange (team) {
       if (team) {
         this.items = this.annotations[team].notes
         this.totalRows = this.annotations[team].notes.length
       }
     },
-    formatOverviewData() {
+    formatOverviewData () {
       this.overview.forEach((row) => {
         row.data = row.data.filter((col) => {
           return this.overviewColumns.includes(col.x)

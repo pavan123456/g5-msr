@@ -15,7 +15,7 @@ export default {
   props: {
     chart: {
       type: Object,
-      default() {
+      default () {
         return {
           id: '',
           series: [
@@ -54,7 +54,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       options: {
         stroke: { width: 4 },
