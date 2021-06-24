@@ -1,13 +1,13 @@
 {
   "name": "g5-msr",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "See what your service dollar gets you!",
   "author": "David Miller & Tyler Hasenoehrl",
   "private": true,
   "config": {
     "imageRepo": "gcr.io/g5-images/activity-tracker",
     "imageName": "activity-tracker"
-  }, 
+  },
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
     "helm:upgrade": "helm upgrade msr ./chart/nuxt",
