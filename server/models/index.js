@@ -33,11 +33,12 @@ const sequelize = new Sequelize(dbUrl, {
   dialectOptions: {
     ssl: (ssl === 'true') ? { ca, cert, key } : false
   },
-  logging: (logging === 'true')
+  logging: logging === 'true' ? console.log : false
 })
 
 const updatableModels = require('@getg5/g5-updatable').models(sequelize)
 const authModels = require('@getg5/g5-auth').models(sequelize)
+
 const db = {
   ...updatableModels,
   ...authModels
@@ -52,7 +53,7 @@ fs.readdirSync(__dirname)
                   file !== 'README.md'
   )
   .forEach((file) => {
-    const model = sequelize.import(path.join(__dirname, file))
+    const model = require(path.join(__dirname, file))(sequelize)
     const { name } = model
     db[name] = model
   })
