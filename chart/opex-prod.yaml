@@ -5,5 +5,3 @@ global:
 configuration: production
 environment: opex-prod
 databaseConnectionName: "operational-excellence-239518:us-central1:opex-postgres"
-memorystore: 
-  instanceSuffix: a

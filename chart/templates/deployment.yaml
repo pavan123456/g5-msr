@@ -54,6 +54,26 @@ spec:
                 configMapKeyRef:
                   name: {{ .Release.Name }}
                   key: BROWSER_URL
+            - name: G5_AUTH_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}
+                  key: G5_AUTH_ENDPOINT
+            - name: G5_TOKEN_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}
+                  key: G5_TOKEN_ENDPOINT
+            - name: G5_AUTH_REDIRECT_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}
+                  key: G5_AUTH_REDIRECT_URI
+            - name: G5_AUTH_ME_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}
+                  key: G5_AUTH_ME_ENDPOINT
             - name: NOTE_SERVICE_URL
               valueFrom:
                 configMapKeyRef:
@@ -150,11 +170,6 @@ spec:
                 secretKeyRef:
                   name: activity
                   key: NOTE_SERVICE_PASSWORD
-            - name: REDIS_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "redis.urlConfigMapName" (list (include "cloud-helper.values.applicationName" $) (get .Values .Values.activeBullSubchart)) }}
-                  key: {{ include "redis.urlConfigMapKey" . }}
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.11
           command: 
