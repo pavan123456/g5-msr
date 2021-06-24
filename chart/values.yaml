@@ -11,6 +11,7 @@ configurations:
       G5_AUTH_ENDPOINT: https://auth.g5search.com/oauth/authorize
       G5_TOKEN_ENDPOINT: https://auth.g5search.com/oauth/token
       G5_AUTH_REDIRECT_URI: https://activity-opex-staging.g5devops.com/g5_auth/users/auth/g5/callback
+      G5_AUTH_ME_ENDPOINT: https://auth.g5search.com/v1/me
   prime:
     configMapData:
       BROWSER_URL: 'https://activity-opex-prime.g5devops.com'
@@ -18,6 +19,7 @@ configurations:
       G5_AUTH_ENDPOINT: https://auth.g5search.com/oauth/authorize
       G5_TOKEN_ENDPOINT: https://auth.g5search.com/oauth/token
       G5_AUTH_REDIRECT_URI: https://activity-opex-prime.g5devops.com/g5_auth/users/auth/g5/callback
+      G5_AUTH_ME_ENDPOINT: https://auth.g5search.com/v1/me
   production:
     configMapData:
       BROWSER_URL: 'https://activity.g5marketingcloud.com/'
@@ -25,8 +27,4 @@ configurations:
       G5_AUTH_ENDPOINT: https://auth.g5search.com/oauth/authorize
       G5_TOKEN_ENDPOINT: https://auth.g5search.com/oauth/token
       G5_AUTH_REDIRECT_URI: https://activity.g5marketingcloud.com/g5_auth/users/auth/g5/callback
-activeBullSubchart: "memorystore"
-memorystore: 
-  purpose: bull
-  tier: BASIC
-  # memorySizeGb: 1
+      G5_AUTH_ME_ENDPOINT: https://auth.g5search.com/v1/me
