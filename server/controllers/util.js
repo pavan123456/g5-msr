@@ -80,6 +80,7 @@ function groupBy (key, array) {
     return objectsByKeyValue
   }, {})
 }
+
 /**
  *
  *
@@ -127,6 +128,7 @@ function objectToArray (data, targetProp) {
   })
   return insert
 }
+
 /**
  * Create an object with even indexes are keys and odds are values
  *
@@ -143,6 +145,7 @@ function arrayToObject (arr) {
   }
   return obj
 }
+
 /**
  * Chunk an array into smaller arrays
  *
@@ -168,6 +171,7 @@ function nullToFalse (data) {
   })
   return returnObject
 }
+
 function nullStringtoNull (data) {
   const returnObject = {}
   Object.keys(data).forEach((key) => {

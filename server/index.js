@@ -1,4 +1,8 @@
 require('dotenv').config()
+const express = require('express')
+const consola = require('consola')
+const { Nuxt, Builder } = require('nuxt')
+const g5Auth = require('@getg5/g5-auth')
 
 const {
   G5_AUTH_ENDPOINT: authorizationURL,
@@ -32,13 +36,9 @@ const regexWhitelist = [
   /\/[~./0-9a-z-]*\.js/
 ]
 
-const express = require('express')
-const consola = require('consola')
-const { Nuxt, Builder } = require('nuxt')
-const g5Auth = require('@getg5/g5-auth')
 const config = require('../nuxt.config.js')
-const queue = require('./controllers/queue')
 const app = express()
+const queue = require('./controllers/queue')
 queue.init(app)
 g5Auth.init(app, authConfig)
 const models = require('./models')
