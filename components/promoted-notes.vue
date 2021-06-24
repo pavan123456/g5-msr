@@ -30,7 +30,7 @@
         v-for="(note, i) in notes[g.date]"
         :key="`${note.id}-${i}`"
       >
-        <div v-html="note.text" class="mb-3" />
+        <div class="mb-3" v-html="note.text" />
         <div v-if="note.locations.length < 8">
           <b-badge
             v-for="(l, idx) in note.locations"
@@ -78,18 +78,18 @@ export default {
   props: {
     notes: {
       type: Object,
-      default() {
+      default () {
         return {}
       }
     }
   },
-  data() {
+  data () {
     return {
       groups: [],
       fallback: '😢 Oh no! You don\'t have any Promoted Notes for this time period. Please use the table above to promote notes you want the customer to be able to see.\n If there are no notes worthy of promotion, consider adding some notes that encapsulate the themes of the work you did in this period.'
     }
   },
-  created() {
+  created () {
     this.groups = Object
       .keys(this.notes)
       .map(key => ({

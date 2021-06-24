@@ -70,7 +70,7 @@ const fields = [
 ]
 
 export const table = {
-  data() {
+  data () {
     return {
       table: {
         id: 'testTable',
@@ -83,7 +83,7 @@ export const table = {
 }
 
 export const timelineChartData = {
-  data() {
+  data () {
     return {
       series: [{
         name: 'test-team',
@@ -94,7 +94,7 @@ export const timelineChartData = {
 }
 
 export const metricsData = {
-  data() {
+  data () {
     return {
       chart: {
         id: 'metrics',
@@ -127,7 +127,7 @@ export const metricsData = {
 }
 
 export const promotedNotes = {
-  data() {
+  data () {
     return {
       groups,
       promoted

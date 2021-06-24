@@ -51,7 +51,7 @@ export default {
   props: {
     items: {
       type: Array,
-      default() {
+      default () {
         return [
           { text: 'Overview', href: '#overview' },
           { text: 'Digital Advertising', href: '#da' },
@@ -62,7 +62,7 @@ export default {
     },
     period: {
       type: Object,
-      default() {
+      default () {
         return {
           to: '',
           from: ''
@@ -71,7 +71,7 @@ export default {
     },
     name: {
       type: String,
-      default() {
+      default () {
         return ''
       }
     },
@@ -81,12 +81,12 @@ export default {
     }
   },
   computed: {
-    position() {
+    position () {
       return `${Math.round(this.progress * 100)}%`
     }
   },
   methods: {
-    move(index) {
+    move (index) {
       if (index < 0) {
         this.position = 0
       } else if (index > this.items.length - 1) {

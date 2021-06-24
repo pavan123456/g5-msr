@@ -1,5 +1,6 @@
 const jsforce = require('jsforce')
 const util = require('../controllers/util')
+
 const {
   SF_USERNAME: username,
   SF_PASSWORD: password,
@@ -38,8 +39,9 @@ class SfApi extends jsforce.Connection {
    * @returns { Promise }
    * @memberof SfApi
    */
-  signIn() {
-    return this.login(this.username, `${this.password}${this.token}`).then(() => { this.loggedIn = true })
+  async signIn () {
+    await this.login(this.username, `${this.password}${this.token}`)
+    this.loggedIn = true
   }
 
   /**
@@ -47,8 +49,9 @@ class SfApi extends jsforce.Connection {
    * @returns { Promise }
    * @memberof SfApi
    */
-  signOut() {
-    return this.logout().then(() => { this.loggedIn = false })
+  async signOut () {
+    await this.logout()
+    this.loggedIn = false
   }
 
   /**
@@ -56,7 +59,7 @@ class SfApi extends jsforce.Connection {
    * @returns { Boolean }
    * @memberof SfApi
    */
-  get isLoggedIn() {
+  get isLoggedIn () {
     return this.loggedIn
   }
 
@@ -65,7 +68,7 @@ class SfApi extends jsforce.Connection {
    * @param { Boolean }
    * @memberof SfApi
    */
-  set isLoggedIn(param) {
+  set isLoggedIn (param) {
     this.loggedIn = param
   }
 
@@ -85,7 +88,7 @@ class SfApi extends jsforce.Connection {
    * @memberof SfApi
    */
   // eslint-disable-next-line camelcase
-  createNote(WhatId, OwnerId, Task_Category__c, Task_Action_Type__c, Internal_Only__c, Description, ActivityDate, Status, Subject, Task_Types__c) {
+  createNote (WhatId, OwnerId, Task_Category__c, Task_Action_Type__c, Internal_Only__c, Description, ActivityDate, Status, Subject, Task_Types__c) {
     return this.sobject('Task').create(
       {
         WhatId,
@@ -108,7 +111,7 @@ class SfApi extends jsforce.Connection {
    * @returns { Number } Number of total closed cases in 2020
    * @memberof SfApi
    */
-  getTotalCases(where) {
+  getTotalCases (where) {
     return this.query('SELECT count() FROM Case WHERE ClosedDate > 2020-01-01T00:00:00.000Z')
   }
 
@@ -130,7 +133,7 @@ class SfApi extends jsforce.Connection {
    * @returns { Promise }
    * @memberof SfApi
    */
-  deleteNote(id) {
+  deleteNote (id) {
     return this.sobject('Task').destroy(id)
   }
 
@@ -143,7 +146,7 @@ class SfApi extends jsforce.Connection {
    * @returns { Promise }
    * @memberof SfApi
    */
-  updateNote(Id, update) {
+  updateNote (Id, update) {
     return this.sobject('Task').update({
       Id,
       ...update
@@ -157,7 +160,7 @@ class SfApi extends jsforce.Connection {
    * @returns { Object }
    * @memberof SfApi
    */
-  async findAccount(where, attributes) {
+  async findAccount (where, attributes) {
     const accounts = await this.sobject('Account').find(where, attributes)
     return util.pick(accounts[0], attributes)
   }
@@ -169,7 +172,7 @@ class SfApi extends jsforce.Connection {
    * @returns { Object }
    * @memberof SfApi
    */
-  async findLocation(where, attributes) {
+  async findLocation (where, attributes) {
     const accounts = await this.sobject('Location__c').find(where, attributes)
     return util.pick(accounts[0], attributes)
   }
@@ -179,9 +182,9 @@ class SfApi extends jsforce.Connection {
    * @returns { Object }
    * @memberof SfApi
    */
-  getCases(where, attributes) {
+  getCases (where, attributes) {
     return this.query('SELECT AccountId, Account_Manager__c, CaseNumber, Case_Age__c, Case_Owner_Name__c, ClosedDate, CreatedDate, RecordTypeId, Request_Type__c, Subject FROM Case WHERE ClosedDate > 2020-01-01T00:00:00.000Z')
-      .then(async(cases) => {
+      .then(async (cases) => {
         const totalCases = [...cases.records]
         let done = cases.done
         let nextRecordsUrl = cases.nextRecordsUrl
@@ -202,7 +205,7 @@ class SfApi extends jsforce.Connection {
    * @returns { Array }
    * @memberof SfApi
    */
-  getRecordTypes(ids, attributes) {
+  getRecordTypes (ids, attributes) {
     return this.sobject('recordType').retrieve(ids)
       .then(recordTypes => recordTypes.map(recordType => util.pick(recordType, attributes)))
   }
@@ -214,10 +217,11 @@ class SfApi extends jsforce.Connection {
    * @returns { Array }
    * @memberof SfApi
    */
-  getAccounts(ids, attributes) {
+  getAccounts (ids, attributes) {
     return this.sobject('Account').retrieve(ids)
       .then(accounts => accounts.map((account) => {
-        if (account) { return util.pick(account, attributes) }
+        if (!account) { return [] }
+        return util.pick(account, attributes)
       }).filter(account => account))
   }
 }

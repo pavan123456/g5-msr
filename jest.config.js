@@ -25,6 +25,6 @@ module.exports = {
     '<rootDir>/components/**/*.vue',
     '<rootDir>/pages/**/*.vue'
   ],
-  coverageDirectory: "coverage",
-  coverageProvider: "v8"
+  coverageDirectory: 'coverage',
+  coverageProvider: 'v8'
 }

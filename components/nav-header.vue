@@ -71,7 +71,7 @@ export default {
   props: {
     client: {
       type: Object,
-      default() {
+      default () {
         return {
           name: 'Fallback Client Name',
           to: 'to date',
@@ -81,7 +81,7 @@ export default {
     },
     approvals: {
       type: Array,
-      default() {
+      default () {
         return [
           { name: 'Digital Advertising', id: 'da', value: false },
           { name: 'SEO', id: 'seo', value: false },
@@ -107,7 +107,7 @@ export default {
     ...mapActions({
       onUpdate: 'inputs/onUpdate'
     }),
-    updateReport(evt, allApprovals) {
+    updateReport (evt, allApprovals) {
       allApprovals.find(obj => obj.id === evt.id).value = !evt.value
       if (evt) {
         this.pending[evt.id] = true

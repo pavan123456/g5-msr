@@ -38,7 +38,7 @@ export default {
   props: {
     charts: {
       type: Array,
-      default() {
+      default () {
         return [
           {
             id: 'optimizations',
@@ -83,11 +83,11 @@ export default {
     chartOpts: []
   }),
   methods: {
-    getOptions(seriesLength) {
+    getOptions (seriesLength) {
       const opts = {
         tooltip: {
           y: {
-            formatter(value, { series, seriesIndex, dataPointIndex, w }) {
+            formatter (value, { series, seriesIndex, dataPointIndex, w }) {
               return value
             }
           }

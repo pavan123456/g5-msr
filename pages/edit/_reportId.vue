@@ -4,7 +4,7 @@
       :approvals="approvals"
       :client="client"
     >
-      <template v-slot:dangle>
+      <template #dangle>
         <b-btn-group class="dangle-group bg-white border border-neutral" size="sm">
           <b-btn
             id="editor-toggle"
@@ -94,13 +94,12 @@ export default {
     NavHeader
   },
   mixins: [Helpers],
-  fetch({ store, query }) {
-    return store.dispatch('inputs/onUpdate', {
+  async asyncData ({ params, $axios, route, store }) {
+    const { team } = route.query
+    store.dispatch('inputs/onUpdate', {
       key: 'team',
-      value: query.team || 'da'
+      value: team || 'da'
     })
-  },
-  async asyncData({ params, $axios }) {
     const {
       time,
       overview,
@@ -168,7 +167,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       version,
       collapseIsVisible: true,
@@ -193,32 +192,37 @@ export default {
       }
     }
   },
+  fetch ({ store, query }) {
+    return store.dispatch('inputs/onUpdate', {
+      key: 'team',
+      value: query.team || 'da'
+    })
+  },
   computed: {
-    team() {
+    team () {
       return this.$store.state.inputs.team
     },
-    teamOptions() {
+    teamOptions () {
       return this.$store.state.inputs.teams
-    }
-  },
-  created() {
-    this.items = this.annotations[this.team].notes
-  },
-  methods: {
-    onTeamChange(team) {
-      if (team) {
-        this.items = this.annotations[team].notes
-        this.totalRows = this.annotations[team].notes.length
-      }
     },
-    formatOverviewData() {
-      this.overview.forEach((row) => {
-        row.data = row.data.filter((col) => {
-          return this.overviewColumns.includes(col.x)
-        })
-      })
-      return this.overview
+    items () {
+      return this.annotations && this.team && this.annotations[this.team].notes
+        ? this.annotations[this.team].notes
+        : []
+    },
+    totalRows () {
+      return this.annotations && this.team && this.annotations[this.team].notes
+        ? this.annotations[this.team].notes.length
+        : 1
     }
+  },
+  watch: {
+    team (team) {
+      this.$router.push({ path: this.$route.path, query: { team } })
+    }
+  },
+  created () {
+    this.$router.push({ path: this.$route.path, query: { team: this.team } })
   }
 }
 </script>

@@ -1,4 +1,4 @@
-const { INTEGER, STRING, JSON, BOOLEAN, JSONB, DATEONLY } = require('sequelize')
+const { INTEGER, STRING, JSON, JSONB, DATEONLY } = require('sequelize')
 
 module.exports = sequelize => sequelize.define('report', {
   id: {
@@ -11,23 +11,23 @@ module.exports = sequelize => sequelize.define('report', {
     type: STRING
   },
   workQ: {
-    type: JSON,
+    type: JSON
   },
   approvals: {
     type: JSONB,
-    defaultValue: 
+    defaultValue:
       [
         {
           id: 'da',
-          approved: false,
+          approved: false
         },
         {
           id: 'seo',
-          approved: false,
+          approved: false
         },
         {
           id: 'cc',
-          approved: true,
+          approved: true
         }
       ]
   },

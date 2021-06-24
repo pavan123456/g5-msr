@@ -19,7 +19,7 @@ module.exports = {
  * @param {Array} keys
  * @returns {Object}
  */
-function pick(obj, keys) {
+function pick (obj, keys) {
   return keys.map(k => k in obj ? { [k]: obj[k] } : {})
     .reduce((res, o) => Object.assign(res, o), {})
 }
@@ -30,7 +30,7 @@ function pick(obj, keys) {
  * @param {Array} keys
  * @returns {Object}
  */
-function reject(obj, keys) {
+function reject (obj, keys) {
   const vkeys = Object.keys(obj)
     .filter(k => !keys.includes(k))
   return pick(obj, vkeys)
@@ -42,7 +42,7 @@ function reject(obj, keys) {
  * @param {Array} keys
  * @returns {Object}
  */
-function split(obj, keys) {
+function split (obj, keys) {
   const objKeys = Object.keys(obj)
   return objKeys.reduce((prev, cur) => {
     const isKeeper = keys.includes(cur) ? 'keep' : 'discard'
@@ -57,7 +57,7 @@ function split(obj, keys) {
  * @param {Object} obj
  * @returns {Object}
  */
-function renameKeys(keysMap, obj) {
+function renameKeys (keysMap, obj) {
   return Object.keys(obj).reduce(
     (acc, key) => ({
       ...acc,
@@ -73,13 +73,14 @@ function renameKeys(keysMap, obj) {
  * @param {Array} array
  * @returns {Array}
  */
-function groupBy(key, array) {
+function groupBy (key, array) {
   return array.reduce((objectsByKeyValue, obj) => {
     const value = obj[key]
     objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj)
     return objectsByKeyValue
   }, {})
 }
+
 /**
  *
  *
@@ -87,7 +88,7 @@ function groupBy(key, array) {
  * @param {*} array
  * @returns
  */
-function groupByObjectKey(key, array) {
+function groupByObjectKey (key, array) {
   return array.reduce((objectsByKeyValue, obj) => {
     const value = obj[key]
     objectsByKeyValue[value] = { ...(objectsByKeyValue[value] || {}), ...obj }
@@ -100,7 +101,7 @@ function groupByObjectKey(key, array) {
  * @param {String} primaryKeyName
  * @returns
  */
-function tuckPrimaryKey(obj, primaryKeyName) {
+function tuckPrimaryKey (obj, primaryKeyName) {
   const finalArray = []
   const keys = Object.keys(obj)
   keys.forEach((key) => {
@@ -119,7 +120,7 @@ function tuckPrimaryKey(obj, primaryKeyName) {
   return finalArray
 }
 
-function objectToArray(data, targetProp) {
+function objectToArray (data, targetProp) {
   const insert = []
   Object.keys(data).forEach((key) => {
     insert.push(key)
@@ -127,13 +128,14 @@ function objectToArray(data, targetProp) {
   })
   return insert
 }
+
 /**
  * Create an object with even indexes are keys and odds are values
  *
  * @param {*} arr
  * @returns
  */
-function arrayToObject(arr) {
+function arrayToObject (arr) {
   const obj = {}
   if (!arr) { return obj }
   for (let i = 0; i < arr.length; i++) {
@@ -143,6 +145,7 @@ function arrayToObject(arr) {
   }
   return obj
 }
+
 /**
  * Chunk an array into smaller arrays
  *
@@ -150,7 +153,7 @@ function arrayToObject(arr) {
  * @param {*} size
  * @returns
  */
-function chunk(array, size) {
+function chunk (array, size) {
   const chunkedArr = []
   let index = 0
   while (index < array.length) {
@@ -160,7 +163,7 @@ function chunk(array, size) {
   return chunkedArr
 }
 
-function nullToFalse(data) {
+function nullToFalse (data) {
   const returnObject = {}
   Object.keys(data).forEach((key) => {
     const newValue = data[key] == null ? false : data[key]
@@ -168,7 +171,8 @@ function nullToFalse(data) {
   })
   return returnObject
 }
-function nullStringtoNull(data) {
+
+function nullStringtoNull (data) {
   const returnObject = {}
   Object.keys(data).forEach((key) => {
     const value = data[key] === 'null' ? null : data[key]

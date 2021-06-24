@@ -47,7 +47,7 @@ export default {
       default: false
     }
   },
-  data() {
+  data () {
     return {
       editable: false,
       actions: {},
@@ -64,26 +64,26 @@ export default {
     }
   },
   watch: {
-    editable() {
+    editable () {
       this.editor.setOptions({
         editable: this.editable
       })
     }
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.editor.destroy()
   },
   methods: {
-    onRevert() {
+    onRevert () {
       this.editor.content = this.content
       this.editable = false
     },
-    beforeUpdate() {
+    beforeUpdate () {
       if (!this.editable && this.actions.html) {
         this.onUpdate({ ...this.actions })
       }
     },
-    onUpdate(actions) {
+    onUpdate (actions) {
       this.$emit('on-update', actions)
       if (actions) {
         this.$axios

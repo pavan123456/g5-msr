@@ -1,4 +1,4 @@
-const notesService = require('../../controllers/annotationService')
+// const notesService = require('../../controllers/annotationService')
 const objectUtil = require('../../controllers/util')
 
 module.exports = (app) => {
@@ -7,6 +7,7 @@ module.exports = (app) => {
     for (let i = 0; i < body.rows.length; i++) {
       const { id } = body.rows[i]
       const { keep, discard: update } = objectUtil.split(body.rows[i], ['id'])
+      console.log({ id, keep, update })
       // await notesService.updateNote(id, update)
     }
     res.sendStatus(200)

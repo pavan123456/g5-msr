@@ -11,9 +11,10 @@ module.exports = {
     '@nuxtjs',
     'plugin:nuxt/recommended'
   ],
-  // add your custom rules here
   rules: {
-    'nuxt/no-cjs-in-config': 'off',
-    'space-before-function-paren': 'off'
+    'nuxt/no-cjs-in-config': 0,
+    curly: 0,
+    'no-console': 1,
+    camelcase: ['warn', { properties: 'never', ignoreDestructuring: true }]
   }
 }

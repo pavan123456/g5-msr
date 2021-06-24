@@ -75,7 +75,7 @@ export default {
     PromotedNotes,
     TeamTimeline
   },
-  async asyncData({ params, $axios }) {
+  async asyncData ({ params, $axios }) {
     const res = await $axios
       .$get(`api/v1/report/${params.reportId}`)
     const overviewColumns = [
@@ -168,14 +168,14 @@ export default {
       clientName: res.clientName
     }
   },
-  data() {
+  data () {
     return {
       version,
       progress: 0
     }
   },
   methods: {
-    onScroll() {
+    onScroll () {
       const progress = this.$refs.scrollContainer.scrollTop / (this.$refs.scrollContainer.scrollHeight - this.$refs.scrollContainer.clientHeight)
       if (progress > 1) {
         this.progress = 1
