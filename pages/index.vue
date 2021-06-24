@@ -72,9 +72,6 @@ export default {
       status: null
     }
   },
-  fetch ({ store }) {
-    store.dispatch('inputs/fillClients')
-  },
   computed: {
     ...mapState({
       monthly: state => state.inputs.monthly,
@@ -85,6 +82,9 @@ export default {
       selectedDate: 'inputs/selectedDate',
       selectedQuarter: 'inputs/selectedQuarter'
     })
+  },
+  created () {
+    this.$store.dispatch('inputs/fillClients')
   },
   methods: {
     generateReport () {
