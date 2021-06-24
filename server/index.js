@@ -33,6 +33,7 @@ const regexWhitelist = [
   /\/report\/\S*$/,
   /\/api\/v1\/report\/\S*\?edit=false$/,
   /\/[0-9a-z-]*\.png/,
+  /\/[0-9a-z-]*\.ico/,
   /\/[~./0-9a-z-]*\.js/
 ]
 
