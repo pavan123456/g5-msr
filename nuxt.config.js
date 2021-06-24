@@ -57,6 +57,9 @@ module.exports = {
       sendHitTask: true
     }
   },
+  axios: {
+    browserBaseURL: `//${process.env.BROWSER_URL}`
+  },
   build: {
     extend (config, ctx) {
       if (ctx.isDev) {
