@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@cloudnative/health-connect": "^2.1.0",
-    "@getg5/g5-auth": "^2.0.9",
+    "@getg5/g5-auth": "^4.0.0",
     "@getg5/g5-updatable": "^2.2.3",
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/google-analytics": "^2.4.0",
@@ -34,7 +34,7 @@
     "jquery": "^3.5.1",
     "nuxt": "^2.14.12",
     "path": "^0.12.7",
-    "pg": "^7.18.2",
+    "pg": "^8.6.0",
     "sequelize": "^6.5.0",
     "tiptap": "^1.29.6",
     "tiptap-extensions": "^1.32.5",
