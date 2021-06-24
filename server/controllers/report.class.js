@@ -62,7 +62,6 @@ class ServicesReport {
     if (this.isApproved() || this.editing) {
       this.formatReport()
       const now = new Date()
-      console.log(`${(now.getTime() - this.t0)} milliseconds`)
       return {
         time: `${(now.getTime() - this.t0)} milliseconds`,
         overview: this.overview,
@@ -109,7 +108,6 @@ class ServicesReport {
 
   /**
    * Fetch all report data and generate categorties
-   *
    * @returns
    * @memberof ServicesReport
    */
@@ -240,8 +238,14 @@ class ServicesReport {
       this[teamName].timeline[category] = []
     }
 
-    const locationCount = typeof locations === 'number' ? locations : (locations.length === 0 ? 10 : locations.length)
-    const locationNames = typeof locations === 'number' ? [''] : locations
+    const locationCount = typeof locations === 'number'
+      ? locations
+      : locations.length === 0
+        ? 10
+        : locations.length
+    const locationNames = typeof locations === 'number'
+      ? ['']
+      : locations
 
     this[teamName].timeline[category].push([
       timestamp,
