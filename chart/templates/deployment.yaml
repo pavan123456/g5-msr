@@ -1,0 +1,165 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name | quote }}
+  labels:
+    {{ include "activity.labels" . | nindent 4 }}
+  annotations:
+    reloader.stakater.com/search: "true"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: "30%"
+      maxSurge: 1
+  selector:
+    matchLabels:
+      {{ include "activity.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      name: node
+      labels:
+        {{ include "activity.labels" . | nindent 8 }}
+      annotations:
+        kubectl.kubernetes.io/default-logs-container: node
+    spec:
+      serviceAccountName: {{ include "activity.serviceAccountName" . }}
+      containers:
+        - name: node
+          ports:
+            - name: http
+              containerPort: 8085
+          #livenessProbe:
+          #  httpGet:
+          #    path: /healthz
+          #    port: http
+          #readinessProbe:
+          #  httpGet:
+          #    path: /healthz
+          #    port: http
+          image: {{ .Values.image.name }}:{{ required "image.tag is required" .Values.image.tag }}
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 300Mi
+            requests:
+              cpu: 200m
+              memory: 300Mi
+          env:
+            - name: BROWSER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}
+                  key: BROWSER_URL
+            - name: NOTE_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}
+                  key: NOTE_SERVICE_URL
+            - name: GA_PROPERTY
+              value: "UA-115892674-18"
+            - name: INCLUDE_G5_UPDATABLES
+              value: "true"
+            - name : INCLUDE_G5_AUTH
+              value: "true"
+            - name: DATABASE_HOST
+              value: localhost
+            - name: DATABASE_DIALECT
+              value: postgres
+            - name: DATABASE_IDLE
+              value: "10000"
+            - name: DATABASE_AQUIRE
+              value: "10000"
+            - name: DATABASE_EVICT
+              value: "10000"
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_MAX_CONNECTIONS
+              value: "50"
+            - name: DATABASE_MIN_CONNECTIONS
+              value: "0"
+            - name: DATABASE_SSL
+              value: "false"
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: activity
+                  key: database-password
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: activity
+                  key: database-username
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: activity
+                  key: database-name
+            - name: DATABASE_URL
+              value: $(DATABASE_DIALECT)://$(DATABASE_USERNAME):$(DATABASE_PASSWORD)@$(DATABASE_HOST):$(DATABASE_PORT)/$(DATABASE_NAME)
+            - name : G5_AUTH_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: activity
+                  key: G5_AUTH_CLIENT_ID
+            - name : G5_AUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: activity
+                  key: G5_AUTH_CLIENT_SECRET
+            - name : SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: activity
+                  key: SESSION_SECRET
+            - name : JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: activity
+                  key: JWT_SECRET
+            - name: SF_USERNAME
+              valueFrom:
+                  secretKeyRef:
+                    name: activity
+                    key: SF_USERNAME
+            - name: SF_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: activity
+                  key: SF_PASSWORD
+            - name: SF_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: activity
+                  key: SF_TOKEN
+            - name: SLACK_FEEDBACK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: activity
+                  key: SLACK_FEEDBACK_URL
+            - name: NOTE_SERVICE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: activity
+                  key: NOTE_SERVICE_USERNAME
+            - name: NOTE_SERVICE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: activity
+                  key: NOTE_SERVICE_PASSWORD
+            - name: REDIS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "redis.urlConfigMapName" (list (include "cloud-helper.values.applicationName" $) (get .Values .Values.activeBullSubchart)) }}
+                  key: {{ include "redis.urlConfigMapKey" . }}
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.11
+          command: 
+            - "/cloud_sql_proxy"
+            - "-instances={{ required "databaseConnectionName is required!" .Values.databaseConnectionName }}=tcp:0.0.0.0:5432"
+          securityContext:
+            runAsUser: 2  # non-root user
+            allowPrivilegeEscalation: false

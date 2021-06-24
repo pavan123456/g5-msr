@@ -1,0 +1,32 @@
+global: 
+  applicationName: activity
+  region: us-central1
+image:
+  name: gcr.io/g5-images/activity-tracker
+configurations:
+  staging:
+    configMapData:
+      BROWSER_URL: 'https://activity-opex-staging.g5devops.com'
+      NOTE_SERVICE_URL: https://notes.g5marketingcloud.com
+      G5_AUTH_ENDPOINT: https://auth.g5search.com/oauth/authorize
+      G5_TOKEN_ENDPOINT: https://auth.g5search.com/oauth/token
+      G5_AUTH_REDIRECT_URI: https://activity-opex-staging.g5devops.com/g5_auth/users/auth/g5/callback
+  prime:
+    configMapData:
+      BROWSER_URL: 'https://activity-opex-prime.g5devops.com'
+      NOTE_SERVICE_URL: https://notes.g5marketingcloud.com
+      G5_AUTH_ENDPOINT: https://auth.g5search.com/oauth/authorize
+      G5_TOKEN_ENDPOINT: https://auth.g5search.com/oauth/token
+      G5_AUTH_REDIRECT_URI: https://activity-opex-prime.g5devops.com/g5_auth/users/auth/g5/callback
+  production:
+    configMapData:
+      BROWSER_URL: 'https://activity.g5marketingcloud.com/'
+      NOTE_SERVICE_URL: https://notes.g5marketingcloud.com
+      G5_AUTH_ENDPOINT: https://auth.g5search.com/oauth/authorize
+      G5_TOKEN_ENDPOINT: https://auth.g5search.com/oauth/token
+      G5_AUTH_REDIRECT_URI: https://activity.g5marketingcloud.com/g5_auth/users/auth/g5/callback
+activeBullSubchart: "memorystore"
+memorystore: 
+  purpose: bull
+  tier: BASIC
+  # memorySizeGb: 1

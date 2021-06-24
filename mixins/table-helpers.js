@@ -68,9 +68,7 @@ export default {
           sortable: true,
           class: 'align-middle tbl-w400'
         }
-      ],
-      items: [],
-      totalRows: 1
+      ]
     }
   },
   methods: {
