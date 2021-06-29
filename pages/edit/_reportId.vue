@@ -4,7 +4,7 @@
       :approvals="approvals"
       :client="client"
     >
-      <template v-slot:dangle>
+      <!-- <template #dangle>
         <b-btn-group class="dangle-group bg-white border border-neutral" size="sm">
           <b-btn
             id="editor-toggle"
@@ -22,9 +22,9 @@
             Open/Close Editor
           </b-popover>
         </b-btn-group>
-      </template>
+      </template> -->
     </nav-header>
-    <b-collapse
+    <!-- <b-collapse
       id="editor"
       v-model="collapseIsVisible"
     >
@@ -38,7 +38,7 @@
           }"
         />
       </b-card>
-    </b-collapse>
+    </b-collapse> -->
     <b-container>
       <b-row class="my-2">
         <b-col>
@@ -94,12 +94,6 @@ export default {
     NavHeader
   },
   mixins: [Helpers],
-  fetch({ store, query }) {
-    return store.dispatch('inputs/onUpdate', {
-      key: 'team',
-      value: query.team || 'da'
-    })
-  },
   async asyncData({ params, $axios }) {
     const {
       time,
@@ -167,6 +161,12 @@ export default {
         from
       }
     }
+  },
+  fetch({ store, query }) {
+    return store.dispatch('inputs/onUpdate', {
+      key: 'team',
+      value: query.team || 'da'
+    })
   },
   data() {
     return {

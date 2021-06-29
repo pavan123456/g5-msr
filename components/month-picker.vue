@@ -1,6 +1,6 @@
 <template>
   <b-input-group class="align-items-center flex-nowrap">
-    <b-input-group-prepend class="text-muted small text-uppercase mr-2">
+    <b-input-group-prepend class="text-gray small text-uppercase mr-2">
       Month
     </b-input-group-prepend>
     <b-pagination

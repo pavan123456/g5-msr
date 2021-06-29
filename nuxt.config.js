@@ -1,6 +1,6 @@
 module.exports = {
   telemetry: false,
-  mode: 'spa',
+  ssr: false,
   server: {
     host: process.env.BASE_URL || '0.0.0.0',
     port: process.env.PORT || 5000
@@ -14,8 +14,12 @@ module.exports = {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Fira+Sans:wght@400;700&display=swap' }
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
+      },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap' }
     ]
   },
   loading: {
@@ -31,7 +35,6 @@ module.exports = {
     '@/assets/theme.scss',
     '@/assets/transitions.scss'
   ],
-  // TODO could this be set to a function that returns an array of paths to each file in the plugins directory?
   plugins: [
     '@/plugins/apex-charts'
   ],

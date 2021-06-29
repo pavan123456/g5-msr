@@ -1,22 +1,22 @@
 <template>
-  <b-navbar class="nav-bar d-block px-0 bg-white">
+  <b-navbar class="nav-bar d-block px-0 bg-primary-70">
     <div class="w-100 d-flex mb-2 px-3 justify-content-between">
-      <b-navbar-brand>
-        <b-img-lazy src="/g5-primary-logo.png" height="50" />
+      <b-navbar-brand class="text-white d-flex align-items-baseline">
+        <b-img-lazy src="/g5-primary-logo.png" height="35" class="mr-2" />
         <b-icon-alarm />
         Activity Tracker
       </b-navbar-brand>
       <b-nav-text class="align-self-start p-0">
-        <h2 class="mb-0">
+        <h2 class="mb-0 text-white font-weight-bold">
           {{ name }}
         </h2>
-        <div class="text-muted text-uppercase small mb-0">
+        <div class="text-white text-uppercase small mb-0">
           From
-          <b-badge class="px-3" style="font-size: 0.75rem;" variant="pale">
+          <b-badge class="px-3" style="font-size: 0.75rem;" variant="gray-20">
             {{ period.from }}
           </b-badge>
           To
-          <b-badge class="px-3" style="font-size: 0.75rem;" variant="pale">
+          <b-badge class="px-3" style="font-size: 0.75rem;" variant="gray-20">
             {{ period.to }}
           </b-badge>
         </div>
@@ -25,12 +25,14 @@
         <b-list-group-item
           v-for="(item, i) in items"
           :key="item.text"
-          class="p-0 border-0"
+          class="p-0 mr-1 border-0 bg-transparent"
         >
           <b-btn
             :href="item.href"
-            variant="transparent"
-            class="p-o m-0 text-uppercase text-muted nav-btn"
+            variant="secondary-70"
+            class="px-3 m-0 text-uppercase nav-btn font-weight-bold"
+            style="border-radius: 11px; box-shadow: 0 2px 2px rgba(5, 5, 5, 0.5);"
+            size="sm"
             @click="move(i)"
           >
             {{ item.text }}

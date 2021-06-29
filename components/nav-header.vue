@@ -6,59 +6,29 @@
     <b-navbar-brand
       to="/"
       class="h1 my-0"
-      style="font-size: 2rem;"
     >
-      <b-img-lazy src="/g5-primary-logo.png" height="45" />
+      <b-img-lazy src="/g5-primary-logo.png" height="35" class="mr-2" />
       <b-icon-alarm />
       Activity Tracker
     </b-navbar-brand>
-    <b-nav-text class="align-self-start p-0">
-      <h2 class="mb-0 text-truncate">
-        {{ client.name }}
-      </h2>
-      <div class="text-muted text-uppercase small mb-0">
-        From
-        <b-badge class="px-3" style="font-size: 0.75rem;" variant="pale">
-          {{ client.from }}
-        </b-badge>
-        To
-        <b-badge class="px-3" style="font-size: 0.75rem;" variant="pale">
-          {{ client.to }}
-        </b-badge>
-      </div>
+    <b-nav-text class="d-flex justify-content-between p-0">
+      <b-form-group>
+        <vue-multiselect :options="[]" />
+      </b-form-group>
+      <b-form-group>
+        <b-form-datepicker />
+      </b-form-group>
     </b-nav-text>
     <b-nav-form>
       <b-input-group class="flex-nowrap align-items-center">
-        <b-input-group-prepend class="px-2 text-muted text-uppercase small">
-          View
-        </b-input-group-prepend>
         <b-form-radio-group
           :checked="team"
           :options="teams"
           buttons
           size="sm"
-          button-variant="outline-primary-2"
+          button-variant="outline-primary-20"
           @input="onUpdate({ key: 'team', value: $event })"
         />
-      </b-input-group>
-      <b-input-group class="flex-nowrap align-items-center ml-3">
-        <b-input-group-prepend class="px-2 text-muted text-uppercase small">
-          Approvals
-        </b-input-group-prepend>
-        <b-btn-group>
-          <b-btn
-            v-for="a in approvals"
-            :key="a.id"
-            :variant="a.value ? 'success' : 'outline-failure-1'"
-            size="sm"
-            class="approval-btn"
-            @click="updateReport(a, approvals)"
-          >
-            {{ a.name }}
-            <b-spinner v-if="pending[a.id]" small />
-            <b-icon-check-circle v-else />
-          </b-btn>
-        </b-btn-group>
       </b-input-group>
     </b-nav-form>
     <slot name="dangle" />
@@ -67,7 +37,11 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import VueMultiselect from 'vue-multiselect'
 export default {
+  components: {
+    VueMultiselect
+  },
   props: {
     client: {
       type: Object,
