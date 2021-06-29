@@ -31,7 +31,7 @@
       <swap-wrapper />
       <b-btn
         :disabled="!client"
-        variant="outline-primary-3"
+        variant="outline-primary-30"
         size="sm"
         class="mt-5 mb-1"
         @click="generateReport"
@@ -46,7 +46,7 @@
         <b-btn
           to="/edit"
           size="sm"
-          variant="tertiary-2"
+          variant="tertiary-20"
           class="py-2 px-4"
         >
           Browse Existing Reports
