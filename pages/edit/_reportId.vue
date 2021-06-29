@@ -1,45 +1,15 @@
 <template>
   <div>
-    <nav-header
-      :approvals="approvals"
-      :client="client"
-    >
-      <!-- <template #dangle>
-        <b-btn-group class="dangle-group bg-white border border-neutral" size="sm">
-          <b-btn
-            id="editor-toggle"
-            variant="transparent"
-            @click="collapseIsVisible = !collapseIsVisible"
-          >
-            <b-icon-caret-up v-if="collapseIsVisible" />
-            <b-icon-caret-down v-else />
-          </b-btn>
-          <b-popover
-            target="editor-toggle"
-            triggers="hover"
-            placement="left"
-          >
-            Open/Close Editor
-          </b-popover>
-        </b-btn-group>
-      </template> -->
-    </nav-header>
-    <!-- <b-collapse
-      id="editor"
-      v-model="collapseIsVisible"
-    >
-      <b-card bg-variant="primary-1" no-body class="m-0 rounded-0">
-        <table-editor
-          :table="{
-            id: 'teamTable',
-            items: items,
-            fields: fields,
-            totalRows: items.length
-          }"
-        />
+    <nav-header :approvals="approvals" :client="client" />
+    <div class="inset-controls bg-quaternary">
+      <b-card class="inset-controls__card">
+        <h1 class="text-white text-uppercase font-weight-bold inset-controls__card__title">
+          Explore or Create
+        </h1>
+        <editor-controls />
       </b-card>
-    </b-collapse> -->
-    <b-container>
+    </div>
+    <b-container style="margin-top: 100px;">
       <b-row class="my-2">
         <b-col>
           <section-wrapper v-bind="tips.teamOverview">
@@ -75,24 +45,8 @@
 
 <script>
 import { version } from '~/package.json'
-import NavHeader from '~/components/nav-header'
 import Helpers from '~/mixins/table-helpers'
-import TableEditor from '~/components/table-editor'
-import HeatmapChart from '~/components/heatmap-overview-chart'
-import TimelineChart from '~/components/timeline-chart'
-import TeamOverviewChart from '~/components/team-overview-chart'
-import PromotedNotes from '~/components/promoted-notes'
-import SectionWrapper from '~/components/section-wrapper'
 export default {
-  components: {
-    TableEditor,
-    PromotedNotes,
-    TimelineChart,
-    TeamOverviewChart,
-    HeatmapChart,
-    SectionWrapper,
-    NavHeader
-  },
   mixins: [Helpers],
   async asyncData ({ params, $axios, route, store }) {
     const { team } = route.query
@@ -227,17 +181,29 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.dangle-group {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translate(-50%, 50%);
-  z-index: 10;
-  border-radius: 50%;
-  overflow: hidden;
-}
-.is-busy {
-  opacity: 0.5;
+<style lang="scss">
+.inset-controls {
+  height: 120px;
+  width: 100%;
+  border-radius: 0 0 100px 0;
+  position: relative;
+  &__card {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 85%;
+    max-width: 1140px;
+    transform: translate(-50%, 50%);
+    border-radius: 13px;
+    border-color: #f7f7fc;
+    box-shadow: 0 5px 10px rgba(31, 40, 137, 0.3);
+    &__title {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      left: 0;
+      transform: translateY(calc(-100% - 20px));
+    }
+  }
 }
 </style>

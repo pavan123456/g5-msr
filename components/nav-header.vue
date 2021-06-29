@@ -1,47 +1,16 @@
 <template>
-  <b-navbar
-    class="primary-nav dangle-anchor justify-content-between"
-    style="box-shadow: inset 0 -2px 0 0 #e8e8e8;"
-  >
-    <b-navbar-brand
-      to="/"
-      class="h1 my-0"
-    >
-      <b-img-lazy src="/g5-primary-logo.png" height="35" class="mr-2" />
-      <b-icon-alarm />
+  <b-navbar toggleable="lg" class="justify-content-between bg-primary-70 py-2" type="dark" fixed="true">
+    <b-navbar-brand to="/" class="h1 my-0 text-white font-weight-bold text-uppercase">
+      <b-img-lazy src="/g5-logo-white.png" height="40" class="mr-2" />
+      <b-icon-journal-check scale="1.2em" class="mr-1" />
       Activity Tracker
     </b-navbar-brand>
-    <b-nav-text class="d-flex justify-content-between p-0">
-      <b-form-group>
-        <vue-multiselect :options="[]" />
-      </b-form-group>
-      <b-form-group>
-        <b-form-datepicker />
-      </b-form-group>
-    </b-nav-text>
-    <b-nav-form>
-      <b-input-group class="flex-nowrap align-items-center">
-        <b-form-radio-group
-          :checked="team"
-          :options="teams"
-          buttons
-          size="sm"
-          button-variant="outline-primary-20"
-          @input="onUpdate({ key: 'team', value: $event })"
-        />
-      </b-input-group>
-    </b-nav-form>
-    <slot name="dangle" />
   </b-navbar>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import VueMultiselect from 'vue-multiselect'
 export default {
-  components: {
-    VueMultiselect
-  },
   props: {
     client: {
       type: Object,
@@ -61,15 +30,6 @@ export default {
           { name: 'SEO', id: 'seo', value: false },
           { name: 'Customer Care', id: 'cc', value: true }
         ]
-      }
-    }
-  },
-  data () {
-    return {
-      pending: {
-        da: false,
-        cc: false,
-        seo: false
       }
     }
   },

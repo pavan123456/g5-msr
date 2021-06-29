@@ -1,14 +1,17 @@
 <template>
   <b-card
     header-bg-variant="white"
-    header-class="p-0 m-0 border-0"
-    class="my-0 border-0"
+    header-class="p-0 m-0"
+    class="my-1"
+    border-variant="quaternary-10"
+    style="border-radius: 13px; box-shadow: 0 0 4px rgba(31, 40, 137, 0.2);"
   >
     <template #header>
       <b-btn
         block
         variant="transparent"
-        class="rounded-0 d-flex justify-content-between align-items-center mb-1"
+        class="d-flex justify-content-between align-items-center mb-1"
+        style="border-radius: 13px;"
         @click="visible = !visible"
       >
         <span class="h2 text-uppercase font-weight-bold mb-0">

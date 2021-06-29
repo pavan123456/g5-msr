@@ -28,7 +28,10 @@ $theme-colors: (
   'tertiary-60': #63798a,
   'tertiary-70': #4b5b66,
   'tertiary-80': #323d45,
-  'quaternary': #e1254d,
+  'quaternary': #1f2889,
+  'quaternary-10': #dddded,
+  'quaternary-40': #3a46d3,
+  'quaternary-60': #162663,
   'success': #05b248,
   'success-10': #e6f8ed,
   'success-20': #80d9a3,
@@ -57,7 +60,7 @@ $enable-gradients: false;
 $enable-transitions: true;
 $enable-print-styles: true;
 $bv-enable-table-stacked: true;
-$body-bg: white;
+$body-bg: #f2f3f8;
 
 // BOOTSTRAP VARIABLES DECLARED ABOVE
 @import 'bootstrap/scss/bootstrap.scss';
