@@ -12,6 +12,10 @@ export const state = () => {
       'Q4'
     ],
     year: 2021,
+    years: [
+      2021,
+      2020
+    ],
     mode: 'Quaterly',
     modes: [
       'Quaterly',
