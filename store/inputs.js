@@ -12,7 +12,15 @@ export const state = () => {
       'Q4'
     ],
     year: 2021,
-    monthly: false,
+    years: [
+      2021,
+      2020
+    ],
+    mode: 'Quaterly',
+    modes: [
+      'Quaterly',
+      'Monthly'
+    ],
     month: 7,
     months: [
       { text: 'Jan', value: 1 },
@@ -57,6 +65,9 @@ export const state = () => {
 }
 
 export const getters = {
+  monthly (state) {
+    return state.mode === 'Monthly'
+  },
   selectedDate (state) {
     const thirtyOne = [1, 3, 5, 7, 8, 10, 12]
     const mo = state.month < 10

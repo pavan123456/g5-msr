@@ -3,17 +3,18 @@
     <b-card
       v-if="Object.keys(notes).length === 0 && notes.constructor === Object"
     >
-      <b-alert show variant="tertiary-3" class="respect-linebreak pb-4">
+      <b-alert show variant="quaternary-10" class="respect-linebreak pb-4">
         {{ fallback }}
       </b-alert>
       <b-btn
         href="https://notes.g5marketingcloud.com"
         target="_blank"
-        variant="outline-tertiary-3"
+        variant="quaternary-40"
+        class="px-3 py-2"
         size="sm"
       >
         Open Notes Service
-        <b-icon-box-arrow-up-right />
+        <b-icon-box-arrow-up-right scale="0.8em" />
       </b-btn>
     </b-card>
     <b-card-group

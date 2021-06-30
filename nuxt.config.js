@@ -36,10 +36,12 @@ module.exports = {
   loadingIndicator: '@/static/loading.html',
   css: [
     '@/assets/theme.scss',
+    '@/assets/hamburger.scss',
     '@/assets/transitions.scss'
   ],
   plugins: [
-    { src: '@/plugins/apex-charts', mode: 'client' }
+    { src: '@/plugins/apex-charts', mode: 'client' },
+    { src: '@/plugins/vue-multiselect', mode: 'client' }
   ],
   components: true,
   modules: [

@@ -9,37 +9,43 @@
         <editor-controls />
       </b-card>
     </div>
-    <b-container style="margin-top: 100px;">
+    <b-container style="margin-top: 60px;">
       <b-row class="my-2">
-        <b-col>
+        <b-col class="p-0">
           <section-wrapper v-bind="tips.teamOverview">
             <team-overview-chart :charts="annotations[team].overview" />
           </section-wrapper>
         </b-col>
       </b-row>
       <b-row class="my-2">
-        <b-col>
+        <b-col class="p-0">
           <section-wrapper v-bind="tips.teamTimeline">
             <timeline-chart :chart="annotations[team].timeline" />
           </section-wrapper>
         </b-col>
       </b-row>
       <b-row class="my-2">
-        <b-col>
+        <b-col class="p-0">
           <section-wrapper v-bind="tips.teamPromoted">
             <promoted-notes :notes="annotations[team].promoted" />
           </section-wrapper>
         </b-col>
       </b-row>
       <b-row class="my-2">
-        <b-col>
+        <b-col class="p-0">
           <section-wrapper v-bind="tips.overview">
-            <heatmap-chart :chart="{ id: 'overview-chart', series: overview }" />
+            <heatmap-overview-chart :chart="{ id: 'overview-chart', series: overview }" />
           </section-wrapper>
         </b-col>
       </b-row>
+      <b-row class="my-2">
+        <b-col class="p-0">
+          <b-badge variant="quaternary-40">
+            Activity Tracker v.{{ version }}
+          </b-badge>
+        </b-col>
+      </b-row>
     </b-container>
-    {{ version }}
   </div>
 </template>
 
@@ -54,6 +60,7 @@ export default {
       key: 'team',
       value: team || 'da'
     })
+    store.dispatch('inputs/fillClients')
     const {
       time,
       overview,
@@ -128,16 +135,16 @@ export default {
       tips: {
         overview: {
           title: 'Overview',
-          description: 'This section is used to provide a summary of work completed across all teams for the time period. It pulls from transactional notes (WorkQ, SEO Audit Tool, SF Cases) and manual notes taken from the extension or UI.'
+          description: 'This section is used to provide a summary of work completed across all teams for the time period. It pulls from transactional notes (SEO Audit Tool, SF Cases) and manual notes taken from the extension or UI.'
         },
         teamOverview: {
           title: 'Team Overview',
-          description: 'This section is used to dive a little deeper into the type of work completed over the time period. It pulls from transactional notes (WorkQ, SEO Audit Tool, SF Cases) and manual notes taken from the extension or UI.',
+          description: 'This section is used to dive a little deeper into the type of work completed over the time period. It pulls from transactional notes (SEO Audit Tool, SF Cases) and manual notes taken from the extension or UI.',
           fallback: '😢 Oh no! It looks like we can\'t find any notes for this time period. \n We\'d recommend adding some notes or if you think this is an error please report it!'
         },
         teamTimeline: {
           title: 'Team Timeline',
-          description: 'This section is used to show the work you\'ve completed over time. It pulls from transactional notes (WorkQ, SEO Audit Tool, SF Cases) and manual notes taken from the extension or UI.'
+          description: 'This section is used to show the work you\'ve completed over time. It pulls from transactional notes (SEO Audit Tool, SF Cases) and manual notes taken from the extension or UI.'
         },
         teamPromoted: {
           title: 'Team Promoted Notes',
@@ -153,12 +160,8 @@ export default {
     })
   },
   computed: {
-    team () {
-      return this.$store.state.inputs.team
-    },
-    teamOptions () {
-      return this.$store.state.inputs.teams
-    },
+    team () { return this.$store.state.inputs.team },
+    teamOptions () { return this.$store.state.inputs.teams },
     items () {
       return this.annotations && this.team && this.annotations[this.team].notes
         ? this.annotations[this.team].notes
@@ -197,12 +200,13 @@ export default {
     border-radius: 13px;
     border-color: #f7f7fc;
     box-shadow: 0 5px 10px rgba(31, 40, 137, 0.3);
+    z-index: 999999;
     &__title {
       position: absolute;
       top: 0;
       width: 100%;
       left: 0;
-      transform: translateY(calc(-100% - 20px));
+      transform: translateY(calc(-100% - 10px));
     }
   }
 }

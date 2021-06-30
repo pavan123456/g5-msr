@@ -1,13 +1,13 @@
 <template>
-  <b-card header-class="border-0" no-body>
+  <b-card header-class="border-0" no-body class="border-0">
     <b-card-body v-if="charts.length === 0">
-      <b-alert show variant="tertiary-3" class="respect-linebreak pb-4">
+      <b-alert show variant="quaternary-10" class="respect-linebreak pb-4">
         {{ fallback }}
       </b-alert>
       <b-btn
         href="https://notes.g5marketingcloud.com"
         target="_blank"
-        variant="outline-tertiary-3"
+        variant="quaternary-40"
         size="sm"
       >
         Open Notes Service
@@ -20,6 +20,7 @@
         :key="`${c.id}-${i}`"
         :title="c.category"
         title-item-class="text-uppercase small"
+        class="pt-3"
       >
         <apex-chart
           :id="c.id"
@@ -150,6 +151,6 @@ export default {
 }
 .nav-link.active {
   font-weight: 700;
-  color: #339698 !important;
+  color: var(--quaternary) !important;
 }
 </style>
