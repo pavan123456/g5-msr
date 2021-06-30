@@ -29,16 +29,21 @@
         </template>
       </vue-multiselect>
     </b-input-group>
-    <b-input-group class="mr-2">
-      <b-input-group-prepend class="d-flex align-items-center">
-        <b-form-radio-group
-          :value="'Quaterly'"
-          :options="['Quaterly', 'Monthly']"
-          size="sm"
-        />
-      </b-input-group-prepend>
+    <b-input-group class="mr-2 align-items-center">
+      <b-form-radio-group
+        :checked="mode"
+        :options="modes"
+        size="sm"
+        stacked
+        @input="onUpdate({ key: 'mode', value: $event })"
+      />
       <b-form-select
-        :options="['Q3 2020', 'Jan 2020']"
+        :options="[]"
+        class="mx-1"
+        style="border-radius: 11px; max-width: 150px;"
+      />
+      <b-form-select
+        :options="['2021', '2020']"
         style="border-radius: 11px; max-width: 150px;"
       />
       <b-input-group-append>
@@ -49,7 +54,8 @@
           class="ml-2"
           style="border-radius: 50%; align-self: center;"
         >
-          <b-icon-arrow-clockwise shift-h="0" shift-v="-1" />
+          GO
+          <!-- <b-icon-arrow-clockwise shift-h="0" shift-v="-1" /> -->
         </b-btn>
       </b-input-group-append>
     </b-input-group>
@@ -93,8 +99,16 @@ export default {
     teams () { return this.$store.state.inputs.teams },
     client () { return this.$store.state.inputs.client },
     clients () { return this.$store.state.inputs.clients },
+    mode () { return this.$store.state.inputs.mode },
+    modes () { return this.$store.state.inputs.modes },
+    months () { return this.$store.state.inputs.months },
+    periods () { return this.$store.state.inputs.periods },
+    monthly () { return this.$store.getters.inputs.monthly },
     isBareMinimum () {
-      return this.client
+      return this.client !== null
+    },
+    rangePicker () {
+      return this.monthly ? this.months : this.periods
     }
   },
   methods: {
@@ -106,8 +120,5 @@ export default {
 </script>
 
 <style lang="scss">
-.custom-control-label {
-  font-weight: 700;
-  // text-transform: uppercase;
-}
+
 </style>
