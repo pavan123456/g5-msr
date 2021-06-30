@@ -24,8 +24,9 @@
     <b-collapse v-model="visible">
       <b-alert
         show
-        variant="tertiary"
-        class="rounded-0 my-3 pb-4 respect-linebreak small"
+        variant="quaternary-40"
+        style="border-radius: 13px;"
+        class="my-3 pb-4 respect-linebreak small"
       >
         {{ description }}
       </b-alert>

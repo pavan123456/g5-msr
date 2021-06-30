@@ -31,7 +31,8 @@ $theme-colors: (
   'quaternary': #1f2889,
   'quaternary-10': #dddded,
   'quaternary-40': #3a46d3,
-  'quaternary-60': #162663,
+  'quaternary-60': #1f2789,
+  'quaternary-70': #162663,
   'success': #05b248,
   'success-10': #e6f8ed,
   'success-20': #80d9a3,
@@ -58,8 +59,8 @@ $enable-rounded: true;
 $enable-shadows: false;
 $enable-gradients: false;
 $enable-transitions: true;
-$enable-print-styles: true;
-$bv-enable-table-stacked: true;
+$enable-print-styles: false;
+$bv-enable-table-stacked: false;
 $body-bg: #f2f3f8;
 
 // BOOTSTRAP VARIABLES DECLARED ABOVE
@@ -87,9 +88,44 @@ $body-bg: #f2f3f8;
   white-space: pre-line;
   padding-top: 0;
 }
+.card-header-tabs {
+  border-bottom: 1px dashed #f2f3f8;
+}
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  box-shadow: inset 0 -3px 0 0 var(--quaternary-40);
+  border-color: #fff #fff var(--quaternary-40);
+  background-color: white;
+}
+.nav-tabs .nav-link {
+  font-family: 'Roboto Condensed', 'Roboto', sans-serif;
+  font-size: 1.1em;
+  padding: 1em;
+}
 .multiselect {
-  // width: 300px;
   border-color: #0f3259;
+}
+.multiselect__tags {
+  min-height: 25px;
+  padding: 2px 40px 0px 8px;
+}
+.multiselect__placeholder {
+  margin-bottom: 6px;
+  padding-top: 6px;
+  color: var(--quaternary-60);
+}
+.multiselect__input, .multiselect__single {
+  line-height: 1;
+  margin-bottom: unset;
+}
+.multiselect__select:before {
+  top: 60%;
+  color: var(--quaternary-60);
+  border-color: var(--quaternary-60) transparent transparent;
+}
+.multiselect__content-wrapper {
+  border-radius: 13px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 .multiselect__spinner:after,
 .multiselect__spinner:before {
@@ -98,7 +134,8 @@ $body-bg: #f2f3f8;
 .multiselect__tag,
 .multiselect__option--highlight,
 .multiselect__option--highlight:after {
-  background: #0b233f;
+  background: var(--gray-10);
+  color: var(--quaternary-40);
 }
 .multiselect__tag-icon:hover {
   background:#0b233f;
