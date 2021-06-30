@@ -32,7 +32,7 @@
       </vue-multiselect>
     </b-input-group>
     <div class="v-divider" />
-    <b-input-group class="align-items-center">
+    <b-input-group class="flex-grow-0 align-items-center px-3">
       <b-form-radio-group
         :checked="mode"
         :options="modes"
@@ -41,17 +41,17 @@
         @input="onUpdate({ key: 'mode', value: $event })"
       />
       <b-form-select
+        :value="year"
+        :options="years"
+        style="max-width: 150px;"
+        @input="onUpdate({ key: 'year', value: $event })"
+      />
+      <b-form-select
         :value="period"
         :options="periods"
         class="mx-1"
         style="max-width: 150px;"
         @input="onUpdate({ key: 'period', value: $event })"
-      />
-      <b-form-select
-        :value="year"
-        :options="years"
-        style="max-width: 150px;"
-        @input="onUpdate({ key: 'year', value: $event })"
       />
       <b-input-group-append>
         <b-btn
