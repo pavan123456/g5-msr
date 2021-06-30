@@ -1,67 +1,10 @@
 <template>
-  <b-navbar
-    class="primary-nav dangle-anchor justify-content-between"
-    style="box-shadow: inset 0 -2px 0 0 #e8e8e8;"
-  >
-    <b-navbar-brand
-      to="/"
-      class="h1 my-0"
-      style="font-size: 2rem;"
-    >
-      <b-img-lazy src="/g5-primary-logo.png" height="45" />
-      <b-icon-alarm />
+  <b-navbar toggleable="lg" class="justify-content-between bg-primary-70 py-2" type="dark" fixed="true">
+    <b-navbar-brand to="/" class="h1 my-0 text-white font-weight-bold text-uppercase">
+      <b-img-lazy src="/g5-logo-white.png" height="40" class="mr-2" />
+      <b-icon-journal-check scale="1.2em" class="mr-1" />
       Activity Tracker
     </b-navbar-brand>
-    <b-nav-text class="align-self-start p-0">
-      <h2 class="mb-0 text-truncate">
-        {{ client.name }}
-      </h2>
-      <div class="text-muted text-uppercase small mb-0">
-        From
-        <b-badge class="px-3" style="font-size: 0.75rem;" variant="pale">
-          {{ client.from }}
-        </b-badge>
-        To
-        <b-badge class="px-3" style="font-size: 0.75rem;" variant="pale">
-          {{ client.to }}
-        </b-badge>
-      </div>
-    </b-nav-text>
-    <b-nav-form>
-      <b-input-group class="flex-nowrap align-items-center">
-        <b-input-group-prepend class="px-2 text-muted text-uppercase small">
-          View
-        </b-input-group-prepend>
-        <b-form-radio-group
-          :checked="team"
-          :options="teams"
-          buttons
-          size="sm"
-          button-variant="outline-primary-2"
-          @input="onUpdate({ key: 'team', value: $event })"
-        />
-      </b-input-group>
-      <b-input-group class="flex-nowrap align-items-center ml-3">
-        <b-input-group-prepend class="px-2 text-muted text-uppercase small">
-          Approvals
-        </b-input-group-prepend>
-        <b-btn-group>
-          <b-btn
-            v-for="a in approvals"
-            :key="a.id"
-            :variant="a.value ? 'success' : 'outline-failure-1'"
-            size="sm"
-            class="approval-btn"
-            @click="updateReport(a, approvals)"
-          >
-            {{ a.name }}
-            <b-spinner v-if="pending[a.id]" small />
-            <b-icon-check-circle v-else />
-          </b-btn>
-        </b-btn-group>
-      </b-input-group>
-    </b-nav-form>
-    <slot name="dangle" />
   </b-navbar>
 </template>
 
@@ -87,15 +30,6 @@ export default {
           { name: 'SEO', id: 'seo', value: false },
           { name: 'Customer Care', id: 'cc', value: true }
         ]
-      }
-    }
-  },
-  data () {
-    return {
-      pending: {
-        da: false,
-        cc: false,
-        seo: false
       }
     }
   },

@@ -22,7 +22,7 @@ module.exports = {
         type: 'image/x-icon',
         href: '/favicon.ico'
       },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Fira+Sans:wght@400;700&display=swap' }
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap' }
     ]
   },
   loading: {
