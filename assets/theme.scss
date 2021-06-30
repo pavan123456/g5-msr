@@ -113,8 +113,8 @@ $body-bg: #f2f3f8;
 .multiselect__tags,
 .custom-select {
   box-shadow: 0 1px 3px rgba(58, 70, 211, 0.2);
-  border-radius: 13px;
-  border-color: var(--quaternary-20),
+  border-radius: 13px !important;
+  border-color: var(--quaternary-20) !important;
 }
 .multiselect__placeholder {
   color: var(--quaternary-60);

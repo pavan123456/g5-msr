@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex align-items-center">
     <b-input-group
-      class="d-flex flex-nowrap align-items-center mr-3"
+      class="d-flex flex-nowrap align-items-center"
       style="max-width: 400px;"
     >
       <b-input-group-prepend class="px-2 text-primary-70">
@@ -31,7 +31,8 @@
         </template>
       </vue-multiselect>
     </b-input-group>
-    <b-input-group class="mr-2 align-items-center">
+    <div class="v-divider" />
+    <b-input-group class="align-items-center">
       <b-form-radio-group
         :checked="mode"
         :options="modes"
@@ -43,13 +44,13 @@
         :value="period"
         :options="periods"
         class="mx-1"
-        style="border-radius: 11px; max-width: 150px;"
+        style="max-width: 150px;"
         @input="onUpdate({ key: 'period', value: $event })"
       />
       <b-form-select
         :value="year"
         :options="years"
-        style="border-radius: 11px; max-width: 150px;"
+        style="max-width: 150px;"
         @input="onUpdate({ key: 'year', value: $event })"
       />
       <b-input-group-append>
@@ -65,8 +66,8 @@
         </b-btn>
       </b-input-group-append>
     </b-input-group>
-    <div class="flex-grow-1" />
-    <b-input-group>
+    <div class="v-divider flex-grow-1" />
+    <b-input-group class="justify-content-center">
       <b-form-radio-group
         :disabled="!isBareMinimum"
         :checked="team"
@@ -78,6 +79,7 @@
         @input="onUpdate({ key: 'team', value: $event })"
       />
     </b-input-group>
+    <div class="v-divider flex-grow-1" />
     <b-btn
       :disabled="!isBareMinimum"
       variant="quaternary-40"
@@ -135,5 +137,10 @@ export default {
   border-color: var(--quaternary-20);
   border-radius: 13px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+.v-divider {
+  align-self: stretch;
+  border-left: 2px dotted var(--gray-40);
+  margin: 0 0.5rem;
 }
 </style>
