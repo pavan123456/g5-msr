@@ -1,11 +1,6 @@
 <template>
-  <div class="px-0 wrapper">
-    <report-nav
-      :items="sections"
-      :period="period"
-      :name="clientName"
-      :progress="progress"
-    />
+  <div>
+    <nav-header />
     <div
       ref="scrollContainer"
       class="scroll-container"
@@ -59,22 +54,7 @@
 </template>
 
 <script>
-import { version } from '~/package.json'
-import ReportNav from '~/components/breadcrumb-nav'
-import HeatMap from '~/components/heatmap-overview-chart'
-// import ByLine from '~/components/strategist-byline'
-import TeamOverview from '~/components/team-overview-chart'
-import TeamTimeline from '~/components/timeline-chart'
-import PromotedNotes from '~/components/promoted-notes'
 export default {
-  components: {
-    HeatMap,
-    ReportNav,
-    // ByLine,
-    TeamOverview,
-    PromotedNotes,
-    TeamTimeline
-  },
   async asyncData ({ params, $axios }) {
     const res = await $axios
       .$get(`api/v1/report/${params.reportId}`)
@@ -170,7 +150,6 @@ export default {
   },
   data () {
     return {
-      version,
       progress: 0
     }
   },

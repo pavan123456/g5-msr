@@ -30,6 +30,7 @@ $theme-colors: (
   'tertiary-80': #323d45,
   'quaternary': #1f2889,
   'quaternary-10': #dddded,
+  'quaternary-20': #e7e7fa,
   'quaternary-40': #3a46d3,
   'quaternary-60': #1f2789,
   'quaternary-70': #162663,
@@ -53,7 +54,7 @@ $theme-colors: (
   'error-70': #7b1433
 );
 
-$font-family-base: 'Roboto', sans-serif;
+$font-family-base: 'Roboto Condensed', 'Roboto', sans-serif;
 $headings-font-family: 'Roboto Condensed', 'Roboto', sans-serif;
 $enable-rounded: true;
 $enable-shadows: false;
@@ -89,7 +90,7 @@ $body-bg: #f2f3f8;
   padding-top: 0;
 }
 .card-header-tabs {
-  border-bottom: 1px dashed #f2f3f8;
+  border-bottom: 1px dashed var(--quaternary-20);
 }
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
@@ -106,16 +107,20 @@ $body-bg: #f2f3f8;
   border-color: #0f3259;
 }
 .multiselect__tags {
-  min-height: 25px;
-  padding: 2px 40px 0px 8px;
+  min-height: 38px;
+  padding: 6px 40px 0px 8px;
+}
+.multiselect__tags,
+.custom-select {
+  box-shadow: 0 1px 3px rgba(58, 70, 211, 0.2);
+  border-radius: 13px !important;
+  border-color: var(--quaternary-20) !important;
 }
 .multiselect__placeholder {
-  margin-bottom: 6px;
-  padding-top: 6px;
   color: var(--quaternary-60);
 }
 .multiselect__input, .multiselect__single {
-  line-height: 1;
+  line-height: 22px;
   margin-bottom: unset;
 }
 .multiselect__select:before {
