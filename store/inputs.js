@@ -11,7 +11,8 @@ export const state = () => {
       'Q3',
       'Q4'
     ],
-    year: 2021,
+    availableReports: {},
+    year: null,
     years: [
       2021,
       2020
