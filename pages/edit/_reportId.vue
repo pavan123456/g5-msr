@@ -38,8 +38,14 @@
           </section-wrapper>
         </b-col>
       </b-row>
+      <b-row>
+        <b-col>
+          <b-badge variant="quaternary-40">
+            Activity Tracker v.{{ version }}
+          </b-badge>
+        </b-col>
+      </b-row>
     </b-container>
-    {{ version }}
   </div>
 </template>
 
@@ -54,6 +60,7 @@ export default {
       key: 'team',
       value: team || 'da'
     })
+    store.dispatch('inputs/fillClients')
     const {
       time,
       overview,
@@ -153,12 +160,8 @@ export default {
     })
   },
   computed: {
-    team () {
-      return this.$store.state.inputs.team
-    },
-    teamOptions () {
-      return this.$store.state.inputs.teams
-    },
+    team () { return this.$store.state.inputs.team },
+    teamOptions () { return this.$store.state.inputs.teams },
     items () {
       return this.annotations && this.team && this.annotations[this.team].notes
         ? this.annotations[this.team].notes
@@ -202,7 +205,7 @@ export default {
       top: 0;
       width: 100%;
       left: 0;
-      transform: translateY(calc(-100% - 20px));
+      transform: translateY(calc(-100% - 10px));
     }
   }
 }

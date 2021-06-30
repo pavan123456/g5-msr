@@ -1,12 +1,10 @@
 <template>
   <b-card
-    header-bg-variant="white"
-    header-class="p-0 m-0"
     class="my-1"
     border-variant="quaternary-10"
-    style="border-radius: 13px; box-shadow: 0 0 4px rgba(31, 40, 137, 0.2);"
+    style="border-radius: 13px; box-shadow: 0 2px 8px rgba(31, 40, 137, 0.2);"
   >
-    <template #header>
+    <b-card-header class="p-0 border-0 bg-white">
       <b-btn
         block
         variant="transparent"
@@ -18,16 +16,16 @@
           {{ title }}
         </span>
         <b-icon-question-circle-fill
-          variant="tertiary-30"
+          variant="quaternary-40"
           scale="0.9em"
         />
       </b-btn>
-    </template>
+    </b-card-header>
     <b-collapse v-model="visible">
       <b-alert
         show
         variant="tertiary"
-        class="rounded-0 mb-4 pb-4 respect-linebreak small"
+        class="rounded-0 my-3 pb-4 respect-linebreak small"
       >
         {{ description }}
       </b-alert>

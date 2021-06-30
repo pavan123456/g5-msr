@@ -1,5 +1,5 @@
 <template>
-  <b-card header-class="border-0" no-body class="px-4 py-2">
+  <b-card header-class="border-0" no-body class="px-4 py-2 border-0">
     <b-card-body v-if="chart.length === 0">
       <b-alert show variant="tertiary-3" class="respect-linebreak pb-4">
         {{ fallback }}

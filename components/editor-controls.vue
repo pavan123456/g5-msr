@@ -4,12 +4,24 @@
       <b-input-group-prepend class="font-weight-bold px-2 text-primary-70">
         Client
       </b-input-group-prepend>
-      <b-form-select style="border-radius: 11px;" :options="[]" />
+      <b-form-select
+        :value="client"
+        :options="clients"
+        value-field="urn"
+        text-field="branded_name"
+        style="border-radius: 11px;"
+      />
     </b-input-group>
     <b-form-radio-group buttons size="sm" :options="['Quaterly', 'Monthly']" class="mr-2" />
-    <b-input-group style="max-width: 150px;" class="flex-grow-1 mr-2">
+    <b-input-group style="max-width: 150px;" class="mr-2">
       <b-form-select style="border-radius: 11px;" :options="['Q3 2020', 'Jan 2020']" />
+      <b-input-group-append>
+        <b-btn size="sm">
+          <b-icon-arrow-clockwise />
+        </b-btn>
+      </b-input-group-append>
     </b-input-group>
+    <div class="flex-grow-1" />
     <b-form-radio-group
       :checked="team"
       :options="teams"
@@ -23,7 +35,9 @@
         <b-icon-three-dots-vertical />
       </template>
       <b-dropdown-form>
-        other options
+        <b-btn variant="quaternary-10">
+          Save Report and Share
+        </b-btn>
       </b-dropdown-form>
     </b-dropdown>
   </div>
@@ -33,7 +47,9 @@
 export default {
   computed: {
     team () { return this.$store.state.inputs.team },
-    teams () { return this.$store.state.inputs.teams }
+    teams () { return this.$store.state.inputs.teams },
+    client () { return this.$store.state.inputs.client },
+    clients () { return this.$store.state.inputs.clients }
   },
   methods: {
     onUpdate (evt) {
@@ -43,6 +59,13 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+.btn-group-sm > label {
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0 !important;
+  > span {
+    padding: 0 0.75em;
+  }
+}
 </style>
