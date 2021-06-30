@@ -19,6 +19,23 @@ module.exports = (app) => {
     res.sendStatus(200)
   })
 
+  app.get('/api/v1/report/:clientUrn', async (req, res) => {
+    try {
+      const { clientUrn } = req.params
+      const { to, from } = req.query
+      // workQ, approvals, and edit can go away once the ServicesReport class is
+      // refactored to not use them and the report model is updated
+      const workQ = []
+      const approvals = []
+      const edit = true
+      const servicesReport = new ServicesReport(to, from, clientUrn, workQ, approvals, edit)
+      await servicesReport.generate()
+      res.json(servicesReport.display())
+    } catch (e) {
+      res.status(500).send(e.message)
+    }
+  })
+
   app.get('/api/v1/report/:reportId', async (req, res) => {
     const { reportId } = req.params
     let { edit } = req.query
