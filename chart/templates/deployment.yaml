@@ -85,8 +85,6 @@ spec:
               value: "true"
             - name : INCLUDE_G5_AUTH
               value: "true"
-            - name: DATABASE_HOST
-              value: localhost
             - name: DATABASE_DIALECT
               value: postgres
             - name: DATABASE_IDLE
@@ -106,18 +104,17 @@ spec:
             - name: DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: activity
-                  key: database-password
+                  name: notes-a-sqluser-password
+                  key: password
             - name: DATABASE_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: activity
-                  key: database-username
+              value: "notes-a"
             - name: DATABASE_NAME
+              value: "notes-a"
+            - name: DATABASE_HOST
               valueFrom:
                 secretKeyRef:
                   name: activity
-                  key: database-name
+                  key: DATABASE_HOST
             - name: DATABASE_URL
               value: $(DATABASE_DIALECT)://$(DATABASE_USERNAME):$(DATABASE_PASSWORD)@$(DATABASE_HOST):$(DATABASE_PORT)/$(DATABASE_NAME)
             - name : G5_AUTH_CLIENT_ID
@@ -170,11 +167,3 @@ spec:
                 secretKeyRef:
                   name: activity
                   key: NOTE_SERVICE_PASSWORD
-        - name: cloudsql-proxy
-          image: gcr.io/cloudsql-docker/gce-proxy:1.11
-          command: 
-            - "/cloud_sql_proxy"
-            - "-instances={{ required "databaseConnectionName is required!" .Values.databaseConnectionName }}=tcp:0.0.0.0:5432"
-          securityContext:
-            runAsUser: 2  # non-root user
-            allowPrivilegeEscalation: false
