@@ -13,7 +13,7 @@
         placeholder="Search"
         track-by="urn"
         label="name"
-        @input="onUpdate({ key: 'client', value: $event })"
+        @input="onUpdate({ client: $event })"
       >
         <template #single-label="{ props }">
           {{ props.name }}
@@ -38,20 +38,24 @@
         :options="modes"
         size="sm"
         stacked
-        @input="onUpdate({ key: 'mode', value: $event })"
+        @input="onUpdate({ mode: $event })"
       />
       <b-form-select
         :value="year"
         :options="years"
         style="max-width: 150px;"
-        @input="onUpdate({ key: 'year', value: $event })"
+        @input="onUpdate({ year: $event, period: null, month: null })"
       />
       <b-form-select
-        :value="period"
-        :options="periods"
+        :value="getMonthOrPeriod"
+        :options="getMonthOrPeriodOptions"
         class="mx-1"
         style="max-width: 150px;"
-        @input="onUpdate({ key: 'period', value: $event })"
+        @input="onUpdate({
+          [mode === 'Monthly' ? 'month' : 'period']: $event || null,
+          period: null,
+          month: null
+        })"
       />
       <b-input-group-append>
         <b-btn
@@ -76,7 +80,7 @@
         size="sm"
         class="spaced-btn"
         button-variant="outline-quaternary-10"
-        @input="onUpdate({ key: 'team', value: $event })"
+        @input="onUpdate({ team: $event })"
       />
     </b-input-group>
     <div class="v-divider flex-grow-1" />
@@ -100,22 +104,38 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 export default {
+  data () {
+    return {
+    }
+  },
   computed: {
-    team () { return this.$store.state.inputs.team },
-    teams () { return this.$store.state.inputs.teams },
-    client () { return this.$store.state.inputs.client },
-    clients () { return this.$store.state.inputs.clients },
-    mode () { return this.$store.state.inputs.mode },
-    modes () { return this.$store.state.inputs.modes },
-    months () { return this.$store.state.inputs.months },
-    period () { return this.$store.state.inputs.period },
-    periods () { return this.$store.state.inputs.periods },
-    monthly () { return this.$store.getters.inputs.monthly },
-    year () { return this.$store.state.inputs.year },
-    years () { return this.$store.state.inputs.years },
+    ...mapState({
+      team: state => state.inputs.team,
+      teams: state => state.inputs.teams,
+      client: state => state.inputs.client,
+      clients: state => state.inputs.clients,
+      mode: state => state.inputs.mode,
+      modes: state => state.inputs.modes,
+      availableReports: state => state.inputs.availableReports,
+      period: state => state.inputs.period,
+      year: state => state.inputs.year
+    }),
+    ...mapGetters({
+      monthly: 'inputs/monthly',
+      years: 'inputs/years',
+      months: 'inputs/months',
+      periods: 'inputs/periods'
+    }),
     isBareMinimum () {
       return this.client !== null
+    },
+    getMonthOrPeriod () {
+      return this.mode === 'Monthly' ? this.month : this.period
+    },
+    getMonthOrPeriodOptions () {
+      return this.mode === 'Monthly' ? this.months : this.periods
     }
   },
   methods: {

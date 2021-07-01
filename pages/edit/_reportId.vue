@@ -56,10 +56,7 @@ export default {
   mixins: [Helpers],
   async asyncData ({ params, $axios, route, store }) {
     const { team } = route.query
-    store.dispatch('inputs/onUpdate', {
-      key: 'team',
-      value: team || 'da'
-    })
+    store.dispatch('inputs/onUpdate', { team: team || 'da' })
     store.dispatch('inputs/fillClients')
     const {
       time,
@@ -154,10 +151,7 @@ export default {
     }
   },
   fetch ({ store, query }) {
-    return store.dispatch('inputs/onUpdate', {
-      key: 'team',
-      value: query.team || 'da'
-    })
+    return store.dispatch('inputs/onUpdate', { team: query.team || 'da' })
   },
   computed: {
     team () { return this.$store.state.inputs.team },
