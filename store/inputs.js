@@ -19,7 +19,9 @@ export const state = () => {
     isSubmitted: false,
     client: null,
     clients: [],
+    clientReports: [],
     annotations: {},
+    overview: [],
     period: null,
     availableReports: {},
     year: null,
@@ -56,58 +58,12 @@ export const state = () => {
   }
 }
 
-export const getters = {
-  years (state) {
-    return [...Object.keys(state.availableReports)]
-  },
-  months (state) {
-    return state.year
-      ? state.availableReports[state.year].months
-        .map(month => ({ text: state.monthMap[month], value: month }))
-      : []
-  },
-  periods (state) {
-    return state.year
-      ? state.availableReports[state.year].quarters
-      : []
-  },
-  monthly (state) {
-    return state.mode === 'Monthly'
-  },
-  selectedDate (state) {
-    const thirtyOne = [1, 3, 5, 7, 8, 10, 12]
-    const mo = state.month < 10
-      ? `0${state.month}`
-      : state.month
-    const day = state.month === 2
-      ? '28'
-      : thirtyOne.includes(state.month)
-        ? '31'
-        : '30'
-    return {
-      from: `${state.year}-${mo}-01`,
-      to: `${state.year}-${mo}-${day}`
-    }
-  },
-  selectedQuarter (state) {
-    const ranges = {
-      Q1: { start: '01-01', end: '03-31' },
-      Q2: { start: '04-01', end: '06-30' },
-      Q3: { start: '07-01', end: '09-30' },
-      Q4: { start: '10-01', end: '12-31' }
-    }
-    return {
-      from: `${state.year}-${ranges[state.period].start}`,
-      to: `${state.year}-${ranges[state.period].end}`
-    }
-  }
-}
-
 export const actions = {
   init ({ commit }) {
     const availableReports = new AvailableReports()
     const report = availableReports.getAvailableReports()
-    commit('ON_UPDATE', { availableReports: report })
+    const year = new Date().getFullYear()
+    commit('ON_UPDATE', { availableReports: report, year })
   },
   onUpdate ({ commit }, payload) {
     commit('ON_UPDATE', payload)
@@ -119,6 +75,59 @@ export const actions = {
     this.$axios
       .$get('api/v1/hub/clients')
       .then(clients => commit('FILL_CLIENTS', clients))
+  }
+}
+
+export const getters = {
+  years (state) {
+    return [...Object.keys(state.availableReports)]
+  },
+  months (state) {
+    const months = state.availableReports[state.year].months
+      .map(month => ({ text: state.monthMap[month], value: month }))
+    return [{ text: 'Select', value: null }, ...months]
+  },
+  periods (state) {
+    const quarters = state.availableReports[state.year].quarters
+    return [{ text: 'Select', value: null }, ...quarters]
+  },
+  monthly (state) {
+    return state.mode === 'Monthly'
+  },
+  selectedDate (state) {
+    let val = null
+    if (state.year && state.month) {
+      const thirtyOne = [1, 3, 5, 7, 8, 10, 12]
+      const mo = state.month < 10
+        ? `0${state.month}`
+        : state.month
+      const day = state.month === 2
+        ? '28'
+        : thirtyOne.includes(state.month)
+          ? '31'
+          : '30'
+      val = {
+        from: `${state.year}-${mo}-01`,
+        to: `${state.year}-${mo}-${day}`
+      }
+    }
+    return val
+  },
+  selectedQuarter (state) {
+    let val = null
+    if (state.year && state.period) {
+      const ranges = {
+        Q1: { start: '01-01', end: '03-31' },
+        Q2: { start: '04-01', end: '06-30' },
+        Q3: { start: '07-01', end: '09-30' },
+        Q4: { start: '10-01', end: '12-31' }
+      }
+      val = {
+        from: `${state.year}-${ranges[state.period].start}`,
+        to: `${state.year}-${ranges[state.period].end}`
+      }
+    }
+    return val
   }
 }
 
