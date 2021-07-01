@@ -20,7 +20,7 @@ export default {
           id: '',
           series: [
             {
-              name: 'Digital Advertising',
+              name: ['Digital', 'Advertising'],
               data: [
                 { x: 'Cases Solved', y: 2 },
                 { x: 'Account Changes', y: 2 },
@@ -61,7 +61,7 @@ export default {
         dataLabels: {
           style: {
             fontSize: '18px',
-            fontFamily: '"Fira Sans", sans-serif',
+            fontFamily: '"Roboto Condensed", sans-serif',
             colors: ['#fff']
           }
         },
@@ -69,7 +69,7 @@ export default {
         grid: { show: false },
         chart: {
           background: '#fff',
-          fontFamily: '"Fira Sans", sans-serif',
+          fontFamily: '"Roboto Condensed", sans-serif',
           toolbar: { show: false }
         },
         plotOptions: {
@@ -111,11 +111,14 @@ export default {
         yaxis: {
           axisBorder: { show: false },
           labels: {
+            show: true,
+            rotate: -45,
+            maxWidth: 100,
             style: {
               colors: '#000',
               fontSize: 14,
               cssClass: 'text-uppercase',
-              fontFamily: '"Fira Sans", sans-serif'
+              fontFamily: '"Roboto Condensed", sans-serif'
             }
           }
         }

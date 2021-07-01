@@ -5,58 +5,18 @@
       <b-icon-journal-check scale="1.2em" class="mr-1" />
       Activity Tracker
     </b-navbar-brand>
-    <hamburger-menu />
+    <div class="flex-grow-1" />
+    <slot />
+    <hamburger-menu v-if="!hideHamburger" />
   </b-navbar>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
 export default {
   props: {
-    client: {
-      type: Object,
-      default () {
-        return {
-          name: 'Fallback Client Name',
-          to: 'to date',
-          from: 'from date'
-        }
-      }
-    },
-    approvals: {
-      type: Array,
-      default () {
-        return [
-          { name: 'Digital Advertising', id: 'da', value: false },
-          { name: 'SEO', id: 'seo', value: false },
-          { name: 'Customer Care', id: 'cc', value: true }
-        ]
-      }
-    }
-  },
-  computed: mapState({
-    team: state => state.inputs.team,
-    teams: state => state.inputs.teams
-  }),
-  methods: {
-    ...mapActions({
-      onUpdate: 'inputs/onUpdate'
-    }),
-    updateReport (evt, allApprovals) {
-      allApprovals.find(obj => obj.id === evt.id).value = !evt.value
-      if (evt) {
-        this.pending[evt.id] = true
-        this.$axios
-          .$put(`api/v1/report/${this.$route.params.reportId}`, {
-            approvals: allApprovals
-          }).then((res) => {
-            this.pending[evt.id] = false
-          }).catch((err) => {
-            // eslint-disable-next-line no-console
-            console.error(err)
-            this.pending[evt.id] = false
-          })
-      }
+    hideHamburger: {
+      type: Boolean,
+      default: false
     }
   }
 }
