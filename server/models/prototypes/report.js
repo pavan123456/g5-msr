@@ -5,12 +5,21 @@ module.exports = (models, Sequelize, sequelize) => {
   models.report.createNew = (params) => {
     return sequelize.transaction(async (t) => {
       const { to, from, workQ, clientUrn } = params
-      const report = await models.report.create({
-        to,
-        from,
-        workQ,
-        clientUrn
-      }, { transaction: t })
+      const [report] = await models.report.findOrCreate(
+        {
+          where: {
+            to,
+            from,
+            clientUrn
+          },
+          defaults: {
+            to,
+            from,
+            workQ,
+            clientUrn
+          },
+          transaction: t
+        })
       const reportId = hashids.encode(report.dataValues.id)
       return report.update({ reportId }, { transaction: t })
     })

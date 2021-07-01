@@ -1,66 +1,141 @@
 <template>
-  <b-container fluid>
-    <b-row>
-      <b-col>
-        <b-table :items="items" :fields="fields">
-          <template #cell(reportId)="{ item }">
-            <b-btn
-              :to="`/edit/${item.reportId}?team=da`"
-              block
-              variant="quaternary-3"
-              size="sm"
-            >
-              Edit Report
-            </b-btn>
-            <b-btn :to="`/report/${item.reportId}?edit=false`" block variant="tertiary-2" size="sm">
-              View Report
-            </b-btn>
-          </template>
-          <template #cell(workQ)="{ item }">
-            <h1>
-              {{ item.workQ.length }}
-            </h1>
-          </template>
-          <template #cell(approvals)="{ item }">
-            <b-list-group>
-              <b-list-group-item
-                v-for="approval in item.approvals"
-                :key="approval.id"
-                class="small"
-              >
-                <b-icon-check-circle-fill v-if="approval.value" variant="success" />
-                <b-icon-check-circle v-else variant="failure" />
-                {{ approval.name }}
-              </b-list-group-item>
-            </b-list-group>
-          </template>
-          <template #cell(from)="{ item }">
-            <b-badge variant="neutral">
-              {{ item.from }}
-            </b-badge>
-          </template>
-          <template #cell(to)="{ item }">
-            <b-badge variant="neutral">
-              {{ item.to }}
-            </b-badge>
-          </template>
-        </b-table>
-      </b-col>
-    </b-row>
-  </b-container>
+  <div>
+    <alert />
+    <nav-header />
+    <div class="inset-controls bg-quaternary">
+      <b-card class="inset-controls__card">
+        <h1 class="text-white text-uppercase font-weight-bold inset-controls__card__title">
+          Explore or Create
+        </h1>
+        <editor-controls />
+      </b-card>
+    </div>
+    <b-container v-if="isEmpty(annotations)" style="margin-top: 60px;" />
+    <b-container v-else style="margin-top: 60px;">
+      <b-row class="my-2">
+        <b-col class="p-0">
+          <section-wrapper v-bind="tips.teamOverview">
+            <team-overview-chart :charts="annotations[team].overview" />
+          </section-wrapper>
+        </b-col>
+      </b-row>
+      <b-row class="my-2">
+        <b-col class="p-0">
+          <section-wrapper v-bind="tips.teamTimeline">
+            <timeline-chart :chart="annotations[team].timeline" />
+          </section-wrapper>
+        </b-col>
+      </b-row>
+      <b-row class="my-2">
+        <b-col class="p-0">
+          <section-wrapper v-bind="tips.teamPromoted">
+            <promoted-notes :notes="annotations[team].promoted" />
+          </section-wrapper>
+        </b-col>
+      </b-row>
+      <b-row class="my-2">
+        <b-col class="p-0">
+          <section-wrapper v-bind="tips.overview">
+            <heatmap-overview-chart :chart="{ id: 'overview-chart', series: overview }" />
+          </section-wrapper>
+        </b-col>
+      </b-row>
+      <b-row class="my-2">
+        <b-col class="p-0">
+          <b-badge variant="quaternary-40">
+            Activity Tracker v.{{ version }}
+          </b-badge>
+        </b-col>
+      </b-row>
+    </b-container>
+  </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { version } from '~/package.json'
+import Helpers from '~/mixins/table-helpers'
+const _ = require('lodash')
 export default {
-  async asyncData ({ $axios }) {
-    const items = await $axios.$get('api/v1/reports')
+  mixins: [Helpers],
+  asyncData ({ params, $axios, route, store }) {
+    const { team } = route.query
+    store.dispatch('inputs/onUpdate', { team: team || 'da' })
+    store.dispatch('inputs/fillClients')
+    store.dispatch('inputs/init')
+  },
+  data () {
     return {
-      items,
-      fields: Object.keys(items[0]).map(field => ({
-        key: field,
-        sortable: true
-      }))
+      version,
+      collapseIsVisible: true,
+      tips: {
+        overview: {
+          title: 'Overview',
+          description: 'This section is used to provide a summary of work completed across all teams for the time period. It pulls from transactional notes (SEO Audit Tool, SF Cases) and manual notes taken from the extension or UI.'
+        },
+        teamOverview: {
+          title: 'Team Overview',
+          description: 'This section is used to dive a little deeper into the type of work completed over the time period. It pulls from transactional notes (SEO Audit Tool, SF Cases) and manual notes taken from the extension or UI.',
+          fallback: '😢 Oh no! It looks like we can\'t find any notes for this time period. \n We\'d recommend adding some notes or if you think this is an error please report it!'
+        },
+        teamTimeline: {
+          title: 'Team Timeline',
+          description: 'This section is used to show the work you\'ve completed over time. It pulls from transactional notes (SEO Audit Tool, SF Cases) and manual notes taken from the extension or UI.'
+        },
+        teamPromoted: {
+          title: 'Team Promoted Notes',
+          description: 'This section is used to convey important information to a customer. It pulls from the notes you have previously marked as Promoted. This is the only section that displays the actual content of your notes.\n\n You can add or remove notes from this section by promoting or un-promoting them in the table above.'
+        }
+      }
+    }
+  },
+  computed: {
+    ...mapState({
+      annotations: state => state.inputs.annotations,
+      team: state => state.inputs.team,
+      overview: state => state.inputs.overview
+    })
+  },
+  watch: {
+    team (team) {
+      this.$router.push({ path: this.$route.path, query: { team } })
+    }
+  },
+  created () {
+    this.$router.push({ path: this.$route.path, query: { team: this.team } })
+  },
+  methods: {
+    isEmpty (obj) {
+      return _.isEmpty(obj)
     }
   }
 }
 </script>
+
+<style lang="scss">
+.inset-controls {
+  height: 120px;
+  width: 100%;
+  border-radius: 0 0 100px 0;
+  position: relative;
+  &__card {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 85%;
+    max-width: 1140px;
+    transform: translate(-50%, 50%);
+    border-radius: 13px;
+    border-color: #f7f7fc;
+    box-shadow: 0 5px 10px rgba(31, 40, 137, 0.3);
+    z-index: 999999;
+    &__title {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      left: 0;
+      transform: translateY(calc(-100% - 10px));
+    }
+  }
+}
+</style>

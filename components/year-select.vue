@@ -9,7 +9,7 @@
       type="number"
       min="2015"
       style="max-width: 80px; border-radius: 5px; border-color: #e8e8e8;"
-      @input="onUpdate({ key: 'year', value: $event })"
+      @input="onUpdate({ year: $event })"
     />
   </b-input-group>
 </template>

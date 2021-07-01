@@ -41,7 +41,8 @@ module.exports = {
   ],
   plugins: [
     { src: '@/plugins/apex-charts', mode: 'client' },
-    { src: '@/plugins/vue-multiselect', mode: 'client' }
+    { src: '@/plugins/vue-multiselect', mode: 'client' },
+    { src: '@/plugins/vue-clipboard2', mode: 'client' }
   ],
   components: true,
   modules: [
