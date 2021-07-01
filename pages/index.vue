@@ -13,7 +13,7 @@
           placeholder="Search"
           track-by="urn"
           label="name"
-          @input="onUpdate({ key: 'client', value: $event })"
+          @input="onUpdate({ client: $event })"
         >
           <template #option="{ option }">
             <b>
