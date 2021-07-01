@@ -28,7 +28,7 @@ class AvailableReports {
     return _.range(startMonth, endMonth + 1)
   }
 
-  display () {
+  getAvailableReports () {
     const years = _.range(this.startYear, this.currentYear + 1)
     return years.reduce((acc, year) => {
       acc[year] = {
