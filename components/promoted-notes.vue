@@ -21,22 +21,35 @@
       v-for="g in groups"
       v-else
       :key="g.id"
-      :class="[{ 'is-collapsed': g.isCollapsed }, 'collapsible', 'mb-3', 'pt-4']"
-      deck
+      :class="[{ 'is-collapsed': g.isCollapsed }, 'collapsible', 'mb-5', 'pt-4']"
+      columns
     >
-      <b-badge variant="neutral" class="collapse-badge px-5">
+      <b-badge variant="quaternary-10" class="collapse-badge px-5">
         {{ g.date }}
       </b-badge>
       <b-card
         v-for="(note, i) in notes[g.date]"
         :key="`${note.id}-${i}`"
+        border-variant="quaternary-40"
+        bg-variant="quaternary-10"
+        class="mb-3"
+        style="border-radius: 13px;"
       >
+        <p class="text-white font-weight-bold">
+          {{ convertLongDate(note.date) }}
+        </p>
+        <p>
+          <span class="font-weight-bold">
+            {{ note.category }}
+          </span>
+          {{ note.type }}
+        </p>
         <div class="mb-3" v-html="note.text" />
         <div v-if="note.locations.length < 8">
           <b-badge
             v-for="(l, idx) in note.locations"
             :key="`${l}-${idx}`"
-            variant="pale"
+            variant="primary"
             class="mb-1 mr-1"
           >
             {{ l }}
@@ -47,7 +60,7 @@
             <b-badge
               v-for="(l, idx) in note.locations"
               :key="`${l}-${idx}`"
-              variant="pale"
+              variant="primary"
               class="mb-1 mr-1"
             >
               <span class="text-wrap">{{ l }}</span>
@@ -98,18 +111,24 @@ export default {
         date: key,
         isCollapsed: true
       }))
+  },
+  methods: {
+    convertLongDate (date) {
+      const m = date.match(/(\d{4})-(\d{1,2})-(\d{1,2})/)
+      return `${m[3]}-${m[2]}-${m[1]}`
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .collapsible {
-  overflow-y: hidden;
   position: relative;
   & .collapse-badge {
     position: absolute;
-    z-index: 2;
+    z-index: 99999;
     transform: translateY(-115%);
+    font-size: 1.25em;
   }
   & .collapse-btn {
     z-index: 10;
@@ -126,9 +145,10 @@ export default {
   }
   &.is-collapsed {
     height: 200px;
+    overflow-y: hidden;
     & .collapse-btn {
       top: 200px;
-      box-shadow: 0 -15px 15px 10px rgba(255, 255, 255, 0.8);
+      box-shadow: 0 -5px 15px 10px rgba(255, 255, 255, 0.8);
     }
   }
   & .scroll-container {
