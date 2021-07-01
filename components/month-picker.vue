@@ -13,7 +13,7 @@
       hide-goto-end-buttons
       hide-ellipsis
       class="mb-0"
-      @input="onUpdate({ key: 'month', value: $event })"
+      @input="onUpdate({ month: $event })"
     >
       <template #page="{ page }">
         {{ months[page].text }}

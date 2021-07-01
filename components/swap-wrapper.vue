@@ -8,7 +8,7 @@
       :class="[{ 'range': showMonth }, 'swap-btn', 'p-0']"
       pill
       variant="transparent"
-      @click="onUpdate({ key: 'monthly', value: !monthly })"
+      @click="onUpdate({ monthly: !monthly })"
     >
       <b-icon-chevron-compact-up v-if="showMonth" variant="muted" />
       <b-icon-chevron-compact-down v-else variant="muted" />

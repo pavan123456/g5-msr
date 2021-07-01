@@ -11,7 +11,7 @@
       button-variant="primary-5"
       class="mx-2"
       size="sm"
-      @input="onUpdate({ key: 'period', value: $event })"
+      @input="onUpdate({ period: $event })"
     />
   </b-input-group>
 </template>

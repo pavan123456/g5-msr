@@ -1,43 +1,34 @@
+const AvailableReports = require('../server/controllers/availableReports')
 export const state = () => {
   return {
+    monthMap: {
+      1: 'Jan',
+      2: 'Feb',
+      3: 'Mar',
+      4: 'Apr',
+      5: 'May',
+      6: 'Jun',
+      7: 'Jul',
+      8: 'Aug',
+      9: 'Sep',
+      10: 'Oct',
+      11: 'Nov',
+      12: 'Dec'
+    },
     isBusy: false,
     isSubmitted: false,
     client: null,
     clients: [],
-    period: 'Q1',
-    periods: [
-      'Q1',
-      'Q2',
-      'Q3',
-      'Q4'
-    ],
+    annotations: {},
+    period: null,
     availableReports: {},
     year: null,
-    years: [
-      2021,
-      2020
-    ],
     mode: 'Quaterly',
     modes: [
       'Quaterly',
       'Monthly'
     ],
-    month: 7,
-    months: [
-      { text: 'Jan', value: 1 },
-      { text: 'Jan', value: 1 },
-      { text: 'Feb', value: 2 },
-      { text: 'Mar', value: 3 },
-      { text: 'Apr', value: 4 },
-      { text: 'May', value: 5 },
-      { text: 'Jun', value: 6 },
-      { text: 'Jul', value: 7 },
-      { text: 'Aug', value: 8 },
-      { text: 'Sep', value: 9 },
-      { text: 'Oct', value: 10 },
-      { text: 'Nov', value: 11 },
-      { text: 'Dec', value: 12 }
-    ],
+    month: null,
     team: 'da',
     teams: [
       {
@@ -66,6 +57,20 @@ export const state = () => {
 }
 
 export const getters = {
+  years (state) {
+    return [...Object.keys(state.availableReports)]
+  },
+  months (state) {
+    return state.year
+      ? state.availableReports[state.year].months
+        .map(month => ({ text: state.monthMap[month], value: month }))
+      : []
+  },
+  periods (state) {
+    return state.year
+      ? state.availableReports[state.year].quarters
+      : []
+  },
   monthly (state) {
     return state.mode === 'Monthly'
   },
@@ -99,6 +104,11 @@ export const getters = {
 }
 
 export const actions = {
+  init ({ commit }) {
+    const availableReports = new AvailableReports()
+    const report = availableReports.getAvailableReports()
+    commit('ON_UPDATE', { availableReports: report })
+  },
   onUpdate ({ commit }, payload) {
     commit('ON_UPDATE', payload)
   },
@@ -113,8 +123,11 @@ export const actions = {
 }
 
 export const mutations = {
-  ON_UPDATE (state, payload) {
-    state[payload.key] = payload.value
+  ON_UPDATE (state, obj) {
+    const keys = Object.keys(obj)
+    keys.forEach((key) => {
+      state[key] = obj[key]
+    })
   },
   ON_NESTED (state, payload) {
     state.teams.forEach((team) => {
