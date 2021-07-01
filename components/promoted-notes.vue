@@ -24,7 +24,7 @@
       :class="[{ 'is-collapsed': g.isCollapsed }, 'collapsible', 'mb-5', 'pt-4']"
       columns
     >
-      <b-badge variant="quaternary-10" class="collapse-badge px-5">
+      <b-badge variant="quaternary-40" class="collapse-badge px-5">
         {{ g.date }}
       </b-badge>
       <b-card
@@ -127,8 +127,9 @@ export default {
   & .collapse-badge {
     position: absolute;
     z-index: 99999;
-    transform: translateY(-115%);
+    transform: translate(10%, -70%);
     font-size: 1.25em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
   & .collapse-btn {
     z-index: 10;
@@ -144,16 +145,16 @@ export default {
     }
   }
   &.is-collapsed {
-    height: 200px;
+    height: 600px;
     overflow-y: hidden;
     & .collapse-btn {
-      top: 200px;
+      top: 600px;
       box-shadow: 0 -5px 15px 10px rgba(255, 255, 255, 0.8);
     }
   }
   & .scroll-container {
     overflow-y: scroll;
-    max-height: 200px;
+    max-height: 600px;
     scroll-behavior: smooth;
     padding: 0px;
     overflow-x: hidden;

@@ -56,7 +56,12 @@ export default {
         chart: { type: 'bubble' },
         dataLabels: { enabled: false },
         fill: { opacity: 0.8 },
-        title: { text: 'Activity Timeline' },
+        title: {
+          text: 'Activity Timeline',
+          style: {
+            fontSize: '18px'
+          }
+        },
         grid: {
           borderColor: '#c1c1c1',
           padding: {

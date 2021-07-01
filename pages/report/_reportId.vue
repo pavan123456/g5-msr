@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-header>
+    <nav-header v-bind="{ hideHamburger }">
       <b-list-group class="flex-row align-items-center mx-3">
         <b-list-group-item
           v-for="(item, i) in items"
@@ -36,9 +36,21 @@
           <h1 class="text-white text-uppercase font-weight-bold inset-controls__card__title">
             {{ clientName }}
           </h1>
+          <b-dropdown right variant="transparent">
+            <template #button-content>
+              <span class="font-weight-bold">
+                FROM
+              </span>
+              {{ period.from }}
+              <span class="font-weight-bold">
+                TO
+              </span>
+              {{ period.to }}
+            </template>
+          </b-dropdown>
         </b-card>
       </div>
-      <b-container style="margin-top: 60px;">
+      <b-container style="margin-top: 60px;" class="px-0">
         <b-row
           v-for="(s, i) in sections"
           :key="`${s.text}-${i}`"
@@ -80,13 +92,13 @@
                   <team-overview-chart :charts="s.overview" />
                 </b-col>
               </b-row>
-              <b-row v-if="s.timeline.length > 0" class="h-divider my-3 pt-3">
+              <b-row v-if="s.timeline.length > 0" class="h-divider my-5 pt-3">
                 <b-col>
                   <timeline-chart :chart="s.timeline" />
                 </b-col>
               </b-row>
-              <b-row v-if="Object.keys(s.promoted).length > 0" class="h-divider my-2 pt-3">
-                <b-col>
+              <b-row v-if="Object.keys(s.promoted).length > 0" class="h-divider my-5 pt-3">
+                <b-col class="pt-3">
                   <promoted-notes :notes="s.promoted" />
                 </b-col>
               </b-row>
@@ -223,6 +235,15 @@ export default {
         this.progress = 0
       } else {
         this.progress = progress
+      }
+    },
+    move (index) {
+      if (index < 0) {
+        this.position = 0
+      } else if (index > this.items.length - 1) {
+        this.position = this.items.length - 1
+      } else {
+        this.position = index
       }
     }
   }
