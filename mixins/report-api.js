@@ -1,27 +1,72 @@
+const axios = require('axios')
+
 export async function getReportById (id) {
-  return await this.$axios.$get(`api/v1/reports/${id}?edit=true`)
+  return await axios.get(`api/v1/reports/${id}?edit=true`)
+    .then(res => res.data)
+}
+
+export function createSections (notes, formattedOverview, teams) {
+  const overview = {
+    text: 'Overview',
+    id: 'overview',
+    href: '#overview',
+    chart: {
+      id: 'overview-chart',
+      series: formattedOverview
+    }
+  }
+  const sectionMap = {
+    da: 'Digital Advertising',
+    seo: 'SEO',
+    cc: 'Customer Care'
+  }
+  const teamSections = Object.entries(sectionMap)
+    .map(([key, val]) => {
+      const promoted = key === 'cc' ? {} : formatPromoted(notes, key.toUpperCase())
+      return {
+        text: val,
+        id: key,
+        href: `#${key}`,
+        ...teams.find(t => t.name === val),
+        promoted
+      }
+    })
+  return [overview, ...teamSections]
+}
+
+const noteMap = (note, i) => {
+  const { note: text, createdAt: date, annotationType: type, annotationCategory, locations } = note
+  return {
+    id: i,
+    text,
+    date,
+    type,
+    category: annotationCategory.text,
+    locations: locations.map(l => l.name)
+  }
+}
+
+const structureByMonthKeys = (obj, n) => {
+  const month = new Date(n.date).toLocaleString('default', { month: 'long' })
+  obj[month] = obj[month] || []
+  obj[month].push(n)
+  return obj
+}
+
+export function formatPromoted (notes, team) {
+  console.log(notes, team)
+  const teamFilter = note => note.team.name === team && note.promoted === true
+  return notes
+    .filter(teamFilter)
+    .map(noteMap)
+    .reduce(structureByMonthKeys, {})
 }
 
 export function getFormattedAnnotations (notes, teams) {
   return {
     da: {
       notes: notes.filter(n => n.team.name === 'DA'),
-      promoted: notes
-        .filter(n => n.team.name === 'DA' && n.promoted === true)
-        .map((n) => {
-          return {
-            id: '',
-            text: n.note,
-            date: n.createdAt,
-            locations: n.locations.map(l => l.name)
-          }
-        })
-        .reduce((obj, n) => {
-          const month = new Date(n.date).toLocaleString('default', { month: 'long' })
-          obj[month] = obj[month] || []
-          obj[month].push(n)
-          return obj
-        }, {}),
+      promoted: formatPromoted(notes, 'DA'),
       ...teams.find(n => n.name === 'Digital Advertising')
     },
     seo: {
@@ -61,6 +106,8 @@ export default {
     },
     getReportById,
     getFormattedAnnotations,
-    getFormattedOverview
+    getFormattedOverview,
+    formatPromoted,
+    createSections
   }
 }
