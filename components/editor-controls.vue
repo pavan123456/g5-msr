@@ -186,9 +186,7 @@ export default {
       if (needsQueryParams) {
         const fromDate = range && range.from ? range.from : null
         const toDate = range && range.to ? range.to : null
-        link = Object.entries({ client, fromDate, toDate }).reduce((acc, curr) => {
-          return curr[1] ? `${acc}&${curr[0]}=${curr[1]}` : acc
-        }, `${link}?`)
+        link = this.buildDynamicLink(client, fromDate, toDate, link)
       }
       return link
     }
@@ -197,6 +195,12 @@ export default {
     ...mapActions({
       setAlert: 'alert/setAlert'
     }),
+    buildDynamicLink (client, fromDate, toDate, domain) {
+      return Object.entries({ client, fromDate, toDate }).reduce((acc, curr, idx) => {
+        const seperator = idx === 0 ? '' : '&'
+        return curr[1] ? `${acc}${seperator}${curr[0]}=${curr[1]}` : acc
+      }, `${domain}?`)
+    },
     onClientUpdate (client) {
       if (client && client.urn) {
         this.$axios.$get(`api/v1/reports/client/${client.urn}`)
