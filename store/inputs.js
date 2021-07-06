@@ -21,6 +21,7 @@ export const state = () => {
     clients: [],
     clientReports: [],
     annotations: {},
+    sections: [],
     overview: [],
     period: null,
     availableReports: {},
