@@ -1,5 +1,6 @@
 <template>
   <div>
+    <alert />
     <nav-header v-bind="{ hideHamburger }">
       <b-list-group class="flex-row align-items-center mx-3">
         <b-list-group-item
@@ -41,13 +42,39 @@
               <span class="font-weight-bold">
                 FROM
               </span>
-              {{ period.from }}
+              {{ selectedReport.from }}
               <span class="font-weight-bold">
                 TO
               </span>
-              {{ period.to }}
+              {{ selectedReport.to }}
             </template>
+            <b-dropdown-item
+              v-for="(report, index) in clientReports.filter(report => report.reportId !== selectedReportId)"
+              :key="`${report}-${index}`"
+              target="_blank"
+              @click="selectedReportId = report.reportId"
+            >
+              <span class="text-uppercase font-weight-bold">
+                From:
+              </span>
+              {{ report.from }}
+              <span class="text-uppercase font-weight-bold">
+                To:
+              </span>
+              {{ report.to }}
+            </b-dropdown-item>
           </b-dropdown>
+          <b-btn
+            :disabled="!selectedReportId"
+            size="sm"
+            variant="quaternary-40"
+            class="ml-2 py-2 px-3 font-weight-bold"
+            style="border-radius: 13px; align-self: center;"
+            @click="getReport"
+          >
+            <span v-if="!loading">GO</span>
+            <b-icon-arrow-clockwise v-else animation="spin" />
+          </b-btn>
         </b-card>
       </div>
       <b-container style="margin-top: 60px;" class="px-0">
@@ -111,24 +138,31 @@
 </template>
 
 <script>
-import { createSections, getReportById, getFormattedOverview } from '~/mixins/report-api'
+import { mapState, mapActions } from 'vuex'
+import QueryParams from '~/mixins/query-params'
+import { createSections, getReportById, getFormattedOverview, clientReportsById } from '~/mixins/report-api'
 export default {
-  async asyncData ({ route, $axios }) {
-    const { reportId } = route.query
-    const { teams, notes, overview, to, from, clientName } = await getReportById(reportId)
-    const formattedOverview = getFormattedOverview(overview)
-
-    return {
-      sections: createSections(notes, formattedOverview, teams),
-      period: {
-        to,
-        from
-      },
-      clientName
+  mixins: [QueryParams],
+  async asyncData ({ route, $axios, store, error }) {
+    try {
+      const { reportId } = route.query
+      if (!reportId) throw new Error('missing report id')
+      const clientReports = await clientReportsById(reportId)
+      const { teams, notes, overview, clientName } = await getReportById(reportId)
+      const formattedOverview = getFormattedOverview(overview)
+      const sections = createSections(notes, formattedOverview, teams)
+      store.dispatch('inputs/onUpdate', { sections, clientReports })
+      return {
+        selectedReportId: reportId,
+        clientName
+      }
+    } catch (e) {
+      error(e)
     }
   },
   data () {
     return {
+      loading: false,
       items: [
         { text: 'Overview', href: '#overview' },
         { text: 'Digital Advertising', href: '#da' },
@@ -140,9 +174,38 @@ export default {
     }
   },
   computed: {
-    position () { return `${Math.round(this.progress * 100)}%` }
+    selectedReport () {
+      return this.clientReports.find(report => report.reportId === this.selectedReportId)
+    },
+    position () { return `${Math.round(this.progress * 100)}%` },
+    ...mapState({
+      sections: state => state.inputs.sections,
+      clientReports: state => state.inputs.clientReports
+    })
   },
   methods: {
+    ...mapActions({
+      setAlert: 'alert/setAlert'
+    }),
+    async getReport () {
+      try {
+        this.loading = true
+        const { teams, notes, overview } = await getReportById(this.selectedReportId)
+        const formattedOverview = getFormattedOverview(overview)
+        const sections = createSections(notes, formattedOverview, teams)
+        this.$store.dispatch('inputs/onUpdate', { sections })
+        this.updateQueryParams({ reportId: this.selectedReportId })
+      } catch (e) {
+        this.setAlert({
+          alertMsg: 'Error Loading Data',
+          includeRefreshLink: true,
+          alertVariant: 'error',
+          alertEnabled: true
+        })
+      } finally {
+        this.loading = false
+      }
+    },
     onScroll () {
       const progress = this.$refs.scrollContainer.scrollTop / (this.$refs.scrollContainer.scrollHeight - this.$refs.scrollContainer.clientHeight)
       if (progress > 1) {
@@ -155,11 +218,11 @@ export default {
     },
     move (index) {
       if (index < 0) {
-        this.position = 0
+        this.progress = 0
       } else if (index > this.items.length - 1) {
-        this.position = this.items.length - 1
+        this.progress = this.items.length - 1
       } else {
-        this.position = index
+        this.progress = index
       }
     }
   }
