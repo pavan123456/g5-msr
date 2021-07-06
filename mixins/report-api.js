@@ -1,5 +1,17 @@
 const axios = require('axios')
 
+export async function clientReportsById (id) {
+  return await axios
+    .get(`api/v1/reports/display/${id}`)
+    .then((res) => {
+      if (res.status === 200) {
+        return res.data
+      } else {
+        throw new Error('invalid data')
+      }
+    })
+}
+
 export async function getReportById (id) {
   return await axios.get(`api/v1/reports/${id}?edit=true`)
     .then(res => res.data)
@@ -54,7 +66,6 @@ const structureByMonthKeys = (obj, n) => {
 }
 
 export function formatPromoted (notes, team) {
-  console.log(notes, team)
   const teamFilter = note => note.team.name === team && note.promoted === true
   return notes
     .filter(teamFilter)
@@ -108,6 +119,7 @@ export default {
     getFormattedAnnotations,
     getFormattedOverview,
     formatPromoted,
-    createSections
+    createSections,
+    clientReportsById
   }
 }
