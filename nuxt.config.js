@@ -54,6 +54,9 @@ module.exports = {
     bootstrapVueCSS: false,
     icons: true
   },
+  router: {
+    middleware: ['user']
+  },
   googleAnalytics: {
     id: process.env.GA_PROPERTY,
     debug: {
