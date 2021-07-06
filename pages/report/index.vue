@@ -20,7 +20,7 @@
             >
               {{ s.text }}
             </h2>
-            <heat-map :chart="s.chart" />
+            <heatmap-overview-chart :chart="s.chart" />
           </b-col>
           <b-col v-else cols="10" offset="1">
             <b-row v-if="s.overview.length > 0" class="my-2 pt-1">
@@ -32,12 +32,12 @@
                 >
                   {{ s.text }}
                 </h2>
-                <team-overview :charts="s.overview" />
+                <team-overview-chart :charts="s.overview" />
               </b-col>
             </b-row>
             <b-row v-if="s.timeline.length > 0" class="my-2">
               <b-col>
-                <team-timeline :chart="s.timeline" />
+                <timeline-chart :chart="s.timeline" />
               </b-col>
             </b-row>
             <b-row v-if="Object.keys(s.promoted).length > 0">
@@ -48,16 +48,24 @@
           </b-col>
         </b-row>
       </b-container>
-      {{ version }}
     </div>
   </div>
 </template>
 
 <script>
+// import { getFormattedAnnotations, getFormattedOverview, getReportById } from '~/mixins/report'
 export default {
-  async asyncData ({ params, $axios }) {
+  async asyncData ({ params, $axios, route, error }) {
+    // try {
+    //   const { reportId } = route.query
+    //   if (!reportId) throw new Error('missing query params')
+    //   const res = await getReportById(reportId)
+    // } catch (e) {
+    //   error(e)
+    // }
+    const { reportId } = route.query
     const res = await $axios
-      .$get(`api/v1/reports/${params.reportId}?edit=true`)
+      .$get(`api/v1/reports/${reportId}?edit=true`)
     const overviewColumns = [
       'Cases Solved',
       'Account Audit',
@@ -140,12 +148,7 @@ export default {
           ...res.teams.find(t => t.name === 'Customer Care'),
           promoted: {}
         }
-      ],
-      period: {
-        to: res.to,
-        from: res.from
-      },
-      clientName: res.clientName
+      ]
     }
   },
   data () {

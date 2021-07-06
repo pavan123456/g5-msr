@@ -42,15 +42,21 @@ module.exports = (app) => {
   app.get('/api/v1/reports/client/:clientUrn', async (req, res) => {
     try {
       const { clientUrn } = req.params
-      const reports = await models.report.findAll({
-        where: { clientUrn },
-        order: [
-          ['from', 'DESC'],
-          ['to', 'DESC']
-        ],
-        attributes: ['reportId', 'to', 'from', 'clientUrn']
+      const formattedReport = await models.report.reportsByClientUrn(clientUrn)
+      res.status(200).json(formattedReport)
+    } catch (e) {
+      res.status(500).send(e.message)
+    }
+  })
+
+  app.get('/api/v1/reports/display/:reportId', async (req, res) => {
+    try {
+      const { reportId } = req.params
+      const { clientUrn } = await models.report.findOne({
+        where: { reportId },
+        attributes: ['clientUrn']
       })
-      const formattedReport = reports.map(report => ({ ...report.dataValues }))
+      const formattedReport = await models.report.reportsByClientUrn(clientUrn)
       res.status(200).json(formattedReport)
     } catch (e) {
       res.status(500).send(e.message)
