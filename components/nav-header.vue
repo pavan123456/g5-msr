@@ -5,12 +5,20 @@
       <b-icon-journal-check scale="1.2em" class="mr-1" />
       Activity Tracker
     </b-navbar-brand>
-    <hamburger-menu />
+    <div class="flex-grow-1" />
+    <slot />
+    <hamburger-menu v-if="!hideHamburger" />
   </b-navbar>
 </template>
 
 <script>
 export default {
+  props: {
+    hideHamburger: {
+      type: Boolean,
+      default: false
+    }
+  }
 }
 </script>
 

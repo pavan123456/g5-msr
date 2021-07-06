@@ -109,7 +109,12 @@ export default {
           strokeDashArray: 2
         },
         fill: { opacity: 1 },
-        title: { text: 'Team Overview by Category' },
+        title: {
+          text: 'Team Overview by Category',
+          style: {
+            fontSize: '18px'
+          }
+        },
         yaxis: { show: false },
         plotOptions: {
           bar: {

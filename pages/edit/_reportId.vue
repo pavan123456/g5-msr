@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-header :approvals="approvals" :client="client" />
+    <nav-header />
     <div class="inset-controls bg-quaternary">
       <b-card class="inset-controls__card">
         <h1 class="text-white text-uppercase font-weight-bold inset-controls__card__title">
@@ -177,31 +177,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.inset-controls {
-  height: 120px;
-  width: 100%;
-  border-radius: 0 0 100px 0;
-  position: relative;
-  &__card {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    width: 85%;
-    max-width: 1140px;
-    transform: translate(-50%, 50%);
-    border-radius: 13px;
-    border-color: #f7f7fc;
-    box-shadow: 0 5px 10px rgba(31, 40, 137, 0.3);
-    z-index: 999999;
-    &__title {
-      position: absolute;
-      top: 0;
-      width: 100%;
-      left: 0;
-      transform: translateY(calc(-100% - 10px));
-    }
-  }
-}
-</style>
