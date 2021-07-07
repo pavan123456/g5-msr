@@ -32,12 +32,13 @@
       </vue-multiselect>
     </b-input-group>
     <div class="v-divider" />
-    <b-input-group class="flex-grow-0 align-items-center px-3">
+    <b-input-group class="flex-grow-0 align-items-center px-2">
       <b-form-radio-group
         :checked="mode"
         :options="modes"
         size="sm"
         stacked
+        class="mr-2"
         @input="onUpdate({ mode: $event, period: null, month: null })"
       />
       <b-form-select
