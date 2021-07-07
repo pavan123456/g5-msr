@@ -54,7 +54,7 @@ const noteMap = (note, i) => {
     date,
     type,
     category: annotationCategory.text,
-    locations: locations.map(l => l.name)
+    locations: locations.map(l => l.display_name ? l.display_name : l.name)
   }
 }
 
