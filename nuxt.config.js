@@ -47,6 +47,7 @@ module.exports = {
   components: true,
   modules: [
     'bootstrap-vue/nuxt',
+    '@nuxtjs/google-analytics',
     '@nuxtjs/axios'
   ],
   bootstrapVue: {
@@ -58,10 +59,9 @@ module.exports = {
     middleware: ['user']
   },
   googleAnalytics: {
-    // id: process.env.GA_PROPERTY,
-    id: 'UA-115892674-19',
+    id: process.env.GA_PROPERTY,
     debug: {
-      enabled: true,
+      enabled: false,
       sendHitTask: true
     }
   },
