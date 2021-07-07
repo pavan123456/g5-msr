@@ -15,6 +15,7 @@ module.exports = {
     'nuxt/no-cjs-in-config': 0,
     curly: 0,
     'no-console': 1,
+    'vue/no-v-html': 0,
     camelcase: ['warn', { properties: 'never', ignoreDestructuring: true }]
   }
 }
