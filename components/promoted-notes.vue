@@ -115,7 +115,7 @@ export default {
   methods: {
     convertLongDate (date) {
       const m = date.match(/(\d{4})-(\d{1,2})-(\d{1,2})/)
-      return `${m[3]}-${m[2]}-${m[1]}`
+      return `${m[2]}-${m[3]}-${m[1]}`
     }
   }
 }
