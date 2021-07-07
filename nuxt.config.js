@@ -58,9 +58,10 @@ module.exports = {
     middleware: ['user']
   },
   googleAnalytics: {
-    id: process.env.GA_PROPERTY,
+    // id: process.env.GA_PROPERTY,
+    id: 'UA-115892674-19',
     debug: {
-      enabled: false,
+      enabled: true,
       sendHitTask: true
     }
   },
