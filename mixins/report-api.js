@@ -62,6 +62,9 @@ const structureByMonthKeys = (obj, n) => {
   const month = new Date(n.date).toLocaleString('default', { month: 'long' })
   obj[month] = obj[month] || []
   obj[month].push(n)
+  obj[month].sort((a, b) => {
+    return new Date(a.date) - new Date(b.date)
+  })
   return obj
 }
 
@@ -107,10 +110,6 @@ export function getFormattedOverview (overview) {
 }
 
 export default {
-  data () {
-    return {
-    }
-  },
   methods: {
     async getReportByClient (clientUrn, to, from) {
       return await this.$axios.$get('api/v1/reports', { params: { to, from, clientUrn } })
