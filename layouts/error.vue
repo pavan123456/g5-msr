@@ -26,6 +26,7 @@
 
 <script>
 export default {
+  layout: 'error',
   props: {
     error: {
       type: Object,
@@ -33,7 +34,6 @@ export default {
         return {}
       }
     }
-  },
-  layout: 'error'
+  }
 }
 </script>
