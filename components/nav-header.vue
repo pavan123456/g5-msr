@@ -7,7 +7,7 @@
     </b-navbar-brand>
     <div class="flex-grow-1" />
     <slot />
-    <hamburger-menu v-if="!hideHamburger" />
+    <!-- <hamburger-menu v-if="!hideHamburger" /> -->
   </b-navbar>
 </template>
 
