@@ -2,6 +2,7 @@ FROM node:12
 
 ARG NPM_TOKEN
 ARG BROWSER_URL
+ARG GA_PROPERTY
 
 RUN mkdir -p /usr/src/opex
 WORKDIR /usr/src/opex

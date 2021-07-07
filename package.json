@@ -8,6 +8,9 @@
     "imageRepo": "gcr.io/g5-images/activity-tracker",
     "imageName": "activity-tracker"
   },
+  "engines": {
+    "node": ">=12.15.0"
+  },
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
     "helm:upgrade": "helm upgrade msr ./chart/nuxt",
@@ -17,7 +20,7 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest",
     "dev-debug": "node --inspect server/index.js",
-    "docker:build": "source .buildenv && docker build -t $npm_package_config_imageName . --build-arg NPM_TOKEN=$NPM_TOKEN --build-arg BROWSER_URL=$BROWSER_URL",
+    "docker:build": "source .buildenv && docker build -t $npm_package_config_imageName . --build-arg NPM_TOKEN=$NPM_TOKEN --build-arg BROWSER_URL=$BROWSER_URL --build-arg GA_PROPERTY=$GA_PROPERTY",
     "docker:run": "docker run -p 8085:8085 $npm_package_config_imageName",
     "docker:tag:prime": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); sha=$(git rev-parse $branch); docker tag $npm_package_config_imageName $npm_package_config_imageRepo:$branch-$sha-prime",
     "docker:tag:staging": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); sha=$(git rev-parse $branch); docker tag $npm_package_config_imageName $npm_package_config_imageRepo:$branch-$sha",
