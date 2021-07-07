@@ -13,10 +13,13 @@
         placeholder="Search"
         track-by="urn"
         label="name"
+        @select="$emit('changing-client')"
         @input="onClientUpdate($event)"
       >
         <template #single-label="{ props }">
-          {{ props.name }}
+          <p>
+            {{ props.name }}
+          </p>
         </template>
         <template #option="{ option }">
           <b>
