@@ -58,11 +58,11 @@ import Helpers from '~/mixins/table-helpers'
 const _ = require('lodash')
 export default {
   mixins: [Helpers],
-  asyncData ({ params, $axios, route, store }) {
+  asyncData ({ route, store }) {
     const { team } = route.query
-    store.dispatch('inputs/onUpdate', { team: team || 'da' })
     store.dispatch('inputs/fillClients')
     store.dispatch('inputs/init')
+    store.dispatch('inputs/onUpdate', { team: team || 'da' })
   },
   data () {
     return {
