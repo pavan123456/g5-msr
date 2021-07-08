@@ -52,7 +52,6 @@ function dynamicWhitelist (path) {
 
 function checkWhiteList (req, res, next) {
   if (dynamicWhitelist(req.path)) {
-    console.log(`Whitelisted: ${req.path}`)
     next()
   } else {
     g5Auth.isAuthenticated(req, res, next)
