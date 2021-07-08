@@ -13,7 +13,6 @@
         placeholder="Search"
         track-by="urn"
         label="name"
-        @select="$emit('changing-client')"
         @input="onClientUpdate($event)"
       >
         <template #single-label="{ props }">
@@ -76,7 +75,7 @@
     <div class="v-divider flex-grow-1" />
     <b-input-group class="justify-content-center">
       <b-form-radio-group
-        :disabled="!isBareMinimum"
+        :disabled="!isBareMinimum && !createLoading"
         :checked="team"
         :options="teams"
         buttons
