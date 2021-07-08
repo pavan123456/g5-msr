@@ -41,13 +41,23 @@
         size="sm"
         stacked
         class="mr-2"
-        @input="onUpdate({ mode: $event, period: null, month: null })"
+        @input="onUpdate({
+          mode: $event,
+          period: null,
+          month: null,
+          annotations: {}
+        })"
       />
       <b-form-select
         :value="year"
         :options="years"
         style="max-width: 150px;"
-        @input="onUpdate({ year: $event, period: null, month: null })"
+        @input="onUpdate({
+          year: $event,
+          period: null,
+          month: null,
+          annotations: {}
+        })"
       />
       <b-form-select
         :value="getMonthOrPeriod"
@@ -55,7 +65,8 @@
         class="mx-1"
         style="max-width: 150px;"
         @input="onUpdate({
-          [mode === 'Monthly' ? 'month' : 'period']: $event || null
+          [mode === 'Monthly' ? 'month' : 'period']: $event || null,
+          annotations: {}
         })"
       />
       <b-input-group-append>
@@ -75,7 +86,7 @@
     <div class="v-divider flex-grow-1" />
     <b-input-group class="justify-content-center">
       <b-form-radio-group
-        :disabled="!isBareMinimum && !createLoading"
+        :disabled="!reportAvailable"
         :checked="team"
         :options="teams"
         buttons
@@ -135,6 +146,7 @@
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 import ReportApi from '~/mixins/report-api'
+const _ = require('lodash')
 export default {
   mixins: [ReportApi],
   data () {
@@ -155,7 +167,8 @@ export default {
       period: state => state.inputs.period,
       month: state => state.inputs.month,
       year: state => state.inputs.year,
-      clientReports: state => state.inputs.clientReports
+      clientReports: state => state.inputs.clientReports,
+      annotations: state => state.inputs.annotations
     }),
     ...mapGetters({
       monthly: 'inputs/monthly',
@@ -165,6 +178,9 @@ export default {
       selectedDate: 'inputs/selectedDate',
       selectedQuarter: 'inputs/selectedQuarter'
     }),
+    reportAvailable () {
+      return !_.isEmpty(this.annotations)
+    },
     isBareMinimum () {
       const client = !!(this.client)
       const range = this.mode === 'Monthly'
@@ -207,7 +223,7 @@ export default {
     onClientUpdate (client) {
       if (client && client.urn) {
         this.$axios.$get(`api/v1/reports/client/${client.urn}`)
-          .then(clientReports => this.onUpdate({ client, clientReports }))
+          .then(clientReports => this.onUpdate({ client, clientReports, annotations: {} }))
           .catch((e) => {
             this.setAlert({
               alertMsg: e.message,
@@ -217,7 +233,7 @@ export default {
             })
           })
       } else {
-        this.onUpdate({ client, clientReports: [] })
+        this.onUpdate({ client, clientReports: [], annotations: {} })
       }
     },
     async generateReport () {
