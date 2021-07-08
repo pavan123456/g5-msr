@@ -40,12 +40,14 @@ module.exports = {
     '@/assets/transitions.scss'
   ],
   plugins: [
+    '@/plugins/vue-scroll-to.js',
     { src: '@/plugins/apex-charts', mode: 'client' },
     { src: '@/plugins/vue-multiselect', mode: 'client' },
     { src: '@/plugins/vue-clipboard2', mode: 'client' }
   ],
   components: true,
   modules: [
+    'vue-scrollto/nuxt',
     'bootstrap-vue/nuxt',
     '@nuxtjs/google-analytics',
     '@nuxtjs/axios'
