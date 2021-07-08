@@ -4,17 +4,16 @@
     <nav-header v-bind="{ hideHamburger }">
       <b-list-group class="flex-row align-items-center mx-3">
         <b-list-group-item
-          v-for="(item, i) in items"
+          v-for="(item) in items"
           :key="item.text"
           class="p-0 mr-1 border-0 bg-transparent"
         >
           <b-btn
-            :href="item.href"
             variant="secondary-70"
             class="px-3 m-0 text-uppercase nav-btn font-weight-bold"
             style="border-radius: 11px; box-shadow: 0 2px 2px rgba(5, 5, 5, 0.5);"
             size="sm"
-            @click="move(i)"
+            @click="scrollTo(item.href)"
           >
             {{ item.text }}
           </b-btn>
@@ -207,23 +206,21 @@ export default {
       }
     },
     onScroll () {
-      const progress = this.$refs.scrollContainer.scrollTop / (this.$refs.scrollContainer.scrollHeight - this.$refs.scrollContainer.clientHeight)
+      let progress = this.$refs.scrollContainer.scrollTop /
+        (this.$refs.scrollContainer.scrollHeight - this.$refs.scrollContainer.clientHeight)
       if (progress > 1) {
-        this.progress = 1
+        progress = 1
       } else if (progress < 0) {
-        this.progress = 0
-      } else {
-        this.progress = progress
+        progress = 0
       }
+      this.progress = progress
     },
-    move (index) {
-      if (index < 0) {
-        this.progress = 0
-      } else if (index > this.items.length - 1) {
-        this.progress = this.items.length - 1
-      } else {
-        this.progress = index
-      }
+    scrollTo (id) {
+      this.$scrollTo(`${id}`, 500, {
+        easing: 'linear',
+        container: '.scroll-container',
+        offset: -30
+      })
     }
   }
 }
