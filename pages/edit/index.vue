@@ -10,7 +10,7 @@
         <editor-controls />
       </b-card>
     </div>
-    <b-container v-if="isEmpty(annotations)" style="margin-top: 60px;" />
+    <b-container v-if="!reportAvailable" style="margin-top: 60px;" />
     <b-container v-else style="margin-top: 60px;">
       <b-row class="my-2">
         <b-col class="p-0">
@@ -58,11 +58,11 @@ import Helpers from '~/mixins/table-helpers'
 const _ = require('lodash')
 export default {
   mixins: [Helpers],
-  asyncData ({ params, $axios, route, store }) {
+  asyncData ({ route, store }) {
     const { team } = route.query
-    store.dispatch('inputs/onUpdate', { team: team || 'da' })
     store.dispatch('inputs/fillClients')
     store.dispatch('inputs/init')
+    store.dispatch('inputs/onUpdate', { team: team || 'da' })
   },
   data () {
     return {
@@ -94,7 +94,10 @@ export default {
       annotations: state => state.inputs.annotations,
       team: state => state.inputs.team,
       overview: state => state.inputs.overview
-    })
+    }),
+    reportAvailable () {
+      return !_.isEmpty(this.annotations)
+    }
   },
   watch: {
     team (team) {
@@ -105,9 +108,6 @@ export default {
     this.$router.push({ path: this.$route.path, query: { team: this.team } })
   },
   methods: {
-    isEmpty (obj) {
-      return _.isEmpty(obj)
-    }
   }
 }
 </script>

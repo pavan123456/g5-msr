@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@cloudnative/health-connect": "^2.1.0",
-    "@getg5/g5-auth": "^4.0.0",
+    "@getg5/g5-auth": "^4.1.0",
     "@getg5/g5-updatable": "^2.2.3",
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/google-analytics": "^2.4.0",
@@ -57,7 +57,8 @@
     "tiptap-extensions": "^1.32.5",
     "vue-apexcharts": "^1.6.0",
     "vue-clipboard2": "^0.3.1",
-    "vue-multiselect": "^2.1.6"
+    "vue-multiselect": "^2.1.6",
+    "vue-scrollto": "^2.20.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^6.0.1",

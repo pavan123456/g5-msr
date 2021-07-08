@@ -1,13 +1,13 @@
 <template>
   <b-card header-class="border-0" no-body class="px-4 py-2 border-0">
     <b-card-body v-if="chart.length === 0">
-      <b-alert show variant="tertiary-3" class="respect-linebreak pb-4">
+      <b-alert show variant="quaternary-40" class="respect-linebreak pb-4">
         {{ fallback }}
       </b-alert>
       <b-btn
         href="https://notes.g5marketingcloud.com"
         target="_blank"
-        variant="outline-tertiary-3"
+        variant="quaternary-40"
         size="sm"
       >
         Open Notes Service

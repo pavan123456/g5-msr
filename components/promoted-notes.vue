@@ -69,7 +69,7 @@
         </div>
       </b-card>
       <b-btn
-        v-if="notes[g.date].length > 1"
+        v-if="notes[g.date].length > 3"
         variant="transparent"
         block
         class="collapse-btn py-0 text-uppercase"
@@ -122,8 +122,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.card-columns {
+  column-count: 2;
+}
 .collapsible {
   position: relative;
+  max-height: 600px;
   & .collapse-badge {
     position: absolute;
     z-index: 99999;
