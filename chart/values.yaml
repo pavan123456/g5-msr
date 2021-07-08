@@ -28,3 +28,6 @@ configurations:
       G5_TOKEN_ENDPOINT: https://auth.g5search.com/oauth/token
       G5_AUTH_REDIRECT_URI: https://activity.g5marketingcloud.com/g5_auth/users/auth/g5/callback
       G5_AUTH_ME_ENDPOINT: https://auth.g5search.com/v1/me
+activeCloudSQLSubchart: "cloud-sql"
+cloud-sql: 
+  databaseVersion: POSTGRES_11
