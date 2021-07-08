@@ -13,7 +13,7 @@
           placeholder="Search"
           track-by="urn"
           label="name"
-          @input="onUpdate({ key: 'client', value: $event })"
+          @input="onUpdate({ client: $event })"
         >
           <template #option="{ option }">
             <b>
@@ -99,7 +99,7 @@ export default {
           to = this.selectedDate.to
         }
         this.$axios
-          .$post(`api/v1/report/${this.client.urn}?from=${from}&to=${to}`)
+          .$post(`api/v1/reports/client/${this.client.urn}?from=${from}&to=${to}`)
           .then((status) => {
             this.status = status
           })

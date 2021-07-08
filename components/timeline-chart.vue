@@ -1,13 +1,13 @@
 <template>
-  <b-card header-class="border-0" no-body class="px-4 py-2">
+  <b-card header-class="border-0" no-body class="px-4 py-2 border-0">
     <b-card-body v-if="chart.length === 0">
-      <b-alert show variant="tertiary-3" class="respect-linebreak pb-4">
+      <b-alert show variant="quaternary-40" class="respect-linebreak pb-4">
         {{ fallback }}
       </b-alert>
       <b-btn
         href="https://notes.g5marketingcloud.com"
         target="_blank"
-        variant="outline-tertiary-3"
+        variant="quaternary-40"
         size="sm"
       >
         Open Notes Service
@@ -56,7 +56,12 @@ export default {
         chart: { type: 'bubble' },
         dataLabels: { enabled: false },
         fill: { opacity: 0.8 },
-        title: { text: 'Activity Timeline' },
+        title: {
+          text: 'Activity Timeline',
+          style: {
+            fontSize: '18px'
+          }
+        },
         grid: {
           borderColor: '#c1c1c1',
           padding: {
@@ -124,7 +129,7 @@ export default {
                 : locationNames.join(', ')
             return `
               <div class="pb-1 pt-0 px-1 timeline-tooltip">
-                <h2 class="badge w-100 my-0 badge-tertiary-1">
+                <h2 class="badge w-100 my-0 badge-tertiary-30">
                   ${category}
                 </h2>
                 <div class="py-1 px-2 text-left" style="max-width: 300px;">
@@ -134,7 +139,7 @@ export default {
                   <div class="text-wrap my-2">
                     ${!internal ? note : ''}
                   </div>
-                  <p class="text-muted text-wrap border-pale border-top pt-2">
+                  <p class="text-muted text-wrap border-quaternary-20 border-top pt-2">
                     ${locations}
                   </p>
                 </div>

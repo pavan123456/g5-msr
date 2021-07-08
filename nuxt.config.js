@@ -6,7 +6,7 @@ module.exports = {
     port: process.env.PORT || 5000
   },
   head: {
-    title: 'Managed Services Report',
+    title: 'Activity Tracker',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -36,20 +36,29 @@ module.exports = {
   loadingIndicator: '@/static/loading.html',
   css: [
     '@/assets/theme.scss',
+    '@/assets/hamburger.scss',
     '@/assets/transitions.scss'
   ],
   plugins: [
-    { src: '@/plugins/apex-charts', mode: 'client' }
+    '@/plugins/vue-scroll-to.js',
+    { src: '@/plugins/apex-charts', mode: 'client' },
+    { src: '@/plugins/vue-multiselect', mode: 'client' },
+    { src: '@/plugins/vue-clipboard2', mode: 'client' }
   ],
   components: true,
   modules: [
+    'vue-scrollto/nuxt',
     'bootstrap-vue/nuxt',
+    '@nuxtjs/google-analytics',
     '@nuxtjs/axios'
   ],
   bootstrapVue: {
     bootstrapCSS: false,
     bootstrapVueCSS: false,
     icons: true
+  },
+  router: {
+    middleware: ['user']
   },
   googleAnalytics: {
     id: process.env.GA_PROPERTY,

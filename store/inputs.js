@@ -1,34 +1,37 @@
+const AvailableReports = require('../server/controllers/availableReports')
 export const state = () => {
   return {
+    monthMap: {
+      1: 'Jan',
+      2: 'Feb',
+      3: 'Mar',
+      4: 'Apr',
+      5: 'May',
+      6: 'Jun',
+      7: 'Jul',
+      8: 'Aug',
+      9: 'Sep',
+      10: 'Oct',
+      11: 'Nov',
+      12: 'Dec'
+    },
     isBusy: false,
     isSubmitted: false,
     client: null,
     clients: [],
-    period: 'Q1',
-    periods: [
-      'Q1',
-      'Q2',
-      'Q3',
-      'Q4'
+    clientReports: [],
+    annotations: {},
+    sections: [],
+    overview: [],
+    period: null,
+    availableReports: {},
+    year: null,
+    mode: 'Quaterly',
+    modes: [
+      'Quaterly',
+      'Monthly'
     ],
-    year: 2021,
-    monthly: false,
-    month: 7,
-    months: [
-      { text: 'Jan', value: 1 },
-      { text: 'Jan', value: 1 },
-      { text: 'Feb', value: 2 },
-      { text: 'Mar', value: 3 },
-      { text: 'Apr', value: 4 },
-      { text: 'May', value: 5 },
-      { text: 'Jun', value: 6 },
-      { text: 'Jul', value: 7 },
-      { text: 'Aug', value: 8 },
-      { text: 'Sep', value: 9 },
-      { text: 'Oct', value: 10 },
-      { text: 'Nov', value: 11 },
-      { text: 'Dec', value: 12 }
-    ],
+    month: null,
     team: 'da',
     teams: [
       {
@@ -56,37 +59,13 @@ export const state = () => {
   }
 }
 
-export const getters = {
-  selectedDate (state) {
-    const thirtyOne = [1, 3, 5, 7, 8, 10, 12]
-    const mo = state.month < 10
-      ? `0${state.month}`
-      : state.month
-    const day = state.month === 2
-      ? '28'
-      : thirtyOne.includes(state.month)
-        ? '31'
-        : '30'
-    return {
-      from: `${state.year}-${mo}-01`,
-      to: `${state.year}-${mo}-${day}`
-    }
-  },
-  selectedQuarter (state) {
-    const ranges = {
-      Q1: { start: '01-01', end: '03-31' },
-      Q2: { start: '04-01', end: '06-30' },
-      Q3: { start: '07-01', end: '09-30' },
-      Q4: { start: '10-01', end: '12-31' }
-    }
-    return {
-      from: `${state.year}-${ranges[state.period].start}`,
-      to: `${state.year}-${ranges[state.period].end}`
-    }
-  }
-}
-
 export const actions = {
+  init ({ commit }) {
+    const availableReports = new AvailableReports()
+    const report = availableReports.getAvailableReports()
+    const year = new Date().getFullYear()
+    commit('ON_UPDATE', { availableReports: report, year })
+  },
   onUpdate ({ commit }, payload) {
     commit('ON_UPDATE', payload)
   },
@@ -100,9 +79,65 @@ export const actions = {
   }
 }
 
+export const getters = {
+  years (state) {
+    return [...Object.keys(state.availableReports)]
+  },
+  months (state) {
+    const months = state.availableReports[state.year].months
+      .map(month => ({ text: state.monthMap[month], value: month }))
+    return [{ text: 'Select', value: null }, ...months]
+  },
+  periods (state) {
+    const quarters = state.availableReports[state.year].quarters
+    return [{ text: 'Select', value: null }, ...quarters]
+  },
+  monthly (state) {
+    return state.mode === 'Monthly'
+  },
+  selectedDate (state) {
+    let val = null
+    if (state.year && state.month) {
+      const thirtyOne = [1, 3, 5, 7, 8, 10, 12]
+      const mo = state.month < 10
+        ? `0${state.month}`
+        : state.month
+      const day = state.month === 2
+        ? '28'
+        : thirtyOne.includes(state.month)
+          ? '31'
+          : '30'
+      val = {
+        from: `${state.year}-${mo}-01`,
+        to: `${state.year}-${mo}-${day}`
+      }
+    }
+    return val
+  },
+  selectedQuarter (state) {
+    let val = null
+    if (state.year && state.period) {
+      const ranges = {
+        Q1: { start: '01-01', end: '03-31' },
+        Q2: { start: '04-01', end: '06-30' },
+        Q3: { start: '07-01', end: '09-30' },
+        Q4: { start: '10-01', end: '12-31' }
+      }
+      val = {
+        from: `${state.year}-${ranges[state.period].start}`,
+        to: `${state.year}-${ranges[state.period].end}`
+      }
+    }
+    return val
+  }
+}
+
 export const mutations = {
-  ON_UPDATE (state, payload) {
-    state[payload.key] = payload.value
+  ON_UPDATE (state, obj) {
+    const keys = Object.keys(obj)
+    keys.forEach((key) => {
+      state[key] = obj[key]
+    })
   },
   ON_NESTED (state, payload) {
     state.teams.forEach((team) => {
