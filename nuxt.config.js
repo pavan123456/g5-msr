@@ -6,7 +6,7 @@ module.exports = {
     port: process.env.PORT || 5000
   },
   head: {
-    title: 'Managed Services Report',
+    title: 'Activity Tracker',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
