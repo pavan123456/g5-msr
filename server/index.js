@@ -30,8 +30,9 @@ const authConfig = {
 }
 
 const regexWhitelist = [
-  /\/report\/\S*$/,
-  /\/api\/v1\/report\/\S*\?edit=false$/,
+  /\/report$/,
+  /\/api\/v1\/reports\/display\/\S*$/,
+  /\/api\/v1\/reports\/\S*$/,
   /\/[0-9a-z-]*\.png/,
   /\/[0-9a-z-]*\.ico/,
   /\/[~./0-9a-z-]*\.js/
@@ -51,6 +52,7 @@ function dynamicWhitelist (path) {
 
 function checkWhiteList (req, res, next) {
   if (dynamicWhitelist(req.path)) {
+    console.log(`Whitelisted: ${req.path}`)
     next()
   } else {
     g5Auth.isAuthenticated(req, res, next)
@@ -58,16 +60,18 @@ function checkWhiteList (req, res, next) {
 }
 
 async function checkUserRoles (req, res, next) {
-  const { id } = req.user
-  const user = await models.user.findOne({
-    where: { id },
-    include: [{ model: models.role }]
-  })
-  const userJson = user.toJSON()
-  req.userRoles = userJson.roles.map((role) => {
-    const { name, type, urn } = role
-    return { name, type, urn }
-  })
+  if (req.user) {
+    const { id } = req.user
+    const user = await models.user.findOne({
+      where: { id },
+      include: [{ model: models.role }]
+    })
+    const userJson = user.toJSON()
+    req.userRoles = userJson.roles.map((role) => {
+      const { name, type, urn } = role
+      return { name, type, urn }
+    })
+  }
   next()
 }
 
