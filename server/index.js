@@ -53,24 +53,7 @@ function checkWhiteList (req, res, next) {
   }
 }
 
-async function checkUserRoles (req, res, next) {
-  if (req.user) {
-    const { id } = req.user
-    const user = await models.user.findOne({
-      where: { id },
-      include: [{ model: models.role }]
-    })
-    const userJson = user.toJSON()
-    req.userRoles = userJson.roles.map((role) => {
-      const { name, type, urn } = role
-      return { name, type, urn }
-    })
-  }
-  next()
-}
-
 app.use(checkWhiteList)
-app.use(checkUserRoles)
 
 require('./routes')(app)
 const notesService = require('./controllers/annotationService')
