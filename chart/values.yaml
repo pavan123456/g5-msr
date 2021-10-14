@@ -6,28 +6,28 @@ image:
 configurations:
   staging:
     configMapData:
+      AUTH0_CALLBACK_URL: 'https://activity-opex-staging.g5devops.com/users/auth/auth0/callback'
       BROWSER_URL: 'https://activity-opex-staging.g5devops.com'
-      NOTE_SERVICE_URL: https://notes.g5marketingcloud.com
-      G5_AUTH_ENDPOINT: https://auth.g5search.com/oauth/authorize
-      G5_TOKEN_ENDPOINT: https://auth.g5search.com/oauth/token
-      G5_AUTH_REDIRECT_URI: https://activity-opex-staging.g5devops.com/g5_auth/users/auth/g5/callback
-      G5_AUTH_ME_ENDPOINT: https://auth.g5search.com/v1/me
+      NOTE_SERVICE_URL: 'https://notes.g5marketingcloud.com'
+      G5_TOKEN_ENDPOINT: 'https://auth.g5search.com/oauth/token'
   prime:
     configMapData:
+      AUTH0_CALLBACK_URL: 'https://activity-opex-prime.g5devops.com/users/auth/auth0/callback'
       BROWSER_URL: 'https://activity-opex-prime.g5devops.com'
-      NOTE_SERVICE_URL: https://notes.g5marketingcloud.com
-      G5_AUTH_ENDPOINT: https://auth.g5search.com/oauth/authorize
-      G5_TOKEN_ENDPOINT: https://auth.g5search.com/oauth/token
-      G5_AUTH_REDIRECT_URI: https://activity-opex-prime.g5devops.com/g5_auth/users/auth/g5/callback
-      G5_AUTH_ME_ENDPOINT: https://auth.g5search.com/v1/me
+      NOTE_SERVICE_URL: 'https://notes.g5marketingcloud.com'
+      G5_TOKEN_ENDPOINT: 'https://auth.g5search.com/oauth/token'
   production:
     configMapData:
+      AUTH0_CALLBACK_URL: 'https://activity.g5marketingcloud.com/users/auth/auth0/callback'
       BROWSER_URL: 'https://activity.g5marketingcloud.com/'
-      NOTE_SERVICE_URL: https://notes.g5marketingcloud.com
-      G5_AUTH_ENDPOINT: https://auth.g5search.com/oauth/authorize
-      G5_TOKEN_ENDPOINT: https://auth.g5search.com/oauth/token
-      G5_AUTH_REDIRECT_URI: https://activity.g5marketingcloud.com/g5_auth/users/auth/g5/callback
-      G5_AUTH_ME_ENDPOINT: https://auth.g5search.com/v1/me
+      NOTE_SERVICE_URL: 'https://notes.g5marketingcloud.com'
+      G5_TOKEN_ENDPOINT: 'https://auth.g5search.com/oauth/token'
 activeCloudSQLSubchart: "cloud-sql"
 cloud-sql: 
   databaseVersion: POSTGRES_11
+auth0:
+  client:
+    localhostPorts:
+      - 3000
+      - 3001
+      - 3002

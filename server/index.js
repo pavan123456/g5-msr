@@ -4,29 +4,24 @@ const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const g5Auth = require('@getg5/g5-auth')
 
-const {
-  G5_AUTH_ENDPOINT: authorizationURL,
-  G5_TOKEN_ENDPOINT: tokenURL,
-  G5_AUTH_CLIENT_ID: clientID,
-  G5_AUTH_CLIENT_SECRET: clientSecret,
-  G5_AUTH_REDIRECT_URI: callbackURL,
-  G5_AUTH_ME_ENDPOINT: authMeEndpoint,
-  SESSION_SECRET: secret
-} = process.env
-
 const authConfig = {
   passport: {
-    authorizationURL,
-    tokenURL,
-    clientID,
-    clientSecret,
-    callbackURL
+    domain: process.env.AUTH0_DOMAIN,
+    clientID: process.env.AUTH0_CLIENT_ID,
+    clientSecret: process.env.AUTH0_CLIENT_SECRET,
+    callbackURL: process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/users/auth/auth0/callback'
   },
-  authMeEndpoint,
   session: {
-    secret
+    secret: 'CHANGE THIS TO A RANDOM SECRET',
+    cookie: {},
+    resave: false,
+    saveUninitialized: true
   },
-  sucessRedirectPath: '/'
+  defaultRedirectPath: '/',
+  authenticate: {
+    scope: 'openid email profile',
+    audience: `https://${process.env.AUTH0_DOMAIN}/userinfo`
+  }
 }
 
 const regexWhitelist = [
@@ -54,7 +49,7 @@ function checkWhiteList (req, res, next) {
   if (dynamicWhitelist(req.path)) {
     next()
   } else {
-    g5Auth.isAuthenticated(req, res, next)
+    g5Auth.secured(req, res, next)
   }
 }
 
