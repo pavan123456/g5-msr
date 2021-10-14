@@ -109,12 +109,12 @@ spec:
             - name: DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: notes-a-sqluser-password
+                  name: notes-{{ required "notesInstanceSuffix is required!" .Values.notesInstanceSuffix }}-sqluser-password
                   key: password
             - name: DATABASE_USERNAME
-              value: "notes-a"
+              value: "notes-{{ required "notesInstanceSuffix is required!" .Values.notesInstanceSuffix }}"
             - name: DATABASE_NAME
-              value: "notes-a"
+              value: "notes-{{ required "notesInstanceSuffix is required!" .Values.notesInstanceSuffix }}"
             - name: DATABASE_HOST
               valueFrom:
                 secretKeyRef:
