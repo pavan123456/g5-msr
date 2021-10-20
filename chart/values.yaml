@@ -27,7 +27,10 @@ cloud-sql:
   databaseVersion: POSTGRES_11
 auth0:
   client:
+    create: true
     localhostPorts:
       - 3000
       - 3001
       - 3002
+  resourceServer:
+      create: false

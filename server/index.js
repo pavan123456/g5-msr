@@ -56,7 +56,6 @@ function checkWhiteList (req, res, next) {
 app.use(checkWhiteList)
 
 require('./routes')(app)
-const notesService = require('./controllers/annotationService')
 
 async function start () {
   const nuxt = new Nuxt(config)
@@ -74,11 +73,6 @@ async function start () {
   models.sequelize
     .sync()
     .then(() => {
-      try {
-        notesService.login()
-      } catch (error) {
-        throw new Error('Could not login to the Notes Service')
-      }
       app.listen(port, host)
       consola.ready({
         message: `Server listening on http://${host}:${port}`,
