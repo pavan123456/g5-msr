@@ -8,13 +8,13 @@ configurations:
     configMapData:
       AUTH0_CALLBACK_URL: 'https://activity-opex-staging.g5devops.com/users/auth/auth0/callback'
       BROWSER_URL: 'https://activity-opex-staging.g5devops.com'
-      NOTE_SERVICE_URL: 'https://notes.g5marketingcloud.com'
+      NOTE_SERVICE_URL: 'https://notes-opex-staging.g5devops.com'
       G5_TOKEN_ENDPOINT: 'https://auth.g5search.com/oauth/token'
   prime:
     configMapData:
       AUTH0_CALLBACK_URL: 'https://activity-opex-prime.g5devops.com/users/auth/auth0/callback'
       BROWSER_URL: 'https://activity-opex-prime.g5devops.com'
-      NOTE_SERVICE_URL: 'https://notes.g5marketingcloud.com'
+      NOTE_SERVICE_URL: 'https://notes-opex-prime.g5devops.com'
       G5_TOKEN_ENDPOINT: 'https://auth.g5search.com/oauth/token'
   production:
     configMapData:
