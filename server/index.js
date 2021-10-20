@@ -12,7 +12,7 @@ const authConfig = {
     callbackURL: process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/users/auth/auth0/callback'
   },
   session: {
-    secret: 'CHANGE THIS TO A RANDOM SECRET',
+    secret: process.env.SESSION_SECRET,
     cookie: {},
     resave: false,
     saveUninitialized: true
