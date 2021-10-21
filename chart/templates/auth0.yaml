@@ -1,0 +1,64 @@
+{{- include "validate-configuration" $ }}
+{{- $configuration := index .Values.configurations .Values.configuration -}}
+{{ $createLocalhostCallbacks := false }}
+{{ if or (hasSuffix "-staging" .Values.environment) (hasSuffix "-devops-testing" .Values.environment) }}
+{{ $createLocalhostCallbacks = true }}
+{{ end }}
+{{ $shouldAbandon := false }}
+{{ if eq .Values.configuration "production" }}
+{{ $shouldAbandon = true }}
+{{ end }}
+
+apiVersion: auth0.getg5.com.getg5.com/v1
+kind: Auth0Client
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    chart: '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}'
+  annotations:
+    {{ if $shouldAbandon }}
+    g5devops-operator.getg5.com/abandon-resources: "true"
+    {{ end }}
+spec:
+  friendlyName: "Activity Tracker"
+  appType: regular_web
+  connections:
+    - "okta"
+    - "Username-Password-Authentication"
+  callbacks:
+    - https://{{ include "publicHostname" . }}/users/auth/auth0/callback
+    {{ if $createLocalhostCallbacks }}
+    {{ range .Values.auth0.client.localhostPorts }}
+    - http://localhost:{{ . }}/users/auth/auth0/callback
+    {{ end }}
+    {{ end }}
+  allowedLogoutURLs:
+    - https://{{ include "publicHostname" . }}
+    {{ if $createLocalhostCallbacks }}
+    {{ range .Values.auth0.client.localhostPorts }}
+    - http://localhost:{{ . }}
+    {{ end }}
+    {{ end }}
+  cookieSecret:
+    generate: true
+    length: 64
+---
+apiVersion: kubernetes-client.io/v1
+kind: ExternalSecret
+metadata:
+  name: {{ .Release.Name }}-auth0-client
+spec:
+  backendType: gcpSecretsManager
+  data:
+    - key: auth0-{{ .Release.Name }}-client-id
+      name: client-id
+    - key: auth0-{{ .Release.Name }}-client-secret
+      name: client-secret
+    - key: cookie-secret-{{ .Release.Name }}
+      name: cookie-secret
+  template:
+    metadata:
+      annotations:
+        reloader.stakater.com/match: "true"
+      labels:
+        app.kubernetes.io/managed-by: "activity"

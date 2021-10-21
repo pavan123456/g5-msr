@@ -1,6 +1,8 @@
 const models = require('../models')
-const notesService = require('./annotationService')
-
+const Auth0M2M = require('./auth0-m2m')
+const {
+  NOTE_SERVICE_URL: noteServiceUrl
+} = process.env
 class ServicesReport {
   constructor (to, from, clientUrn, workQ, approvals, edit) {
     this.t0 = null
@@ -134,7 +136,7 @@ class ServicesReport {
    * @memberof ServicesReport
    */
   async getNotes () {
-    const { data: notes } = await notesService.getNotes(this.clientUrn, this.to, this.from)
+    const { data: notes } = await Auth0M2M.request(`${noteServiceUrl}/api/v1/notes?clientUrn=${this.clientUrn}&searchBy=createdAt&to=${this.to}&from=${this.from}`, 'get', null, 'notes')
     this.notes = notes
   }
 
@@ -144,7 +146,7 @@ class ServicesReport {
    * @memberof ServicesReport
    */
   async getCases () {
-    const { data: cases } = await notesService.getCases(this.clientUrn, this.to, this.from)
+    const { data: cases } = await Auth0M2M.request(`${noteServiceUrl}/api/v1/cases?clientUrn=${this.clientUrn}&searchBy=closedDate&to=${this.to}&from=${this.from}`, 'get', null, 'notes')
     this.cases = cases
   }
 
@@ -351,10 +353,9 @@ class ServicesReport {
     return data
   }
 
-  getCategories () {
-    return notesService.getCategories().then(({ data }) => {
-      this.categories = data
-    })
+  async getCategories () {
+    const { data } = await Auth0M2M.request(`${noteServiceUrl}/api/v1/categories`, 'get', null, 'notes')
+    this.categories = data
   }
 
   setOverviewCategories () {

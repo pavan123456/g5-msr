@@ -49,31 +49,51 @@ spec:
               cpu: 200m
               memory: 300Mi
           env:
+            - name: AUTH0_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-auth0-client
+                  key: client-id
+            - name: AUTH0_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-auth0-client
+                  key: client-secret
+            - name: AUTH0_CALLBACK_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}
+                  key: AUTH0_CALLBACK_URL
             - name: BROWSER_URL
               valueFrom:
                 configMapKeyRef:
                   name: {{ .Release.Name }}
                   key: BROWSER_URL
-            - name: G5_AUTH_ENDPOINT
+            - name: AUTH0_DOMAIN
+              valueFrom:
+                configMapKeyRef:
+                  name: environment-info
+                  key: auth0_tenant_domain
+            - name: AUTH0_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-auth0-client
+                  key: client-id
+            - name: AUTH0_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-auth0-client
+                  key: client-secret
+            - name: AUTH0_CALLBACK_URL
               valueFrom:
                 configMapKeyRef:
                   name: {{ .Release.Name }}
-                  key: G5_AUTH_ENDPOINT
+                  key: AUTH0_CALLBACK_URL   
             - name: G5_TOKEN_ENDPOINT
               valueFrom:
                 configMapKeyRef:
                   name: {{ .Release.Name }}
                   key: G5_TOKEN_ENDPOINT
-            - name: G5_AUTH_REDIRECT_URI
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ .Release.Name }}
-                  key: G5_AUTH_REDIRECT_URI
-            - name: G5_AUTH_ME_ENDPOINT
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ .Release.Name }}
-                  key: G5_AUTH_ME_ENDPOINT
             - name: NOTE_SERVICE_URL
               valueFrom:
                 configMapKeyRef:
@@ -104,12 +124,12 @@ spec:
             - name: DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: notes-a-sqluser-password
+                  name: notes-{{ required "notesInstanceSuffix is required!" .Values.notesInstanceSuffix }}-sqluser-password
                   key: password
             - name: DATABASE_USERNAME
-              value: "notes-a"
+              value: "notes-{{ required "notesInstanceSuffix is required!" .Values.notesInstanceSuffix }}"
             - name: DATABASE_NAME
-              value: "notes-a"
+              value: "notes-{{ required "notesInstanceSuffix is required!" .Values.notesInstanceSuffix }}"
             - name: DATABASE_HOST
               valueFrom:
                 secretKeyRef:
@@ -117,16 +137,6 @@ spec:
                   key: DATABASE_HOST
             - name: DATABASE_URL
               value: $(DATABASE_DIALECT)://$(DATABASE_USERNAME):$(DATABASE_PASSWORD)@$(DATABASE_HOST):$(DATABASE_PORT)/$(DATABASE_NAME)
-            - name : G5_AUTH_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: activity
-                  key: G5_AUTH_CLIENT_ID
-            - name : G5_AUTH_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: activity
-                  key: G5_AUTH_CLIENT_SECRET
             - name : SESSION_SECRET
               valueFrom:
                 secretKeyRef:
