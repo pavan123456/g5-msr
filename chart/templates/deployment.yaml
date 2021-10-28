@@ -74,21 +74,21 @@ spec:
                 configMapKeyRef:
                   name: environment-info
                   key: auth0_tenant_domain
-            - name: AUTH0_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-auth0-client
-                  key: client-id
-            - name: AUTH0_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-auth0-client
-                  key: client-secret
-            - name: AUTH0_CALLBACK_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ .Release.Name }}
-                  key: AUTH0_CALLBACK_URL   
+            # - name: AUTH0_CLIENT_ID
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: {{ .Release.Name }}-auth0-client
+            #       key: client-id
+            # - name: AUTH0_CLIENT_SECRET
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: {{ .Release.Name }}-auth0-client
+            #       key: client-secret
+            # - name: AUTH0_CALLBACK_URL
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: {{ .Release.Name }}
+            #       key: AUTH0_CALLBACK_URL   
             - name: G5_TOKEN_ENDPOINT
               valueFrom:
                 configMapKeyRef:
