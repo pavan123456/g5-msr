@@ -25,6 +25,7 @@ configurations:
 activeCloudSQLSubchart: "cloud-sql"
 cloud-sql: 
   databaseVersion: POSTGRES_11
+replicaCount: 2
 auth0:
   client:
     create: true
