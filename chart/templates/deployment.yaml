@@ -7,7 +7,7 @@ metadata:
   annotations:
     reloader.stakater.com/search: "true"
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.replicaCount | default: 2 }}
   revisionHistoryLimit: 5
   strategy:
     type: RollingUpdate
@@ -31,14 +31,6 @@ spec:
           ports:
             - name: http
               containerPort: 8085
-          #livenessProbe:
-          #  httpGet:
-          #    path: /healthz
-          #    port: http
-          #readinessProbe:
-          #  httpGet:
-          #    path: /healthz
-          #    port: http
           image: {{ .Values.image.name }}:{{ required "image.tag is required" .Values.image.tag }}
           imagePullPolicy: Always
           resources:
