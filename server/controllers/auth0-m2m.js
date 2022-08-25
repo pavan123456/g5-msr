@@ -72,7 +72,7 @@ class Auth0M2M {
       return res
     } catch (error) {
       if (error.response.status === 401) {
-        await this.refresh(audience)
+        await this.fetchToken(audience)
         return axios(url, config)
       } else if (error.response && error.response.data && error.response.data.errors) {
         throw new Error(this.formatErrors(error.response.data.errors))
