@@ -20,9 +20,8 @@ module.exports = async (job, done) => {
         order: [['createdAt', 'DESC']]
       })
 
-      for (const dupe of dupes) {
-        await dupe.destroy()
-      }
+      const promises = dupes.map(dupe => dupe.destroy())
+      await Promise.all(promises)
     }
 
     done(null)
