@@ -38,7 +38,7 @@ TestEnvironment:
 
 # Replaces the default command for running tests. Can be any one-line command
 # that will run successfully in the test container.
-TestOverride: "npm run test"
+TestOverride: " "
 
 # Default to false. Setting to true will enable the debug flag on CodeClimate
 # submission.
