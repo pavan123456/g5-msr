@@ -17,7 +17,7 @@ module.exports = async (job, done) => {
       const dupes = await models.g5_updatable_location.findAll({
         where: { urn },
         limit: count - 1,
-        order: [['createdAt', 'DESC']]
+        order: [['updatedAt', 'DESC']]
       })
 
       const promises = dupes.map(dupe => dupe.destroy())
