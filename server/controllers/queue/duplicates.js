@@ -12,9 +12,7 @@ function bullConfig (Bull) {
     return require(removeDuplicates)(job, done)
   })
 
-  if (process.env.NODE_ENV === 'production') {
-    queue.add('Remove Duplicates Updatable', null, { repeat: { cron: '0 0 * * *' } })
-  }
+  queue.add('Remove Duplicates Updatable', null, { repeat: { cron: '0 0 * * *' } })
 
   return queue
 }
