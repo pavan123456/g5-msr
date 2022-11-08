@@ -23,9 +23,7 @@ version: 1.0.0
 # It is recommended to use it with quotes.
 appVersion: "1.16.0"
 dependencies:
-  - name: cloud-sql
-    version: "1.0.4"
-    repository: "@g5-multiverse-helm3-repositories"
-  - name: cloud-helper
-    version: "1.0.1"
-    repository: "@g5-multiverse-helm3-repositories"
+  - name: node-web-service
+    version: "0.1.0"
+    repository: "file://../../charts/node-web-service"
+    #repository: "@g5-multiverse-helm3-repositories"

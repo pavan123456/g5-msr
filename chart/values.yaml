@@ -1,37 +1,153 @@
 global: 
   applicationName: activity
   region: us-central1
-image:
-  name: gcr.io/g5-images/activity-tracker
-configurations:
-  staging:
-    configMapData:
-      AUTH0_CALLBACK_URL: 'https://activity-opex-staging.g5devops.com/users/auth/auth0/callback'
-      BROWSER_URL: 'https://activity-opex-staging.g5devops.com'
-      NOTE_SERVICE_URL: 'https://notes-opex-staging.g5devops.com'
-      G5_TOKEN_ENDPOINT: 'https://auth.g5search.com/oauth/token'
-  prime:
-    configMapData:
-      AUTH0_CALLBACK_URL: 'https://activity-opex-prime.g5devops.com/users/auth/auth0/callback'
-      BROWSER_URL: 'https://activity-opex-prime.g5devops.com'
-      NOTE_SERVICE_URL: 'https://notes-opex-prime.g5devops.com'
-      G5_TOKEN_ENDPOINT: 'https://auth.g5search.com/oauth/token'
-  production:
-    configMapData:
-      AUTH0_CALLBACK_URL: 'https://activity.g5marketingcloud.com/users/auth/auth0/callback'
-      BROWSER_URL: 'https://activity.g5marketingcloud.com/'
-      NOTE_SERVICE_URL: 'https://notes.g5marketingcloud.com'
-      G5_TOKEN_ENDPOINT: 'https://auth.g5search.com/oauth/token'
-activeCloudSQLSubchart: "cloud-sql"
-cloud-sql: 
-  databaseVersion: POSTGRES_11
-replicaCount: 2
-auth0:
-  client:
-    create: true
-    localhostPorts:
-      - 3000
-      - 3001
-      - 3002
-  resourceServer:
-      create: false
+node-web-service:
+  database:
+    enabled: true
+  cache:
+    enabled: false
+  cloud-sql:
+    databaseVersion: POSTGRES_11
+  image:
+    name: gcr.io/g5-images/activity
+  isInternetFacing: true
+  hasMetrics: false
+  auth0:
+    client:
+      create: true
+      localhostPorts:
+        - 3000
+        - 3001
+        - 3002
+    resourceServer:
+        create: false
+  replicaCount: 2
+  revisionHistoryLimit: 1
+  resources:
+    requests:
+      cpu: 200m
+      memory: 300Mi
+  configurations:
+    staging:
+      configMapData:
+        AUTH0_CALLBACK_URL: 'https://activity-opex-staging.g5devops.com/users/auth/auth0/callback'
+        BROWSER_URL: 'https://activity-opex-staging.g5devops.com'
+        NOTE_SERVICE_URL: 'https://notes-opex-staging.g5devops.com'
+        G5_TOKEN_ENDPOINT: 'https://auth.g5search.com/oauth/token'
+    prime:
+      configMapData:
+        AUTH0_CALLBACK_URL: 'https://activity-opex-prime.g5devops.com/users/auth/auth0/callback'
+        BROWSER_URL: 'https://activity-opex-prime.g5devops.com'
+        NOTE_SERVICE_URL: 'https://notes-opex-prime.g5devops.com'
+        G5_TOKEN_ENDPOINT: 'https://auth.g5search.com/oauth/token'
+    production:
+      configMapData:
+        AUTH0_CALLBACK_URL: 'https://activity.g5marketingcloud.com/users/auth/auth0/callback'
+        BROWSER_URL: 'https://activity.g5marketingcloud.com/'
+        NOTE_SERVICE_URL: 'https://notes.g5marketingcloud.com'
+        G5_TOKEN_ENDPOINT: 'https://auth.g5search.com/oauth/token'
+  env:
+    - name: AUTH0_CLIENT_ID
+      valueFrom:
+        secretKeyRef:
+          name: activity-auth0-client
+          key: client-id
+    - name: AUTH0_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: activity-auth0-client
+          key: client-secret
+    - name: AUTH0_CALLBACK_URL
+      valueFrom:
+        configMapKeyRef:
+          name: activity
+          key: AUTH0_CALLBACK_URL
+    - name: BROWSER_URL
+      valueFrom:
+        configMapKeyRef:
+          name: activity
+          key: BROWSER_URL
+    - name: AUTH0_DOMAIN
+      valueFrom:
+        configMapKeyRef:
+          name: environment-info
+          key: auth0_tenant_domain 
+    - name: G5_TOKEN_ENDPOINT
+      valueFrom:
+        configMapKeyRef:
+          name: activity
+          key: G5_TOKEN_ENDPOINT
+    - name: NOTE_SERVICE_URL
+      valueFrom:
+        configMapKeyRef:
+          name: activity
+          key: NOTE_SERVICE_URL
+    - name: GA_PROPERTY
+      value: "UA-115892674-18"
+    - name: INCLUDE_G5_UPDATABLES
+      value: "true"
+    - name : INCLUDE_G5_AUTH
+      value: "true"
+    - name: DATABASE_DIALECT
+      value: postgres
+    - name: DATABASE_IDLE
+      value: "10000"
+    - name: DATABASE_AQUIRE
+      value: "10000"
+    - name: DATABASE_EVICT
+      value: "10000"
+    - name: DATABASE_PORT
+      value: "5432"
+    - name: DATABASE_MAX_CONNECTIONS
+      value: "50"
+    - name: DATABASE_MIN_CONNECTIONS
+      value: "0"
+    - name: DATABASE_SSL
+      value: "false"
+    - name: DATABASE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: onboarder-a-sqluser-password 
+          key: password 
+    - name: DATABASE_URL
+      value: $(DATABASE_DIALECT)://$(DATABASE_USER):$(DATABASE_PASSWORD)@$(DATABASE_HOST):$(DATABASE_PORT)/$(DATABASE_NAME)
+    - name : SESSION_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: activity
+          key: SESSION_SECRET
+    - name : JWT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: activity
+          key: JWT_SECRET
+    - name: SF_USERNAME
+      valueFrom:
+          secretKeyRef:
+            name: activity
+            key: SF_USERNAME
+    - name: SF_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: activity
+          key: SF_PASSWORD
+    - name: SF_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: activity
+          key: SF_TOKEN
+    - name: SLACK_FEEDBACK_URL
+      valueFrom:
+        secretKeyRef:
+          name: activity
+          key: SLACK_FEEDBACK_URL
+    - name: NOTE_SERVICE_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: activity
+          key: NOTE_SERVICE_USERNAME
+    - name: NOTE_SERVICE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: activity
+          key: NOTE_SERVICE_PASSWORD
