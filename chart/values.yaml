@@ -23,9 +23,15 @@ configurations:
       NOTE_SERVICE_URL: 'https://notes.g5marketingcloud.com'
       G5_TOKEN_ENDPOINT: 'https://auth.g5search.com/oauth/token'
 activeCloudSQLSubchart: "cloud-sql"
+activeBullSubchart: "memorystore"
 cloud-sql: 
   databaseVersion: POSTGRES_11
 replicaCount: 2
+memorystore: 
+  purpose: bull
+  tier: BASIC
+  maxmemoryPolicy: allkeys-lfu
+  readReplicasMode: "READ_REPLICAS_DISABLED"
 auth0:
   client:
     create: true
