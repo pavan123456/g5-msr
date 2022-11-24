@@ -1,4 +1,5 @@
 const models = require('./../../models')
+const logger = require('./../winston')
 
 module.exports = async (job, done) => {
   try {
@@ -12,6 +13,8 @@ module.exports = async (job, done) => {
       type: models.sequelize.QueryTypes.SELECT
     })
 
+    logger.info(`Locations found after query: ${locations.length}`)
+
     for (const location of locations) {
       const { urn, count } = location
       const dupes = await models.g5_updatable_location.findAll({
@@ -20,8 +23,20 @@ module.exports = async (job, done) => {
         order: [['updatedAt', 'DESC']]
       })
 
+      logger.info(`Duplicates found: ${dupes.length} with location urn: ${urn}`)
+
       const promises = dupes.map(dupe => dupe.destroy())
-      await Promise.all(promises)
+      const result = await Promise.all(promises)
+
+      logger.info(`Result after delete dupes: ${result}`)
+
+      const dupesAfterDelete = await models.g5_updatable_location.findAll({
+        where: { urn },
+        limit: count - 1,
+        order: [['updatedAt', 'DESC']]
+      })
+
+      logger.info(`Duplicates after delete: ${dupesAfterDelete.length}`)
     }
 
     done(null)
