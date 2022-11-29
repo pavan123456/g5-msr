@@ -29,13 +29,13 @@
     "docker:push:staging": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); sha=$(git rev-parse $branch); docker push $npm_package_config_imageRepo:$branch-$sha",
     "docker:push:prime": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); sha=$(git rev-parse $branch); docker push $npm_package_config_imageRepo:$branch-$sha-prime",
     "helm:upgrade:prod": "helm upgrade activity ./chart/ -f ./chart/opex-prod.yaml --set=image.tag=$npm_package_version",
-    "helm:upgrade:staging": " branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); sha=$(git rev-parse $branch); helm upgrade activity ./chart/ -f ./chart/opex-staging.yaml --set=image.tag=$branch-$sha",
+    "helm:upgrade:staging": " branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); sha=$(git rev-parse $branch); helm upgrade activity ./chart/ -f ./chart/opex-staging.yaml --set=image.tag=$branch-$sha --set=deployer.name=$(whoami)",
     "helm:upgrade:prime": " branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); sha=$(git rev-parse $branch); helm upgrade activity ./chart/ -f ./chart/opex-prime.yaml --set=image.tag=$branch-$sha-prime"
   },
   "dependencies": {
     "@cloudnative/health-connect": "^2.1.0",
     "@getg5/g5-auth": "^5.0.3",
-    "@getg5/g5-updatable": "^2.2.3",
+    "@getg5/g5-updatable": "^2.6.0",
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/google-analytics": "^2.4.0",
     "apexcharts": "^3.20.0",

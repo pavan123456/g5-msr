@@ -98,20 +98,20 @@ spec:
               value: "0"
             - name: DATABASE_SSL
               value: "false"
+            - name: DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "cloudsql.hostConfigMapName" (list (include "cloud-helper.values.applicationName" $) (get .Values .Values.activeCloudSQLSubchart)) }}
+                  key: {{ include "cloudsql.hostConfigMapKey" . }}
+            - name: DATABASE_NAME
+              value: {{ include "cloudsql.databaseName" (list (include "cloud-helper.values.applicationName" $) (get .Values .Values.activeCloudSQLSubchart)) }}
+            - name: DATABASE_USER
+              value: {{ include "cloudsql.userName" (list (include "cloud-helper.values.applicationName" $) (get .Values .Values.activeCloudSQLSubchart)) }}
             - name: DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: notes-{{ required "notesInstanceSuffix is required!" .Values.notesInstanceSuffix }}-sqluser-password
-                  key: password
-            - name: DATABASE_USERNAME
-              value: "notes-{{ required "notesInstanceSuffix is required!" .Values.notesInstanceSuffix }}"
-            - name: DATABASE_NAME
-              value: "notes-{{ required "notesInstanceSuffix is required!" .Values.notesInstanceSuffix }}"
-            - name: DATABASE_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: activity
-                  key: DATABASE_HOST
+                  name: {{ include "cloudsql.passwordSecretName" (list (include "cloud-helper.values.applicationName" $) (get .Values .Values.activeCloudSQLSubchart)) }}
+                  key: {{ include "cloudsql.passwordSecretKey" . }}
             - name: DATABASE_URL
               value: $(DATABASE_DIALECT)://$(DATABASE_USERNAME):$(DATABASE_PASSWORD)@$(DATABASE_HOST):$(DATABASE_PORT)/$(DATABASE_NAME)
             - name: REDIS_URL
