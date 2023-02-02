@@ -147,7 +147,3 @@ node-web-service:
         secretKeyRef:
           name: activity
           key: NOTE_SERVICE_PASSWORD
-    - name: HOST
-      value: 0.0.0.0
-    - name: PORT
-      value: 8085
