@@ -8,6 +8,7 @@ node-web-service:
     enabled: false
   cloud-sql:
     databaseVersion: POSTGRES_11
+    instanceSuffix: a
   image:
     name: gcr.io/g5-images/activity
   isInternetFacing: true
@@ -107,7 +108,7 @@ node-web-service:
     - name: DATABASE_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: onboarder-a-sqluser-password 
+          name: activity-a-sqluser-password 
           key: password 
     - name: DATABASE_URL
       value: $(DATABASE_DIALECT)://$(DATABASE_USER):$(DATABASE_PASSWORD)@$(DATABASE_HOST):$(DATABASE_PORT)/$(DATABASE_NAME)
@@ -136,11 +137,6 @@ node-web-service:
         secretKeyRef:
           name: activity
           key: SF_TOKEN
-    - name: SLACK_FEEDBACK_URL
-      valueFrom:
-        secretKeyRef:
-          name: activity
-          key: SLACK_FEEDBACK_URL
     - name: NOTE_SERVICE_USERNAME
       valueFrom:
         secretKeyRef:
@@ -151,3 +147,7 @@ node-web-service:
         secretKeyRef:
           name: activity
           key: NOTE_SERVICE_PASSWORD
+    - name: HOST
+      value: 0.0.0.0
+    - name: PORT
+      value: 8085

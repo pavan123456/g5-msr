@@ -17,12 +17,17 @@ DisableYarn: true
 # Any valid Dockerfile commands, which will be inserted directly before
 # project-specific dependencies are installed. Note the use of the `|-`
 # to denote that it is a multiline string.
-# PreDependency: |-
+PreDependency: |-
+  RUN mkdir -p /usr/src/app
+  WORKDIR /usr/src/app
+  COPY . /usr/src/app
+  RUN npm install
+  RUN npm run build
 #   RUN any-valid-dockerfile-commands
 
 # Replaces the default command for installing dependencies (via npm). Can be
 # any one-line command that will run successfully in the build container.
-DependencyOverride: "npm install"
+# DependencyOverride: "npm install"
 
 # Default to false. Setting to true disables installing bower and bower-related
 # dependencies.
