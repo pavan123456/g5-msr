@@ -31,38 +31,20 @@ node-web-service:
   configurations:
     staging:
       configMapData:
-        AUTH0_CALLBACK_URL: 'https://activity-opex-staging.g5devops.com/users/auth/auth0/callback'
         BROWSER_URL: 'https://activity-opex-staging.g5devops.com'
         NOTE_SERVICE_URL: 'https://notes-opex-staging.g5devops.com'
         G5_TOKEN_ENDPOINT: 'https://auth.g5search.com/oauth/token'
     prime:
       configMapData:
-        AUTH0_CALLBACK_URL: 'https://activity-opex-prime.g5devops.com/users/auth/auth0/callback'
         BROWSER_URL: 'https://activity-opex-prime.g5devops.com'
         NOTE_SERVICE_URL: 'https://notes-opex-prime.g5devops.com'
         G5_TOKEN_ENDPOINT: 'https://auth.g5search.com/oauth/token'
     production:
       configMapData:
-        AUTH0_CALLBACK_URL: 'https://activity.g5marketingcloud.com/users/auth/auth0/callback'
         BROWSER_URL: 'https://activity.g5marketingcloud.com/'
         NOTE_SERVICE_URL: 'https://notes.g5marketingcloud.com'
         G5_TOKEN_ENDPOINT: 'https://auth.g5search.com/oauth/token'
   env:
-    - name: AUTH0_CLIENT_ID
-      valueFrom:
-        secretKeyRef:
-          name: activity-auth0-client
-          key: client-id
-    - name: AUTH0_CLIENT_SECRET
-      valueFrom:
-        secretKeyRef:
-          name: activity-auth0-client
-          key: client-secret
-    - name: AUTH0_CALLBACK_URL
-      valueFrom:
-        configMapKeyRef:
-          name: activity
-          key: AUTH0_CALLBACK_URL
     - name: BROWSER_URL
       valueFrom:
         configMapKeyRef:

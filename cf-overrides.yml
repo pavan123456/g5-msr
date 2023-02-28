@@ -2,7 +2,7 @@
 # application's Docker image. See https://hub.docker.com/r/library/node/tags/
 BaseImageTag: "12.15.0"
 
-CIPlan: "g5search/ci-plan-node:make-builds-work"
+CIPlan: "g5search/ci-plan-node:v1.1.4"
 #CIPlan: "g5search/ci-plan-node:v1.0.2"
 
 # Whether you want Yarn-related commands or not. It used to be hot and now it's
