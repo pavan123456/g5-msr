@@ -3,7 +3,7 @@ module.exports = {
   ssr: false,
   server: {
     host: process.env.BASE_URL || '0.0.0.0',
-    port: process.env.PORT || 5000
+    port: process.env.PORT || 8085
   },
   head: {
     title: 'Activity Tracker',
@@ -13,7 +13,7 @@ module.exports = {
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || ''
+        content: 'Activity Tracker for Delivery Team Reporting'
       }
     ],
     link: [
@@ -60,15 +60,17 @@ module.exports = {
   router: {
     middleware: ['user']
   },
-  googleAnalytics: {
-    id: process.env.GA_PROPERTY,
-    debug: {
-      enabled: false,
-      sendHitTask: true
+  publicRuntimeConfig: {
+    googleAnalytics: {
+      id: process.env.GA_PROPERTY,
+      debug: {
+        enabled: false,
+        sendHitTask: true
+      }
+    },
+    axios: {
+      browserBaseURL: process.env.BROWSER_URL
     }
-  },
-  axios: {
-    browserBaseURL: `//${process.env.BROWSER_URL}`
   },
   build: {
     extend (config, ctx) {

@@ -1,9 +1,6 @@
 dependencies:
-- name: cloud-sql
+- name: node-web-service
   repository: gs://g5-multiverse-helm3-repositories
-  version: 1.0.4
-- name: cloud-helper
-  repository: gs://g5-multiverse-helm3-repositories
-  version: 1.0.1
-digest: sha256:0e30b37ee221e4bd693242857070622a10640bf31868381d4be523ed4db691ce
-generated: "2022-08-03T11:44:36.807936629-07:00"
+  version: 0.1.0
+digest: sha256:d2bbcc91514df9f1ed09d700e223b0552b931943e633fff367726c2712ac8379
+generated: "2023-02-02T14:24:25.304684-06:00"

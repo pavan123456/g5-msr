@@ -1,6 +1,5 @@
-
-import { Nuxt, Builder } from 'nuxt'
-import nuxtConfig from './nuxt.config'
+const { Nuxt, Builder } = require('nuxt')
+const nuxtConfig = require('./nuxt.config')
 
 const resetConfig = {
   loading: false,
