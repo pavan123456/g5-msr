@@ -17,7 +17,7 @@ parameters:
   - name: releaseId
     displayName: Fortify on Demand Release ID    
     type: number    
-    default: 711831
+    default: 832709
   - name: buildType
     displayName: Fortify on Demand Build Type
     type: string
@@ -34,7 +34,7 @@ jobs:
       - task: FortifyOnDemandStatic@8
         inputs:
           FortifyProjects: "$(Build.SourcesDirectory)"
-          FodConnection: "Fortify SAST (FoD) Scans"
+          FodConnection: "Fortify-Connection"
           ReleaseOptions: "0"
           ReleaseId: "${{ parameters.releaseId }}"
           EntitlementSelection: "1"
