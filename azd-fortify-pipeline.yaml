@@ -33,17 +33,17 @@ jobs:
     steps:
       - task: FortifyOnDemandStatic@8
         inputs:
-          FortifyProjects: "$(Build.SourcesDirectory)"
-          FodConnection: "Fortify-Connection"
-          ReleaseOptions: "0"
-          ReleaseId: "${{ parameters.releaseId }}"
-          EntitlementSelection: "0"
-          EntitlementPreference: "0"
-          OverrideScanSettings: "2"
-          InProgressScanActionType: "2"
-          RemediationScanPreference: "0"
-          BuildType: "${{ parameters.buildType }}"
-          PolicyFailAction: "0"
+          FortifyProjects: '$(Build.SourcesDirectory)'
+          FodConnection: 'Fortify-Connection'
+          ReleaseOptions: '0'
+          ReleaseId: 832709
+          EntitlementSelection: '1'
+          EntitlementPreference: '2'
+          OverrideScanSettings: '1'
+          InProgressScanActionType: '2'
+          RemediationScanPreference: '0'
+          BuildType: 'msbuild'
+          LanguageLevelDotNet: '11'
       - task: DeleteFiles@1
         displayName: "Delete files from $(Agent.BuildDirectory)"
         inputs:
