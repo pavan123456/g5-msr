@@ -11,7 +11,7 @@ trigger: none
 pr: none 
 
 pool: 
-  name: RP1-BLD-Default
+  name: Hosted Windows 2019 with VS2019
 
 parameters: 
   - name: releaseId
@@ -28,7 +28,7 @@ parameters:
     default: true
 jobs:
   - job: SAST
-    pool: RP1-BLD-Default
+    pool: Hosted Windows 2019 with VS2019
     condition: eq('${{ parameters.sast }}', true)
     steps:
       - task: FortifyOnDemandStatic@8
