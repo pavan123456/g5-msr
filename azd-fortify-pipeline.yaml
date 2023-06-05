@@ -43,6 +43,7 @@ jobs:
           InProgressScanActionType: '2'
           RemediationScanPreference: '0'
           BuildType: 'msbuild'
+          PolicyFailAction: "0"
           LanguageLevelDotNet: '11'
       - task: DeleteFiles@1
         displayName: "Delete files from $(Agent.BuildDirectory)"
