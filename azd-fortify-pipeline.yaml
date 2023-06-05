@@ -2,9 +2,9 @@
 name: fortify-on-demand 
 schedules:
   - cron: "0 0 * * 0"
-    displayName: Every Sunday    
+    displayName: Every Sunday 
     branches:
-    include:
+      include:
       - main
     always: true
 trigger: none 
