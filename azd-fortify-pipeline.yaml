@@ -38,7 +38,7 @@ jobs:
           ReleaseOptions: "0"
           ReleaseId: "${{ parameters.releaseId }}"
           EntitlementSelection: "1"
-          EntitlementPreference: "1"
+          EntitlementPreference: "2"
           OverrideScanSettings: "2"
           InProgressScanActionType: "2"
           RemediationScanPreference: "0"
