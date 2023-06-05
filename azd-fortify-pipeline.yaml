@@ -16,7 +16,7 @@ pool:
 parameters: 
   - name: releaseId
     displayName: Fortify on Demand Release ID    
-    type: number    
+    type: number 
     default: 832709
   - name: buildType
     displayName: Fortify on Demand Build Type
