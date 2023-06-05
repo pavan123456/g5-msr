@@ -37,7 +37,7 @@ jobs:
           FodConnection: "Fortify-Connection"
           ReleaseOptions: "0"
           ReleaseId: "${{ parameters.releaseId }}"
-          EntitlementSelection: "1"
+          EntitlementSelection: "0"
           EntitlementPreference: "1"
           OverrideScanSettings: "2"
           InProgressScanActionType: "2"
