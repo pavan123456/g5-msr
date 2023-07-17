@@ -1,0 +1,56 @@
+# Ruby
+# Package your Ruby project.
+# Add steps that install rails, analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/ruby
+
+trigger:
+- master
+
+pool: 
+  name: TST-SUITE-BLD
+
+parameters: 
+  - name: releaseId
+    displayName: Brakeman Scan
+    type: number 
+    default: 782869 
+  - name: sast
+    displayName: Run SAST Scan
+    type: boolean
+    default: true
+
+stages:
+
+- stage: SAST
+  jobs:
+  - job: BrakemanAnalysis
+    displayName: 'Run Brakeman analysis'    
+    steps:
+    - task: CmdLine@2
+      displayName: 'install brakeman'
+      inputs:        
+       script: |
+          gem install brakeman
+          brakeman -v
+          bundle install --deployment --without development test
+          brakeman --force
+          brakeman --force -o breakman-report.html
+          brakeman -f csv > $(Pipeline.Workspace)/g5report.csv
+          bundle exec brakeman --quiet --output brakeman-report.json
+          bundle exec brakeman_report convert brakeman-report.html brakeman-report.yaml
+          dir | $(Pipeline.Workspace)
+          echo "##vso[artifact.upload containerfolder=BrakemanReport;artifactname=BrakemanReport]brakeman-report.json"
+          displayName: 'Run Brakeman and upload report'
+
+steps:
+- task: UseRubyVersion@0
+  inputs:
+    versionSpec: '>= 2.5'
+
+- script: |
+    gem install bundler
+    bundle install --retry=3 --jobs=4
+  displayName: 'bundle install'
+
+- script: bundle exec rake
+  displayName: 'bundle exec rake'
