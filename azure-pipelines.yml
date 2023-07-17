@@ -41,11 +41,7 @@ stages:
           dir | $(Pipeline.Workspace)
           echo "##vso[artifact.upload containerfolder=BrakemanReport;artifactname=BrakemanReport]brakeman-report.json"
           displayName: 'Run Brakeman and upload report'
+          fail_on_error: true
+          brakeman_flags: '--no-exit-on-warn --no-exit-on-error'
 
-    - script: |
-        gem install bundler
-        bundle install --retry=3 --jobs=4
-      displayName: 'bundle install'
-
-    - script: bundle exec rake
-      displayName: 'bundle exec rake'
+   
