@@ -43,5 +43,6 @@ stages:
           displayName: 'Run Brakeman and upload report'
           fail_on_error: true
           brakeman_flags: '--no-exit-on-warn --no-exit-on-error'
+      condition: succeededOrFailed()
 
    
